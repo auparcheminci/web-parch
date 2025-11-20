@@ -5,10 +5,10 @@
   "workspaces": [
     "apps/*"
   ],
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
-  },
-  "devDependencies": {
+    "tailwindcss": "^4.1.17",
+    "postcss": "^8.5.6",
+    "@tailwindcss/postcss": "^4.1.17"
   }
 }
