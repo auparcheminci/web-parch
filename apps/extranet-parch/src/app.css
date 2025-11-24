@@ -1,1 +1,6 @@
-@import "tailwindcss";
+/* Import root CSS */
+@import "../../../styles/main.css";
+
+body {
+    background-color: red;
+}
