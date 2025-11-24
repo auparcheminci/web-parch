@@ -1,0 +1,7 @@
+// 1️⃣ All @use statements MUST come first
+@use "variables" as *; // or `as *` if you want no namespace
+@use "tailwindcss";
+
+body {
+    background-color: $primary-color;
+}
