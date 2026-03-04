@@ -11,5 +11,8 @@
     "dev:extranet": "yarn workspace extranet dev",
     "build:frontweb": "yarn workspace frontweb build",
     "build:extranet": "yarn workspace extranet build"
+  },
+  "devDependencies": {
+    "sass": "^1.x.x"
   }
 }
