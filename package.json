@@ -7,9 +7,9 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:web": "yarn workspace web dev",
+    "dev:frontweb": "yarn workspace frontweb dev",
     "dev:extranet": "yarn workspace extranet dev",
-    "build:web": "yarn workspace web build",
+    "build:frontweb": "yarn workspace frontweb build",
     "build:extranet": "yarn workspace extranet build"
   }
 }
