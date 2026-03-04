@@ -5,6 +5,12 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
+"@acme/styles@workspace:^, @acme/styles@workspace:packages/styles":
+  version: 0.0.0-use.local
+  resolution: "@acme/styles@workspace:packages/styles"
+  languageName: unknown
+  linkType: soft
+
 "@emnapi/core@npm:^1.7.1, @emnapi/core@npm:^1.8.1":
   version: 1.8.1
   resolution: "@emnapi/core@npm:1.8.1"
@@ -1185,6 +1191,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "extranet@workspace:apps/extranet"
   dependencies:
+    "@acme/styles": "workspace:^"
     "@sveltejs/adapter-auto": "npm:^7.0.0"
     "@sveltejs/kit": "npm:^2.50.2"
     "@sveltejs/vite-plugin-svelte": "npm:^6.2.4"
