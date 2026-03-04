@@ -1,4 +1,15 @@
 {
   "name": "web-parch",
-  "packageManager": "yarn@4.9.1"
+  "packageManager": "yarn@4.9.1",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "yarn workspace web dev",
+    "dev:admin": "yarn workspace admin dev",
+    "build:web": "yarn workspace web build",
+    "build:admin": "yarn workspace admin build"
+  }
 }
