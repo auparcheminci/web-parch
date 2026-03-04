@@ -8,8 +8,8 @@
   ],
   "scripts": {
     "dev:web": "yarn workspace web dev",
-    "dev:admin": "yarn workspace admin dev",
+    "dev:extranet": "yarn workspace extranet dev",
     "build:web": "yarn workspace web build",
-    "build:admin": "yarn workspace admin build"
+    "build:extranet": "yarn workspace extranet build"
   }
 }
