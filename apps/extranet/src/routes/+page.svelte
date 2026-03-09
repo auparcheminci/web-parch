@@ -1,2 +1,17 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+  
+  import { Authenticator } from "@aws-amplify/ui-svelte";
+  import "@aws-amplify/ui-svelte/styles.css";
+
+</script>
+
+<main class="login">
+  <h1>Sign in</h1>
+
+  <Authenticator initialState="signIn" loginMechanisms={['email']}>
+  {#snippet children({ user, signOut })}
+    <h1>Hello {user?.username}</h1>
+    <button onclick={signOut}>Sign out</button>
+  {/snippet}
+</Authenticator>
+</main>

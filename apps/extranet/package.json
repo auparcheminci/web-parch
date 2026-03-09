@@ -30,6 +30,8 @@
 	},
 	"dependencies": {
 		"@acme/styles": "workspace:^",
+		"@aws-amplify/ui-components": "^1.9.40",
+		"@aws-amplify/ui-svelte": "^1.1.1",
 		"aws-amplify": "^6.16.2"
 	}
 }
