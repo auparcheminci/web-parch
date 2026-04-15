@@ -6,7 +6,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "@acme/styles/index.scss" as *;`,
+        additionalData: `@use 'sass:map'; @use "@acme/styles/index.scss" as *;`,
       },
     },
   },
