@@ -1,2 +1,20 @@
-$primary-color: #3498db;
-$secondary-color: #e74c3c;
+@use 'sass:map';
+@use 'blue-scale' as *;   // brings $blue-scale into scope here
+@use 'grey-scale' as *;
+
+@forward 'blue-scale';    // still re-exports to consumers
+@forward 'grey-scale';
+
+$color-bg-primary: map.get($blue-scale, "100");
+
+//  Color Variables Gammes
+$FOB: #3498A8;
+$FOS:#DB3938;
+$PC:#E1823A;
+$MOB:#7F4C99;
+$SIN:#30A636;
+$SA:#B68510;
+
+//  Color Variables Géneriques/Logo
+$GRISP:#848585;
+$BLEUP:#203C81;

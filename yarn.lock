@@ -1334,6 +1334,50 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@aws-amplify/ui-components@npm:^1.9.40":
+  version: 1.9.40
+  resolution: "@aws-amplify/ui-components@npm:1.9.40"
+  dependencies:
+    qrcode: "npm:^1.4.4"
+    uuid: "npm:^8.2.0"
+  peerDependencies:
+    aws-amplify: 3.x.x || 4.x.x
+  checksum: 10c0/8d6749216a1d59c55872b0c3718a2b13085b52f0e6a332699924c0030ac3df4c0e8907d205a4cd5a5c160f8f6481c918869a3e3685779588cedf67e034be6a45
+  languageName: node
+  linkType: hard
+
+"@aws-amplify/ui-svelte@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@aws-amplify/ui-svelte@npm:1.1.1"
+  dependencies:
+    "@aws-amplify/ui": "npm:6.15.1"
+    nanoid: "npm:3.3.8"
+    qrcode: "npm:1.5.0"
+    xstate: "npm:^4.33.6"
+  peerDependencies:
+    svelte: ^5.0.0
+  checksum: 10c0/733f5e95b0b1013b35ebd1ac4f737550d8713455e8e340f7fe193b169d5d37fd99c61d095ca10d81019101ff27b4ae650fe0a61426aca6c5dbe56dd8a80e05ca
+  languageName: node
+  linkType: hard
+
+"@aws-amplify/ui@npm:6.15.1":
+  version: 6.15.1
+  resolution: "@aws-amplify/ui@npm:6.15.1"
+  dependencies:
+    csstype: "npm:^3.1.1"
+    lodash: "npm:4.17.23"
+    tslib: "npm:^2.5.2"
+  peerDependencies:
+    "@aws-amplify/core": "*"
+    aws-amplify: ^6.14.3
+    xstate: ^4.33.6
+  peerDependenciesMeta:
+    xstate:
+      optional: true
+  checksum: 10c0/5d31d70499c9d5125b3c7db92f9f5e1080090790c960b50f3acad58bdda05dcef475142464be9e14a3e5daa34b996ff817a90c05db6373f956842d983902abda
+  languageName: node
+  linkType: hard
+
 "@aws-cdk/asset-awscli-v1@npm:2.2.258":
   version: 2.2.258
   resolution: "@aws-cdk/asset-awscli-v1@npm:2.2.258"
@@ -8999,6 +9043,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"csstype@npm:^3.1.1":
+  version: 3.2.3
+  resolution: "csstype@npm:3.2.3"
+  checksum: 10c0/cd29c51e70fa822f1cecd8641a1445bed7063697469d35633b516e60fe8c1bde04b08f6c5b6022136bb669b64c63d4173af54864510fbb4ee23281801841a3ce
+  languageName: node
+  linkType: hard
+
 "csv-parse@npm:^5.5.2":
   version: 5.6.0
   resolution: "csv-parse@npm:5.6.0"
@@ -9190,6 +9241,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dijkstrajs@npm:^1.0.1":
+  version: 1.0.3
+  resolution: "dijkstrajs@npm:1.0.3"
+  checksum: 10c0/2183d61ac1f25062f3c3773f3ea8d9f45ba164a00e77e07faf8cc5750da966222d1e2ce6299c875a80f969190c71a0973042192c5624d5223e4ed196ff584c99
+  languageName: node
+  linkType: hard
+
 "dir-glob@npm:^3.0.1":
   version: 3.0.1
   resolution: "dir-glob@npm:3.0.1"
@@ -9252,6 +9310,13 @@ __metadata:
   version: 9.2.2
   resolution: "emoji-regex@npm:9.2.2"
   checksum: 10c0/af014e759a72064cf66e6e694a7fc6b0ed3d8db680427b021a89727689671cefe9d04151b2cad51dbaf85d5ba790d061cd167f1cf32eb7b281f6368b3c181639
+  languageName: node
+  linkType: hard
+
+"encode-utf8@npm:^1.0.3":
+  version: 1.0.3
+  resolution: "encode-utf8@npm:1.0.3"
+  checksum: 10c0/6b3458b73e868113d31099d7508514a5c627d8e16d1e0542d1b4e3652299b8f1f590c468e2b9dcdf1b4021ee961f31839d0be9d70a7f2a8a043c63b63c9b3a88
   languageName: node
   linkType: hard
 
@@ -9677,6 +9742,8 @@ __metadata:
     "@acme/styles": "workspace:^"
     "@aws-amplify/backend": "npm:^1.21.0"
     "@aws-amplify/backend-cli": "npm:^1.8.2"
+    "@aws-amplify/ui-components": "npm:^1.9.40"
+    "@aws-amplify/ui-svelte": "npm:^1.1.1"
     "@sveltejs/adapter-auto": "npm:^7.0.0"
     "@sveltejs/kit": "npm:^2.50.2"
     "@sveltejs/vite-plugin-svelte": "npm:^6.2.4"
@@ -9685,6 +9752,7 @@ __metadata:
     aws-cdk-lib: "npm:2.234.1"
     constructs: "npm:^10.0.0"
     esbuild: "npm:^0.27.3"
+    sass: "npm:^1.x.x"
     svelte: "npm:^5.51.0"
     svelte-check: "npm:^4.4.2"
     tailwindcss: "npm:^4.1.18"
@@ -9892,6 +9960,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "frontweb@workspace:apps/frontweb"
   dependencies:
+    "@acme/styles": "workspace:^"
     "@sveltejs/adapter-auto": "npm:^7.0.0"
     "@sveltejs/kit": "npm:^2.50.2"
     "@sveltejs/vite-plugin-svelte": "npm:^6.2.4"
@@ -11388,7 +11457,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.15, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.2.0, lodash@npm:~4.17.0":
+"lodash@npm:4.17.23, lodash@npm:^4.17.15, lodash@npm:^4.17.21, lodash@npm:^4.17.4, lodash@npm:^4.2.0, lodash@npm:~4.17.0":
   version: 4.17.23
   resolution: "lodash@npm:4.17.23"
   checksum: 10c0/1264a90469f5bb95d4739c43eb6277d15b6d9e186df4ac68c3620443160fc669e2f14c11e7d8b2ccf078b81d06147c01a8ccced9aab9f9f63d50dcf8cace6bf6
@@ -11811,6 +11880,15 @@ __metadata:
   version: 0.2.1
   resolution: "nanoclone@npm:0.2.1"
   checksum: 10c0/760b569ea841c9678fdf8d763c6d7bb093f0889150087f82d86c536a318b302939c82ce35cdaec999d0f687789d0d79d0f3f75a272d7a98dfac7a067c0b47053
+  languageName: node
+  linkType: hard
+
+"nanoid@npm:3.3.8":
+  version: 3.3.8
+  resolution: "nanoid@npm:3.3.8"
+  bin:
+    nanoid: bin/nanoid.cjs
+  checksum: 10c0/4b1bb29f6cfebf3be3bc4ad1f1296fb0a10a3043a79f34fbffe75d1621b4318319211cd420549459018ea3592f0d2f159247a6f874911d6d26eaaadda2478120
   languageName: node
   linkType: hard
 
@@ -12386,6 +12464,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pngjs@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "pngjs@npm:5.0.0"
+  checksum: 10c0/c074d8a94fb75e2defa8021e85356bf7849688af7d8ce9995b7394d57cd1a777b272cfb7c4bce08b8d10e71e708e7717c81fd553a413f21840c548ec9d4893c6
+  languageName: node
+  linkType: hard
+
 "possible-typed-array-names@npm:^1.0.0":
   version: 1.1.0
   resolution: "possible-typed-array-names@npm:1.1.0"
@@ -12511,6 +12596,33 @@ __metadata:
   version: 2.3.1
   resolution: "punycode@npm:2.3.1"
   checksum: 10c0/14f76a8206bc3464f794fb2e3d3cc665ae416c01893ad7a02b23766eb07159144ee612ad67af5e84fa4479ccfe67678c4feb126b0485651b302babf66f04f9e9
+  languageName: node
+  linkType: hard
+
+"qrcode@npm:1.5.0":
+  version: 1.5.0
+  resolution: "qrcode@npm:1.5.0"
+  dependencies:
+    dijkstrajs: "npm:^1.0.1"
+    encode-utf8: "npm:^1.0.3"
+    pngjs: "npm:^5.0.0"
+    yargs: "npm:^15.3.1"
+  bin:
+    qrcode: bin/qrcode
+  checksum: 10c0/bd3c74fa00d729a32a5b161ef51dafacf1973a2936a234b1b780a53639d0290397ca36fa01ffd10f55b448e7baf9320bc3c47b08090d0aac0fc2dec7f094f4a9
+  languageName: node
+  linkType: hard
+
+"qrcode@npm:^1.4.4":
+  version: 1.5.4
+  resolution: "qrcode@npm:1.5.4"
+  dependencies:
+    dijkstrajs: "npm:^1.0.1"
+    pngjs: "npm:^5.0.0"
+    yargs: "npm:^15.3.1"
+  bin:
+    qrcode: bin/qrcode
+  checksum: 10c0/ae1d57c9cff6099639a590b432c71b15e3bd3905ce4353e6d00c95dee6bb769a8f773f6a7575ecc1b8ed476bf79c5138a4a65cb380c682de3b926d7205d34d10
   languageName: node
   linkType: hard
 
@@ -13713,7 +13825,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.6.2, tslib@npm:^2.6.3, tslib@npm:^2.8.1":
+"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.4.0, tslib@npm:^2.5.0, tslib@npm:^2.5.2, tslib@npm:^2.6.2, tslib@npm:^2.6.3, tslib@npm:^2.8.1":
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62
@@ -14020,6 +14132,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uuid@npm:^8.2.0":
+  version: 8.3.2
+  resolution: "uuid@npm:8.3.2"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 10c0/bcbb807a917d374a49f475fae2e87fdca7da5e5530820ef53f65ba1d12131bd81a92ecf259cc7ce317cbe0f289e7d79fdfebcef9bfa3087c8c8a2fa304c9be54
+  languageName: node
+  linkType: hard
+
 "uuid@npm:^9.0.1":
   version: 9.0.1
   resolution: "uuid@npm:9.0.1"
@@ -14305,6 +14426,13 @@ __metadata:
   dependencies:
     is-wsl: "npm:^3.1.0"
   checksum: 10c0/44318f3585eb97be994fc21a20ddab2649feaf1fbe893f1f866d936eea3d5f8c743bec6dc02e49fbdd3c0e69e9b36f449d90a0b165a4f47dd089747af4cf2377
+  languageName: node
+  linkType: hard
+
+"xstate@npm:^4.33.6":
+  version: 4.38.3
+  resolution: "xstate@npm:4.38.3"
+  checksum: 10c0/8a2063743517390107275113bca0e757dba99102e7d57d40cf656b5cc03a6f2c5e10fbf3752294d9d29fbe1d8757bb9a54f54c934a22f205a237956dd10dcd0f
   languageName: node
   linkType: hard
 
