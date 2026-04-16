@@ -12,7 +12,7 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
   "devDependencies": {
-    "@aws-amplify/backend": "^1.21.0",
+    "@aws-amplify/backend": "^1.22.0",
     "@aws-amplify/backend-cli": "^1.8.2",
     "@sveltejs/adapter-auto": "^7.0.0",
     "@sveltejs/kit": "^2.50.2",
@@ -20,7 +20,7 @@
     "@tailwindcss/vite": "^4.1.18",
     "aws-cdk-lib": "2.234.1",
     "constructs": "^10.0.0",
-    "esbuild": "^0.27.3",
+    "esbuild": "^0.28.0",
     "svelte": "^5.51.0",
     "svelte-check": "^4.4.2",
     "tailwindcss": "^4.1.18",
@@ -30,9 +30,7 @@
   },
   "dependencies": {
     "@acme/styles": "workspace:^",
-    "@aws-amplify/ui-components": "^1.9.40",
-    "@aws-amplify/ui-svelte": "^1.1.1",
-    "aws-amplify": "^6.16.2",
+    "aws-amplify": "^6.16.4",
     "sass": "^1.x.x"
   }
 }
