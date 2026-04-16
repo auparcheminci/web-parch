@@ -1,0 +1,29 @@
+version: 1
+applications:
+  - backend:
+      phases:
+        build:
+          commands:
+            - corepack enable
+            - yarn set version stable
+            - yarn config set nodeLinker node-modules
+            - yarn install --immutable
+            - cd apps/extranet && yarn ampx pipeline-deploy --branch $AWS_BRANCH --app-id $AWS_APP_ID
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - corepack enable
+            - yarn set version stable
+            - yarn config set nodeLinker node-modules
+            - yarn install --immutable
+        build:
+          commands:
+            - mkdir ./dist && touch ./dist/index.html
+      artifacts:
+        baseDirectory: dist
+        files:
+          - '**/*'
+      cache:
+        paths: []
+    appRoot: apps/extranet
