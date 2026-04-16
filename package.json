@@ -13,6 +13,7 @@
     "build:extranet": "yarn workspace extranet build"
   },
   "devDependencies": {
+    "@types/node": "^25.6.0",
     "sass": "^1.x.x"
   }
 }
