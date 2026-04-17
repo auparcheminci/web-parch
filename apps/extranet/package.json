@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@acme/styles": "workspace:^",
+    "@aws-amplify/ui-svelte": "^1.1.3",
     "aws-amplify": "^6.16.4",
     "sass": "^1.x.x"
   }

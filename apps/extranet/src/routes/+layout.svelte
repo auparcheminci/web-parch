@@ -3,6 +3,7 @@
 	import outputs from '../../amplify_outputs.json';
 	import './layout.scss';
 	import favicon from '$lib/assets/favicon.svg';
+	import '@aws-amplify/ui-svelte/styles.css';
 
 	Amplify.configure(outputs, { ssr: true });
 
