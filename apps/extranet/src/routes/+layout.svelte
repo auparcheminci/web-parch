@@ -1,6 +1,11 @@
 <script lang="ts">
+	import { Amplify } from 'aws-amplify';
+	import outputs from '../../amplify_outputs.json';
 	import './layout.scss';
 	import favicon from '$lib/assets/favicon.svg';
+
+	Amplify.configure(outputs, { ssr: true });
+
 	let { children } = $props();
 </script>
 
