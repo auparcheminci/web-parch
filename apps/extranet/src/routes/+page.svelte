@@ -7,7 +7,7 @@
 <Authenticator>
 	{#snippet children({ signOut, user }: { signOut: () => void; user: AuthUser; state: AuthMachineState; send: unknown })}
 		<main>
-			<p>Welcome, {user?.signInDetails?.loginId}</p>
+			<p>Welcome, Welcome {user?.signInDetails?.loginId}</p>
 			<button onclick={signOut}>Sign out</button>
 		</main>
 	{/snippet}
