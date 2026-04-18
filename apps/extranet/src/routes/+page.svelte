@@ -1,17 +1,14 @@
 <script lang="ts">
-  
-  import { Authenticator } from "@aws-amplify/ui-svelte";
-  import "@aws-amplify/ui-svelte/styles.css";
-
+	import { Authenticator } from '@aws-amplify/ui-svelte';
+	import type { AuthUser } from '@aws-amplify/auth';
+	import type { AuthMachineState } from '@aws-amplify/ui';
 </script>
 
-<main class="login">
-  <h1>Sign in</h1>
-
-  <Authenticator initialState="signIn" loginMechanisms={['email']}>
-  {#snippet children({ user, signOut })}
-    <h1>Hello {user?.username}</h1>
-    <button onclick={signOut}>Sign out</button>
-  {/snippet}
+<Authenticator>
+	{#snippet children({ signOut, user }: { signOut: () => void; user: AuthUser; state: AuthMachineState; send: unknown })}
+		<main>
+			<p>Welcome, Welcome {user?.signInDetails?.loginId}</p>
+			<button onclick={signOut}>Sign out</button>
+		</main>
+	{/snippet}
 </Authenticator>
-</main>
