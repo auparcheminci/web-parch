@@ -12,3 +12,6 @@
 		</main>
 	{/snippet}
 </Authenticator>
+<div id="other">
+<p>Bonjour</p>
+</div>
