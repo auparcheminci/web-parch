@@ -12,6 +12,6 @@
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
-<div class="grid w-full min-h-screen m-0 p-0" id="app">
+<div class="flex flex-col w-full h-screen" id="app">
 	{@render children()}
 </div>

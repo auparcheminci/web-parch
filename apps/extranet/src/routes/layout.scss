@@ -1,3 +1,17 @@
+// Handle global and default Styles
+body {
+  margin: 0;
+}
+
 #app {
   background-color: $color-bg-primary;
+}
+
+// Handle Home page Styles
+#home-container {
+  background-color: map.get($blue-scale, "100");
+}
+
+#home-col-right > #auth-container {
+  background-color: map.get($grey-scale, "200");
 }

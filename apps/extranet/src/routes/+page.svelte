@@ -4,12 +4,12 @@
   import type { AuthMachineState } from "@aws-amplify/ui";
 </script>
 
-<div id="home-container" class="grid grid-cols-2">
-  <div id="home-col-left" class="grid py-5 pl-5 pr-2.5 min-w-0">
-    <p>Bonjour</p>
+<div id="home-container" class="flex flex-1 overflow-hidden">
+  <div id="home-col-left" class="flex-1 py-5 pl-5 pr-2.5 overflow-hidden">
+    <img src="https://strapi-z4iu.onrender.com/uploads/1000x1000_100_5cbae1b054.jpg" alt="placeholder" class="object-cover w-full h-full rounded-2xl" />
   </div>
-  <div id="home-col-right" class="grid py-5 pl-2.5 pr-5 min-w-0">
-    <div id="other">
+  <div id="home-col-right" class="flex-1 py-5 pl-2.5 pr-5 overflow-hidden">
+    <div id="auth-container" class="w-full h-full">
       <Authenticator>
         {#snippet children({
           signOut,
@@ -29,3 +29,4 @@
     </div>
   </div>
 </div>
+
