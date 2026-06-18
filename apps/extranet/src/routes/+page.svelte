@@ -11,7 +11,13 @@
   </div>
   <div id="home-col-right" class="flex-1 py-5 pl-2.5 pr-5 overflow-hidden">
     <div id="auth-container" class="w-full h-full flex items-center justify-center">
-      <Authenticator>
+      <div id="auth-form-wrapper" class="flex flex-col w-full items-center">
+        <div id="auth-header">
+          <img src="" alt="logo" />
+          <p>Texte d'intro</p>
+          <h2>Connexion</h2>
+        </div>
+        <Authenticator>
         {#snippet children({
           signOut,
           user,
@@ -27,6 +33,7 @@
           </main>
         {/snippet}
       </Authenticator>
+      </div>
     </div>
   </div>
 </div>

@@ -3,3 +3,23 @@
   box-shadow: none;
   border: none;
 }
+
+// Cache l'onglet actif (celui du form affiché)
+#signIn-tab[aria-selected="true"],
+#signUp-tab[aria-selected="true"] {
+  display: none;
+}
+
+// Déplace la tablist en bas du form
+[data-amplify-authenticator] [data-amplify-router] {
+  display: flex;
+  flex-direction: column;
+}
+
+[data-amplify-authenticator] .amplify-authenticator__tabs {
+  order: 1;
+}
+
+[data-amplify-authenticator] [data-amplify-router-content] {
+  order: 0;
+}
