@@ -18,18 +18,29 @@
       id="auth-container"
       class="w-full h-full flex items-center justify-center"
     >
-      <div id="auth-form-wrapper" class="flex flex-col w-full max-w-md items-center">
-        <div id="auth-header">
+      <div id="auth-form-wrapper" class="flex flex-col w-full max-w-md">
+        <div id="auth-header" class="flex flex-col items-center">
           <img src="" alt="logo" />
-          <p>
+          <h2>Connexion</h2>
+          <p class="text-sm text-center  text-gray-500">
             Pour accéder à la plateforme, saisissez votre identifiant et votre
             mot de passe dans les champs ci-dessous. Si vous ne possédez pas
             encore de compte, vous pouvez en créer un en cliquant sur “Créer mon
             compte”.
           </p>
-          <h2>Connexion</h2>
         </div>
-        <Authenticator>
+        <Authenticator formFields={{
+          signIn: {
+            username: {
+              label: '',
+              placeholder: 'Email',
+            },
+            password: {
+              label: '',
+              placeholder: 'Mot de passe',
+            },
+          },
+        }}>
           {#snippet children({
             signOut,
             user,

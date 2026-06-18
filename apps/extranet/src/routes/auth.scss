@@ -1,4 +1,22 @@
 // Amplify Authenticator overrides
+[data-amplify-authenticator] [data-amplify-form] {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+[data-amplify-authenticator][data-variation] [data-amplify-container] {
+  width: 100%;
+}
+
+[data-amplify-authenticator] .amplify-input {
+  background-color: whitesmoke;
+  height: 70px;
+}
+
 [data-amplify-authenticator] [data-amplify-router] {
   box-shadow: none;
   border: none;
