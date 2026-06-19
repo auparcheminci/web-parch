@@ -1,10 +1,12 @@
 @use 'sass:map';
 @use 'blue-scale' as *;
+@use 'blue-vivid-scale' as *;
 @use 'grey-scale' as *;
 @use 'spacing-scale' as *;
 @use 'font-scale' as *;
 
 @forward 'blue-scale';
+@forward 'blue-vivid-scale';
 @forward 'grey-scale';
 @forward 'spacing-scale';
 @forward 'font-scale';
