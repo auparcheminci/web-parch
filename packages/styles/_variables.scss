@@ -1,9 +1,17 @@
 @use 'sass:map';
-@use 'blue-scale' as *;   // brings $blue-scale into scope here
+@use 'blue-scale' as *;
 @use 'grey-scale' as *;
+@use 'spacing-scale' as *;
+@use 'font-scale' as *;
 
-@forward 'blue-scale';    // still re-exports to consumers
+@forward 'blue-scale';
 @forward 'grey-scale';
+@forward 'spacing-scale';
+@forward 'font-scale';
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap');
+
+$font-primary: 'Lato', sans-serif;
 
 $color-bg-primary: map.get($grey-scale, "100");
 
