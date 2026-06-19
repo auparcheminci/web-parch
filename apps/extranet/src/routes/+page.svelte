@@ -186,7 +186,7 @@
               >
             </g>
           </svg>
-          <p class="text-sm text-center text-gray-500">
+          <p class="text-sm text-center">
             Pour accéder à la plateforme, saisissez votre identifiant et votre
             mot de passe dans les champs ci-dessous. Si vous ne possédez pas
             encore de compte, vous pouvez en créer un en cliquant sur “Créer mon

@@ -30,6 +30,15 @@
   }
 }
 
+#auth-header {
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  p {
+    color: map.get($grey-scale, "1300");
+  }
+}
+
 // Amplify Authenticator overrides
 [data-amplify-authenticator] [data-amplify-form] {
   padding: 0;
