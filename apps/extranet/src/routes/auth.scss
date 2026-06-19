@@ -58,6 +58,13 @@
   height: 70px;
 }
 
+[data-amplify-authenticator] .amplify-button--primary {
+  width: fit-content;
+  padding: 5px 1rem;
+  align-self: center;
+  background-color: map.get($blue-vivid-scale, "1500");
+}
+
 [data-amplify-authenticator] [data-amplify-router] {
   box-shadow: none;
   border: none;
