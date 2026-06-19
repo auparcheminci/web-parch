@@ -1,0 +1,85 @@
+#auth-back-btn {
+  background-color: map.get($grey-scale, "600");
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 40px; // icon (20px) + padding (2 × 10px)
+  transition: background-color 0.15s ease, max-width 0.3s ease;
+
+  &:hover {
+    background-color: map.get($grey-scale, "800");
+    max-width: 180px;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  .auth-back-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  &:hover .auth-back-label {
+    opacity: 1;
+  }
+}
+
+#auth-header {
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  p {
+    color: map.get($grey-scale, "1300");
+  }
+}
+
+// Amplify Authenticator overrides
+[data-amplify-authenticator] [data-amplify-form] {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+[data-amplify-authenticator][data-variation] [data-amplify-container] {
+  width: 100%;
+}
+
+[data-amplify-authenticator] .amplify-input {
+  background-color: whitesmoke;
+  height: 70px;
+}
+
+[data-amplify-authenticator] [data-amplify-router] {
+  box-shadow: none;
+  border: none;
+  background-color: transparent;
+}
+
+// Cache l'onglet actif (celui du form affiché)
+#signIn-tab[aria-selected="true"],
+#signUp-tab[aria-selected="true"] {
+  display: none;
+}
+
+// Déplace la tablist en bas du form
+[data-amplify-authenticator] [data-amplify-router] {
+  display: flex;
+  flex-direction: column;
+}
+
+[data-amplify-authenticator] .amplify-authenticator__tabs {
+  order: 1;
+}
+
+[data-amplify-authenticator] [data-amplify-router-content] {
+  order: 0;
+}
