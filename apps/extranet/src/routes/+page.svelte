@@ -2,6 +2,7 @@
   import { Authenticator } from "@aws-amplify/ui-svelte";
   import type { AuthUser } from "@aws-amplify/auth";
   import type { AuthMachineState } from "@aws-amplify/ui";
+  import ConnectedArticles from "$lib/components/ConnectedArticles.svelte";
   import "./auth.scss";
 </script>
 
@@ -218,6 +219,7 @@
           })}
             <main>
               <p>Welcome, Welcome {user?.signInDetails?.loginId}</p>
+              <ConnectedArticles {user} />
               <button onclick={signOut}>Sign out</button>
             </main>
           {/snippet}
