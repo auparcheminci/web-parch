@@ -2,7 +2,7 @@
   import { Authenticator } from "@aws-amplify/ui-svelte";
   import type { AuthUser } from "@aws-amplify/auth";
   import type { AuthMachineState } from "@aws-amplify/ui";
-  import ConnectedArticles from "$lib/components/ConnectedArticles.svelte";
+  import AuthRedirect from "$lib/components/AuthRedirect.svelte";
   import "./auth.scss";
 </script>
 
@@ -209,7 +209,6 @@
           }}
         >
           {#snippet children({
-            signOut,
             user,
           }: {
             signOut: () => void;
@@ -217,11 +216,9 @@
             state: AuthMachineState;
             send: unknown;
           })}
-            <main>
-              <p>Welcome, Welcome {user?.signInDetails?.loginId}</p>
-              <ConnectedArticles {user} />
-              <button onclick={signOut}>Sign out</button>
-            </main>
+            {#if user}
+              <AuthRedirect to="/dashboard" />
+            {/if}
           {/snippet}
         </Authenticator>
       </div>
