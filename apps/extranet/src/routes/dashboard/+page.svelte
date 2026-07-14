@@ -19,7 +19,11 @@
   });
 
   async function handleSignOut() {
-    await signOut();
+    try {
+      await signOut();
+    } catch (err) {
+      console.error("Sign out failed", err);
+    }
     goto("/");
   }
 </script>

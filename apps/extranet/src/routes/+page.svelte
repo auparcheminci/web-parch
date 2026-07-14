@@ -206,6 +206,26 @@
                 placeholder: "Mot de passe",
               },
             },
+            signUp: {
+              "custom:Nom": {
+                label: "Nom",
+                placeholder: "Votre nom",
+                order: 1,
+                isRequired: true,
+              },
+              "custom:Prénom": {
+                label: "Prénom",
+                placeholder: "Votre prénom",
+                order: 2,
+                isRequired: true,
+              },
+              "custom:Société": {
+                label: "Société",
+                placeholder: "Votre société",
+                order: 3,
+                isRequired: true,
+              },
+            },
           }}
         >
           {#snippet children({

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Amplify } from 'aws-amplify';
 	import { I18n } from 'aws-amplify/utils';
+	import { useAuthenticator } from '@aws-amplify/ui-svelte';
 	import outputs from '../../amplify_outputs.json';
 	import '../app.css';
 	import './layout.scss';
@@ -8,6 +9,16 @@
 	import '@aws-amplify/ui-svelte/styles.css';
 
 	Amplify.configure(outputs, { ssr: true });
+
+	// Amplify UI's auth store is a module-level singleton that only sets up
+	// its Hub listener the first time it's used, and tears that listener
+	// down when whichever component first called it is destroyed. Claiming
+	// it here, in the root layout that never unmounts, keeps the listener
+	// alive across route navigation instead of dying the first time the
+	// "/" page (where <Authenticator> lives) unmounts — which otherwise
+	// froze the auth status and made sign-out bounce straight back to
+	// /dashboard.
+	useAuthenticator();
 
 	I18n.putVocabulariesForLanguage('en', {
 		// Boutons principaux
