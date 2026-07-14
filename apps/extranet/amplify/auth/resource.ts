@@ -21,5 +21,9 @@ export const auth = defineAuth({
       dataType: "String",
       mutable: true,
     },
+    "custom:Poste": {
+      dataType: "String",
+      mutable: true,
+    },
   },
 });

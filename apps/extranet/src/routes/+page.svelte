@@ -225,6 +225,12 @@
                 order: 3,
                 isRequired: true,
               },
+              "custom:Poste": {
+                label: "Poste",
+                placeholder: "Votre poste",
+                order: 4,
+                //isRequired: true,
+              },
             },
           }}
         >
