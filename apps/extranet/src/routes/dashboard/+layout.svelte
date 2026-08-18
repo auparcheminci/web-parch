@@ -38,18 +38,20 @@
         <button onclick={handleSignOut}>Sign out</button>
       </div>
     </div>
-    <div class="main-content-space flex-1 min-h-0">
-      <nav class="dashboard-menu">
-        <ul>
-          <li><a href="/dashboard">Accueil</a></li>
-          <li><a href="/dashboard/proforma">Proforma</a></li>
-          <li><a href="/dashboard/marketing">Marketing</a></li>
-          <li><a href="/dashboard/profil">Profil</a></li>
-        </ul>
-      </nav>
-      <main class="flex-1">
-        {@render children()}
-      </main>
+    <div class="main-content-space flex-1 min-h-0 p-2.5">
+      <div class="content-template-space w-full h-full">
+        <nav class="dashboard-menu">
+          <ul>
+            <li><a href="/dashboard">Accueil</a></li>
+            <li><a href="/dashboard/proforma">Proforma</a></li>
+            <li><a href="/dashboard/marketing">Marketing</a></li>
+            <li><a href="/dashboard/profil">Profil</a></li>
+          </ul>
+        </nav>
+        <main class="flex-1">
+          {@render children()}
+        </main>
+      </div>
     </div>
   </div>
 {/if}
