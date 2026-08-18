@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
-  import { getCurrentUser, signOut } from "aws-amplify/auth";
+  import { getCurrentUser } from "aws-amplify/auth";
   import type { AuthUser } from "@aws-amplify/auth";
   import ConnectedArticles from "$lib/components/ConnectedArticles.svelte";
 
@@ -18,20 +18,12 @@
     checkingAuth = false;
   });
 
-  async function handleSignOut() {
-    try {
-      await signOut();
-    } catch (err) {
-      console.error("Sign out failed", err);
-    }
-    goto("/");
-  }
+ 
 </script>
 
 {#if !checkingAuth}
   <main>
     <p>Welcome, Welcome {user?.signInDetails?.loginId}</p>
     <ConnectedArticles {user} />
-    <button onclick={handleSignOut}>Sign out</button>
   </main>
 {/if}
