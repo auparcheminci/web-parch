@@ -26,17 +26,18 @@
 </script>
 
 {#if !checkingAuth}
-  <div class="flex h-full w-full flex-col">
-    <div class="main-topbar w-full">
-      <div class="topbar-wrapper flex flex-wrap justify-between gap-1.25 w-full p-2.5">
-        <div class="profil-space">
-          <div class="profil-icon">
-            <p>au parchemin</p>
+  <div class="flex flex-1 min-h-0 w-full flex-col gap-2.5">
+    <div class="main-topbar flex w-full shrink-0">
+      <div class="topbar-wrapper flex flex-wrap justify-between items-center gap-1.25 w-full p-2.5">
+        <div class="logo-space flex items-center">
+          <div class="logo-icon flex items-center">
+            <p class="whitespace-nowrap">au parchemin</p>
           </div>
         </div>
-        <div class="profil-sign-out-space flex">
-          <p>Profil</p>
-          <button onclick={handleSignOut}>Sign out</button>
+        <div class="profil-sign-out-space flex items-center gap-1">
+          <img alt="Votre logo" class="profil-picture size-8 shrink-0 rounded-full object-cover bg-gray-300" />
+          <p class="whitespace-nowrap">Profil</p>
+          <button onclick={handleSignOut} class="whitespace-nowrap">Sign out</button>
         </div>
       </div>
     </div>
