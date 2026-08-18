@@ -27,19 +27,21 @@
 
 {#if !checkingAuth}
   <div class="flex h-full w-full flex-col">
-    <div class="main-topbar flex w-full justify-between">
-      <div class="profil-space">
-        <div class="profil-icon">
-          <p>au parchemin</p>
+    <div class="main-topbar w-full">
+      <div class="topbar-wrapper flex flex-wrap justify-between gap-1.25 w-full p-2.5">
+        <div class="profil-space">
+          <div class="profil-icon">
+            <p>au parchemin</p>
+          </div>
         </div>
-      </div>
-      <div class="profil-sign-out-space flex">
-        <p>Profil</p>
-        <button onclick={handleSignOut}>Sign out</button>
+        <div class="profil-sign-out-space flex">
+          <p>Profil</p>
+          <button onclick={handleSignOut}>Sign out</button>
+        </div>
       </div>
     </div>
     <div class="main-content-space flex-1 min-h-0 p-2.5">
-      <div class="content-template-space w-full h-full">
+      <div class="content-template-space flex flex-wrap justify-between items-start gap-1.25 w-full h-full">
         <nav class="dashboard-menu">
           <ul>
             <li><a href="/dashboard">Accueil</a></li>
@@ -48,7 +50,7 @@
             <li><a href="/dashboard/profil">Profil</a></li>
           </ul>
         </nav>
-        <main class="flex-1">
+        <main class="main-pub-space">
           {@render children()}
         </main>
       </div>
