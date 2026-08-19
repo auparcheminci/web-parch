@@ -23,7 +23,7 @@
 
 {#if !checkingAuth}
   <main>
-    <p>Welcome, Welcome {user?.signInDetails?.loginId}</p>
+    <p class="wrap-break-word">Welcome, Welcome {user?.signInDetails?.loginId}</p>
     <ConnectedArticles {user} />
   </main>
 {/if}
