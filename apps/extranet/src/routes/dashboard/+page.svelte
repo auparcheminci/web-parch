@@ -17,13 +17,11 @@
     }
     checkingAuth = false;
   });
-
- 
 </script>
 
 {#if !checkingAuth}
   <main>
-    <p class="wrap-break-word">Welcome, Welcome {user?.signInDetails?.loginId}</p>
-    <ConnectedArticles {user} />
+    <p>Hello</p>
+   <!-- <ConnectedArticles {user} /> --> 
   </main>
 {/if}
