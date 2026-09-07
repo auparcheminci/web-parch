@@ -20,11 +20,20 @@
 </script>
 
 {#if !checkingAuth}
-  <main class="flex flex-col md:flex-row gap-5 h-full">
-    <section class="grid-section-one w-full md:w-[70%] flex-1 md:flex-none"><p>Section 1</p></section>
-    <section class="grid-section-two w-full md:w-[30%] flex flex-col gap-5 flex-1 md:flex-none">
-      <div class="grid-item-one w-full flex-1"><p>Under one</p></div>
-      <div class="grid-item-two w-full flex-1"><p>Under two</p></div>
+  <main class="flex flex-col md:flex-row gap-5 h-full min-w-0">
+    <section class="grid-section-one flex-1 md:flex-6 flex flex-col gap-2.5 min-w-0">
+      <h2>Nouveautés :</h2>
+      <div class="media-container w-full flex-1 rounded-md bg-gray-200"></div>
+    </section>
+    <section class="grid-section-two flex flex-col gap-5 flex-1 md:flex-4 min-w-0">
+      <div class="grid-item-one w-full flex-7 flex flex-col gap-2.5">
+        <h3>Retour en Stock :</h3>
+        <div class="media-container w-full flex-1 rounded-md bg-gray-200"></div>
+      </div>
+      <div class="grid-item-two w-full flex-3 flex flex-col gap-2.5">
+        <h3>Formation du jour :</h3>
+        <div class="media-container w-full flex-1 rounded-md bg-gray-200"></div>
+      </div>
     </section>
     <!-- <ConnectedArticles {user} /> -->
   </main>
