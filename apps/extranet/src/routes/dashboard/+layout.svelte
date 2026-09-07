@@ -27,6 +27,9 @@
 </script>
 
 {#if !checkingAuth}
+<div class="topbar-wrapper flex h-18.75 shrink-0">
+<p>Notification Bar</p>
+</div>
   <main class="main-content-space flex flex-col md:flex-row flex-1 min-h-0 gap-5 p-10">
     <div class="sidebar w-full md:w-64 shrink-0">
       <div class="sidebar-mainbar w-full h-full">

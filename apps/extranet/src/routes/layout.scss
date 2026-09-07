@@ -8,6 +8,10 @@ body {
   background-color: map.get($grey-scale, "100");
 }
 
+.topbar-wrapper {
+  background-color: map.get($grey-scale, "200");
+}
+
 .sidebar {
   .sidebar-mainbar {
     background-color: map.get($grey-scale, "200");
