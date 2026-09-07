@@ -57,7 +57,7 @@
       </div>
     </div>
   </nav>
-  <main class="main-content-space flex-1 min-h-0 p-2.5">
+  <main class="main-content-space flex-1 min-h-0 p-10">
     {@render children()}
   </main>
   <!--<div class="flex flex-1 min-h-0 w-full flex-col gap-2.5">
