@@ -9,7 +9,14 @@ body {
 }
 
 .topbar-wrapper {
-  background-color: map.get($grey-scale, "200");
+  background-color: map.get($blue-vivid-scale, "1500");
+  $font-family: $font-primary;
+  color: $font-color-white;
+}
+
+.notification-arrow-left,
+.notification-arrow-right {
+  stroke: map.get($grey-scale, "100");
 }
 
 .sidebar {
