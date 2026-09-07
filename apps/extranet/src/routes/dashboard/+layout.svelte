@@ -57,8 +57,15 @@
       </div>
     </div>
   </nav>
-  <main class="main-content-space flex-1 min-h-0 p-10">
-    {@render children()}
+  <main class="main-content-space flex flex-1 min-h-0 gap-5 p-10">
+    <div class="sidebar">
+      <div class="sidebar-mainbar w-full h-full">
+        <p>That will be the sidebar</p>
+      </div>
+    </div>
+    <div class="page-content flex-1 min-w-0">
+      {@render children()}
+    </div>
   </main>
   <!--<div class="flex flex-1 min-h-0 w-full flex-col gap-2.5">
     <div class="main-topbar flex w-full min-w-0 shrink-0">

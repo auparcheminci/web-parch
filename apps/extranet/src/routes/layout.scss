@@ -5,19 +5,11 @@ body {
 }
 
 #app {
-  background-color: $color-bg-primary;
+  background-color: map.get($grey-scale, "100");
 }
 
-// Handle Home page Styles
-#home-container {
-  background-color: map.get($blue-scale, "100");
+.sidebar {
+  .sidebar-mainbar {
+    background-color: map.get($grey-scale, "200");
+  }
 }
-
-#home-col-right > #auth-container {
-  background-color: map.get($grey-scale, "200");
-}
-
-.main-topbar {
-  background-color: $BLEUP;
-}
-
