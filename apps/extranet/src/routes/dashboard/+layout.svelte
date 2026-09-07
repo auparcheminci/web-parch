@@ -30,11 +30,18 @@
   <main class="main-content-space flex flex-1 min-h-0 gap-5 p-10">
     <div class="sidebar">
       <div class="sidebar-mainbar w-full h-full">
-        <nav class="dashboard-menu flex top-0 w-full p-2.5 justify-between">
+        <nav class="dashboard-menu flex flex-col w-full p-2.5">
+        <div class="profil-info flex">
+          <img
+            alt="Votre logo"
+            class="profil-picture size-8 shrink-0 rounded-full object-cover bg-gray-300"
+          />
           <p class="wrap-break-word">
-            Welcome {user?.signInDetails?.loginId}
+            {user?.signInDetails?.loginId}
           </p>
-          <ul class="menu-list flex">
+        </div>
+          
+          <ul class="menu-list flex flex-col gap-1.25">
             <li><a href="/dashboard">Accueil</a></li>
             <li><a href="/dashboard/proforma">Proforma</a></li>
             <li><a href="/dashboard/marketing">Marketing</a></li>
@@ -50,10 +57,6 @@
             <div
               class="profil-sign-out-space flex flex-wrap items-center gap-1.25 min-w-0"
             >
-              <img
-                alt="Votre logo"
-                class="profil-picture size-8 shrink-0 rounded-full object-cover bg-gray-300"
-              />
               <button onclick={handleSignOut} class="whitespace-nowrap"
                 >Sign out</button
               >
