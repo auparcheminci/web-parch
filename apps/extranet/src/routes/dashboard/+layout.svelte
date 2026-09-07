@@ -27,8 +27,8 @@
 </script>
 
 {#if !checkingAuth}
-  <main class="main-content-space flex flex-1 min-h-0 gap-5 p-10">
-    <div class="sidebar">
+  <main class="main-content-space flex flex-col md:flex-row flex-1 min-h-0 gap-5 p-10">
+    <div class="sidebar w-full md:w-64 shrink-0">
       <div class="sidebar-mainbar w-full h-full">
         <nav class="dashboard-menu flex flex-col w-full p-2.5">
         <div class="profil-info flex">
