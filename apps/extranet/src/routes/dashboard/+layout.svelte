@@ -60,7 +60,7 @@
     class="main-content-space flex flex-col md:flex-row flex-1 min-h-0 gap-5 p-10"
   >
     <div class="sidebar flex flex-col gap-5 w-full h-full md:w-64 shrink-0">
-      <div class="sidebar-company flex-1 w-full flex items-center justify-center px-7.5">
+      <div class="sidebar-company shrink-0 h-16 w-full flex items-center justify-center px-7.5">
        <div class="sidebar-company-content flex items-center gap-2.5">
         <img
           alt="Votre logo"
@@ -72,15 +72,15 @@
         </div>
        </div>
       </div>
-      <div class="sidebar-button flex-1 w-full">
-        <div class="pocket-button flex">
+      <div class="sidebar-button shrink-0 w-full flex items-center gap-5 h-10">
+        <div class="pocket-button flex-1 flex justify-center items-center">
           <p>Panier</p>
         </div>
-        <div class="notification-button flex">
+        <div class="notification-button flex-1 flex justify-center items-center">
           <p>Notification</p>
         </div>
       </div>
-      <button class="sidebar-short-pro flex-1 flex w-full">
+      <button class="sidebar-short-pro shrink-0 flex justify-center items-center w-full h-10">
         <p>Crée une proforma</p>
       </button>
       <div class="sidebar-menu-nav-apro flex-1 flex flex-col gap-2.5">
@@ -104,16 +104,16 @@
         </div>
       </div>
 
-      <div class="littlebar-wrapper flex-1 flex">
-        <div class="sign-and-home flex flex-col gap-2.5">
+      <div class="littlebar-wrapper w-full shrink-0 h-16 flex gap-5">
+        <div class="sign-and-home flex-1 flex flex-col gap-2.5">
           <a href="/dashboard">Accueil</a>
           <button onclick={handleSignOut} class="whitespace-nowrap"
             >Sign out</button
           >
         </div>
-        <div class="profil-space">
-          <div class="logo-icon flex items-center">
-            <p>{user?.signInDetails?.loginId}</p>
+        <div class="profil-space flex-1 min-w-0">
+          <div class="logo-icon flex items-center min-w-0">
+            <p class="wrap-break-word min-w-0">{user?.signInDetails?.loginId}</p>
           </div>
         </div>
       </div>
