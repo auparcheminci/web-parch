@@ -59,17 +59,20 @@
   <main
     class="main-content-space flex flex-col md:flex-row flex-1 min-h-0 gap-5 p-10"
   >
-    <div class="sidebar w-full h-full md:w-64 shrink-0">
-      <div class="sidebar-company w-full">
-        <p>Profile Societe</p>
+    <div class="sidebar flex flex-col gap-5 w-full h-full md:w-64 shrink-0">
+      <div class="sidebar-company flex-1 w-full flex items-center justify-center px-7.5">
+       <div class="sidebar-company-content flex items-center gap-2.5">
         <img
           alt="Votre logo"
           class="profil-picture size-8 shrink-0 rounded-full object-cover bg-gray-300"
         />
-
-        <p class="whitespace-nowrap">au parchemin</p>
+        <div class="sidebar-company-name flex flex-col gap-2.5">
+          <p class="whitespace-nowrap">Nom de la société</p>
+          <p>Gérer mon profil</p>
+        </div>
+       </div>
       </div>
-      <div class="sidebar-button w-full">
+      <div class="sidebar-button flex-1 w-full">
         <div class="pocket-button flex">
           <p>Panier</p>
         </div>
@@ -77,10 +80,10 @@
           <p>Notification</p>
         </div>
       </div>
-      <button class="sidebar-short-pro flex w-full">
+      <button class="sidebar-short-pro flex-1 flex w-full">
         <p>Crée une proforma</p>
       </button>
-      <div class="sidebar-menu-nav-apro flex flex-col gap-2.5">
+      <div class="sidebar-menu-nav-apro flex-1 flex flex-col gap-2.5">
         <div class="sidebar-menu-nav-apro-cata flex flex-col gap-2.5">
           <a href="/dashboard/proforma">Proforma</a>
           <p>Explication</p>
@@ -90,7 +93,7 @@
           <p>Menu 2</p>
         </div>
       </div>
-      <div class="sidebar-menu-nav-market flex flex-col gap-2.5">
+      <div class="sidebar-menu-nav-market flex-1 flex flex-col gap-2.5">
         <div class="sidebar-menu-nav-market-one flex flex-col gap-2.5">
           <a href="/dashboard/proforma">Calendrier</a>
           <p>Explication</p>
@@ -101,7 +104,7 @@
         </div>
       </div>
 
-      <div class="littlebar-wrapper flex">
+      <div class="littlebar-wrapper flex-1 flex">
         <div class="sign-and-home flex flex-col gap-2.5">
           <a href="/dashboard">Accueil</a>
           <button onclick={handleSignOut} class="whitespace-nowrap"
