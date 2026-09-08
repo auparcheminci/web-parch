@@ -118,14 +118,22 @@
       <div
         class="sidebar-menu-nav-market rounded-md flex-1 flex flex-col gap-2.5"
       >
-        <h1 class="text-center mt-5">Communiquer</h1>
-        <div class="sidebar-menu-nav-market-one flex flex-col gap-2.5">
-          <a href="/dashboard/proforma">Calendrier</a>
-          <p>Explication</p>
-        </div>
-        <div class="sidebar-menu-nav-market-two flex flex-col gap-2.5">
-          <a href="/dashboard/proforma">Calendrier</a>
-          <p>Menu 2</p>
+        <div class="market-big-container flex flex-col gap-3 mt-3">
+          <h1 class="text-center">Communiquer</h1>
+          <div class="menu-market-container flex flex-col gap-2.5">
+            <div
+              class="sidebar-menu-nav-market-cata flex flex-col gap-0.5 w-47.5 self-center"
+            >
+              <a href="/dashboard/proforma">Menu 1</a>
+              <p>explication</p>
+            </div>
+            <div
+              class="sidebar-menu-nav-market-pro flex flex-col gap-0.5 w-47.5 self-center"
+            >
+              <a href="/dashboard/proforma">Menu 2</a>
+              <p>Explication du menu 2</p>
+            </div>
+          </div>
         </div>
       </div>
 
