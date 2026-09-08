@@ -20,6 +20,7 @@ body {
 }
 
 .sidebar {
+  font-family: $font-primary;
   .sidebar-company {
     background-color: map.get($grey-scale, "200");
   }
@@ -56,14 +57,18 @@ body {
 }
 
 .sidebar-menu-nav-apro, .sidebar-menu-nav-market {
+  font-size: 15px;
   h1 {
     color: map.get($grey-scale, "1500");
+    font-weight: 800;
   }
  a {
     color: map.get($grey-scale, "1400");
+    font-weight: 500;
   }
 
 p {
     color: map.get($grey-scale, "800");
+    font-weight: 100;
   }
 }
