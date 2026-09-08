@@ -27,71 +27,92 @@
 </script>
 
 {#if !checkingAuth}
-<div class="topbar-wrapper flex h-18.75 shrink-0 justify-center items-center">
-  <div class="notification-content flex items-center gap-2.5">
-    <svg
-      class="notification-arrow-left"
-      width="25"
-      height="25"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke-width="2.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <path d="M19 12H5M12 19l-7-7 7-7" />
-    </svg>
-    <p>Notification Bar</p>
-    <svg
-      class="notification-arrow-right"
-      width="25"
-      height="25"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke-width="2.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    >
-      <path d="M5 12h14M12 5l7 7-7 7" />
-    </svg>
+  <div class="topbar-wrapper flex h-18.75 shrink-0 justify-center items-center">
+    <div class="notification-content flex items-center gap-2.5">
+      <svg
+        class="notification-arrow-left"
+        width="25"
+        height="25"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M19 12H5M12 19l-7-7 7-7" />
+      </svg>
+      <p>Notification Bar</p>
+      <svg
+        class="notification-arrow-right"
+        width="25"
+        height="25"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M5 12h14M12 5l7 7-7 7" />
+      </svg>
+    </div>
   </div>
-</div>
-  <main class="main-content-space flex flex-col md:flex-row flex-1 min-h-0 gap-5 p-10">
-    <div class="sidebar w-full md:w-64 shrink-0">
-      <div class="sidebar-mainbar w-full h-full">
-        <nav class="dashboard-menu flex flex-col w-full p-2.5">
-        <div class="profil-info flex">
-          <img
-            alt="Votre logo"
-            class="profil-picture size-8 shrink-0 rounded-full object-cover bg-gray-300"
-          />
-          <p class="wrap-break-word">
-            {user?.signInDetails?.loginId}
-          </p>
-        </div>
-          
-          <ul class="menu-list flex flex-col gap-1.25">
-            <li><a href="/dashboard">Accueil</a></li>
-            <li><a href="/dashboard/proforma">Proforma</a></li>
-            <li><a href="/dashboard/marketing">Marketing</a></li>
-            <li><a href="/dashboard/profil">Profil</a></li>
-          </ul>
+  <main
+    class="main-content-space flex flex-col md:flex-row flex-1 min-h-0 gap-5 p-10"
+  >
+    <div class="sidebar w-full h-full md:w-64 shrink-0">
+      <div class="sidebar-company w-full">
+        <p>Profile Societe</p>
+        <img
+          alt="Votre logo"
+          class="profil-picture size-8 shrink-0 rounded-full object-cover bg-gray-300"
+        />
 
-          <div class="topbar-wrapper flex">
-            <div class="logo-space flex items-center">
-              <div class="logo-icon flex items-center">
-                <p class="whitespace-nowrap">au parchemin</p>
-              </div>
-            </div>
-            <div
-              class="profil-sign-out-space flex flex-wrap items-center gap-1.25 min-w-0"
-            >
-              <button onclick={handleSignOut} class="whitespace-nowrap"
-                >Sign out</button
-              >
-            </div>
+        <p class="whitespace-nowrap">au parchemin</p>
+      </div>
+      <div class="sidebar-button w-full">
+        <div class="pocket-button flex">
+          <p>Panier</p>
+        </div>
+        <div class="notification-button flex">
+          <p>Notification</p>
+        </div>
+      </div>
+      <button class="sidebar-short-pro flex w-full">
+        <p>Crée une proforma</p>
+      </button>
+      <div class="sidebar-menu-nav-apro flex flex-col gap-2.5">
+        <div class="sidebar-menu-nav-apro-cata flex flex-col gap-2.5">
+          <a href="/dashboard/proforma">Proforma</a>
+          <p>Explication</p>
+        </div>
+        <div class="sidebar-menu-nav-apro-pro flex flex-col gap-2.5">
+          <p>Catalogue</p>
+          <p>Menu 2</p>
+        </div>
+      </div>
+      <div class="sidebar-menu-nav-market flex flex-col gap-2.5">
+        <div class="sidebar-menu-nav-market-one flex flex-col gap-2.5">
+          <a href="/dashboard/proforma">Calendrier</a>
+          <p>Explication</p>
+        </div>
+        <div class="sidebar-menu-nav-market-two flex flex-col gap-2.5">
+          <p>Cal</p>
+          <p>Menu 2</p>
+        </div>
+      </div>
+
+      <div class="littlebar-wrapper flex">
+        <div class="sign-and-home flex flex-col gap-2.5">
+          <a href="/dashboard">Accueil</a>
+          <button onclick={handleSignOut} class="whitespace-nowrap"
+            >Sign out</button
+          >
+        </div>
+        <div class="profil-space">
+          <div class="logo-icon flex items-center">
+            <p>{user?.signInDetails?.loginId}</p>
           </div>
-        </nav>
+        </div>
       </div>
     </div>
     <div class="page-content flex-1 min-w-0">

@@ -20,7 +20,37 @@ body {
 }
 
 .sidebar {
-  .sidebar-mainbar {
+  .sidebar-company {
     background-color: map.get($grey-scale, "200");
   }
+}
+
+.sidebar-button {
+  .pocket-button {
+    background-color: map.get($grey-scale, "200");
+  }
+  .notification-button {
+    background-color: map.get($grey-scale, "200");
+  }
+}
+
+.sidebar-short-pro {
+  background-color: map.get($blue-vivid-scale, "1500");
+  color: $font-color-white;
+}
+
+.sidebar-menu-nav-apro {
+ background-color: map.get($grey-scale, "200");
+}
+
+.sidebar-menu-nav-market {
+ background-color: map.get($grey-scale, "200");
+}
+
+.sign-and-home {
+  background-color: map.get($grey-scale, "200");
+}
+
+.profil-space {
+  background-color: map.get($grey-scale, "200");
 }
