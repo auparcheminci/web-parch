@@ -27,11 +27,21 @@ body {
 }
 
 .sidebar-button {
+  a {
+    color: map.get($grey-scale, "1300");
+    font-weight: 800;
+  }
+
   .pocket-button {
-    background-color: map.get($grey-scale, "200");
+    background-color: map.get($grey-scale, "400");
   }
   .notification-button {
-    background-color: map.get($grey-scale, "200");
+    background-color: map.get($grey-scale, "400");
+  }
+
+  .sidebar-button-icon path {
+    stroke-width: 1.5;
+    stroke: map.get($grey-scale, "1300");
   }
 }
 
@@ -41,11 +51,11 @@ body {
 }
 
 .sidebar-menu-nav-apro {
- background-color: map.get($grey-scale, "200");
+  background-color: map.get($grey-scale, "200");
 }
 
 .sidebar-menu-nav-market {
- background-color: map.get($grey-scale, "200");
+  background-color: map.get($grey-scale, "200");
 }
 
 .sign-and-home {
@@ -56,18 +66,19 @@ body {
   background-color: map.get($grey-scale, "200");
 }
 
-.sidebar-menu-nav-apro, .sidebar-menu-nav-market {
+.sidebar-menu-nav-apro,
+.sidebar-menu-nav-market {
   font-size: 15px;
   h1 {
     color: map.get($grey-scale, "1500");
     font-weight: 800;
   }
- a {
+  a {
     color: map.get($grey-scale, "1400");
     font-weight: 500;
   }
 
-p {
+  p {
     color: map.get($grey-scale, "800");
     font-weight: 100;
   }

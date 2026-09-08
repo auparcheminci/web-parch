@@ -61,7 +61,7 @@
   >
     <div class="sidebar flex flex-col gap-5 w-full h-full md:w-64 shrink-0">
       <div
-        class="sidebar-company rounded-md shrink-0 h-16 w-full flex items-center justify-center px-7.5"
+        class="sidebar-company rounded-md shrink-0 w-full flex items-center justify-center px-7.5 py-4"
       >
         <div class="sidebar-company-content flex items-center gap-2.5">
           <img
@@ -74,27 +74,123 @@
           </div>
         </div>
       </div>
-      <div class="sidebar-button shrink-0 w-full flex items-center gap-5 h-10">
+      <div class="sidebar-button shrink-0 w-full flex items-center gap-5">
         <div
           class="pocket-button rounded-md flex-1 flex justify-center items-center"
         >
-          <p>Panier</p>
+          <div
+            class="pocket-button-container flex flex-col items-center gap-1.5 py-2.5"
+          >
+            <svg
+              class="sidebar-button-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="23.26"
+              height="20"
+              viewBox="0 0 22.528 19.369"
+            >
+              <g id="panier-icone" transform="translate(0.5 0.5)">
+                <path
+                  id="Path_2462"
+                  data-name="Path 2462"
+                  d="M8.4,10.42,12.612,3.4l4.212,7.02"
+                  transform="translate(-1.848 -3.4)"
+                  fill="none"
+                  stroke="#000"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1"
+                />
+                <path
+                  id="Path_2463"
+                  data-name="Path 2463"
+                  d="M2.8,9.4H24.328"
+                  transform="translate(-2.8 -2.38)"
+                  fill="none"
+                  stroke="#000"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1"
+                />
+                <path
+                  id="Path_2464"
+                  data-name="Path 2464"
+                  d="M4.6,9.4l1.58,9.419a2.34,2.34,0,0,0,2.3,1.931h9.547a2.34,2.34,0,0,0,2.3-1.931L21.916,9.4"
+                  transform="translate(-2.494 -2.38)"
+                  fill="none"
+                  stroke="#000"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1"
+                />
+                <path
+                  id="Path_2465"
+                  data-name="Path 2465"
+                  d="M9.7,12.9v3.744M15.082,12.9v3.744"
+                  transform="translate(-1.627 -1.785)"
+                  fill="none"
+                  stroke="#000"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1"
+                />
+              </g>
+            </svg>
+
+            <a href="/dashboard/cart">Panier</a>
+          </div>
         </div>
         <div
           class="notification-button rounded-md flex-1 flex justify-center items-center"
         >
-          <p>Notification</p>
+          <div
+            class="notification-button-container flex flex-col items-center gap-1.5 py-2.5"
+          >
+            <svg
+              class="sidebar-button-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="17.33"
+              height="20"
+              viewBox="0 0 16.031 18.5"
+            >
+              <g id="cloche-icone" transform="translate(0.516 0.5)">
+                <path
+                  id="Path_2466"
+                  data-name="Path 2466"
+                  d="M11.628,3.2A5.147,5.147,0,0,0,6.34,8.37c0,3.139-.524,5.078-2,6.693A.8.8,0,0,0,4.959,16.4H18.3a.8.8,0,0,0,.619-1.339c-1.477-1.616-2-3.554-2-6.693A5.147,5.147,0,0,0,11.628,3.2Z"
+                  transform="translate(-4.128 -3.2)"
+                  fill="none"
+                  stroke="#000"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1"
+                />
+                <path
+                  id="Path_2467"
+                  data-name="Path 2467"
+                  d="M13.7,20.4a2.065,2.065,0,0,1-3.554,0"
+                  transform="translate(-4.427 -4.413)"
+                  fill="none"
+                  stroke="#000"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </g>
+            </svg>
+
+            <a href="/dashboard/notifications">Notifications</a>
+          </div>
         </div>
       </div>
       <button
-        class="sidebar-short-pro rounded-md shrink-0 flex justify-center items-center w-full h-10"
+        class="sidebar-short-pro rounded-md shrink-0 flex justify-center items-center w-full py-2.5"
       >
         <p>Crée une proforma</p>
       </button>
       <div
         class="sidebar-menu-nav-apro rounded-md flex-1 flex flex-col gap-2.5"
       >
-        <div class="apro-big-container flex flex-col gap-3 mt-3">
+        <div class="apro-big-container flex flex-col gap-3 mt-3 pb-5">
           <h1 class="text-center">S'approvisionnez</h1>
           <div class="menu-apro-container flex flex-col gap-2.5">
             <div
@@ -137,7 +233,7 @@
         </div>
       </div>
 
-      <div class="littlebar-wrapper w-full shrink-0 h-16 flex gap-5">
+      <div class="littlebar-wrapper w-full shrink-0 flex gap-5 py-4">
         <div class="sign-and-home flex-1 flex flex-col gap-2.5">
           <a href="/dashboard">Accueil</a>
           <button onclick={handleSignOut} class="whitespace-nowrap"
