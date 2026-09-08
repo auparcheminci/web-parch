@@ -54,3 +54,16 @@ body {
 .profil-space {
   background-color: map.get($grey-scale, "200");
 }
+
+.sidebar-menu-nav-apro, .sidebar-menu-nav-market {
+  h1 {
+    color: map.get($grey-scale, "1500");
+  }
+ a {
+    color: map.get($grey-scale, "1400");
+  }
+
+p {
+    color: map.get($grey-scale, "800");
+  }
+}
