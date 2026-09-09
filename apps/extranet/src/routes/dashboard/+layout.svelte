@@ -57,9 +57,9 @@
     </div>
   </div>
   <main
-    class="main-content-space flex flex-col md:flex-row flex-1 min-h-0 gap-5 p-10"
+    class="main-content-space flex flex-col md:flex-row flex-1 min-h-0 gap-5 p-10 overflow-y-auto"
   >
-    <div class="sidebar flex flex-col gap-5 w-full h-full md:w-64 shrink-0">
+    <div class="sidebar flex flex-col gap-5 w-full md:h-full md:w-64 shrink-0">
       <div
         class="sidebar-company rounded-md shrink-0 w-full flex items-center justify-center px-7.5 py-4"
       >
@@ -340,7 +340,7 @@
       </div>
     </div>
 
-    <div class="page-content flex-1 min-w-0">
+    <div class="page-content flex-none md:flex-1 w-full min-w-0">
       {@render children()}
     </div>
   </main>
