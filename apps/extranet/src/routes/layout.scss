@@ -27,6 +27,7 @@ body {
     .sidebar-company-name {
       h1 {
         font-weight: 800;
+        font-size: 15px;
       }
       p {
         font-weight: 100;
@@ -73,6 +74,18 @@ body {
 
 .profil-space {
   background-color: map.get($grey-scale, "200");
+  .profil-container {
+    .profil-name-row {
+      p {
+        font-size: 15px;
+        font-weight: 800;
+      }
+    }
+    a {
+      font-size: 10px;
+      font-weight: 100;
+    }
+  }
 }
 
 .sidebar-menu-nav-apro,

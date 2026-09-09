@@ -234,9 +234,9 @@
       </div>
 
       <div class="littlebar-wrapper w-full shrink-0 flex gap-5">
-        <div class="sign-and-home flex-1 flex flex-col justify-center">
+        <div class="sign-and-home flex-1 flex flex-col justify-center rounded-md">
           <div class="home-sign-container flex flex-col py-3 pl-2.5 gap-1.5">
-            <div class="home-button-container flex items-center gap-1.5 ">
+            <div class="home-button-container flex items-center gap-1.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="15.5"
@@ -292,15 +292,54 @@
             </div>
           </div>
         </div>
-        <div class="profil-space flex-1 min-w-0">
-          <div class="logo-icon flex items-center min-w-0">
-            <p class="wrap-break-word min-w-0">
-              {user?.signInDetails?.loginId}
-            </p>
+        <div
+          class="profil-space flex-1 min-w-0 rounded-md p-2 flex items-center justify-center"
+        >
+          <div class="profil-container flex flex-col gap-0.5 min-w-0">
+            <div class="profil-name-row flex items-center gap-1.5 min-w-0">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 14.968 14.968"
+                class="shrink-0"
+              >
+                <g id="utilisateur" transform="translate(0.5 0.5)">
+                  <circle
+                    id="Ellipse_101"
+                    data-name="Ellipse 101"
+                    cx="3.185"
+                    cy="3.185"
+                    r="3.185"
+                    transform="translate(3.799)"
+                    fill="none"
+                    stroke="#000"
+                    stroke-width="1"
+                  />
+                  <path
+                    id="Path_2501"
+                    data-name="Path 2501"
+                    d="M2.9,19.31c0-3.264,3.127-5.91,6.984-5.91s6.984,2.646,6.984,5.91Z"
+                    transform="translate(-2.9 -5.341)"
+                    fill="none"
+                    stroke="#000"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                  />
+                </g>
+              </svg>
+              <p>
+                Inès Zarka
+                <!-- {user?.signInDetails?.loginId} -->
+              </p>
+            </div>
+            <a href="/dashboard/profile" class="ml-5">
+              Gérer mon profil
+            </a>
           </div>
         </div>
       </div>
     </div>
+
     <div class="page-content flex-1 min-w-0">
       {@render children()}
     </div>
