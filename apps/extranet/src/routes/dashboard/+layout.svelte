@@ -66,10 +66,10 @@
         <div class="sidebar-company-content flex items-center gap-2.5">
           <img
             alt="Votre logo"
-            class="profil-picture size-8 shrink-0 rounded-full object-cover bg-gray-300"
+            class="profil-picture size-15 shrink-0 rounded-full object-cover bg-gray-300"
           />
-          <div class="sidebar-company-name flex flex-col gap-2.5">
-            <p class="whitespace-nowrap">Nom de la société</p>
+          <div class="sidebar-company-name flex flex-col">
+            <h1 class="whitespace-nowrap">Nom de la société</h1>
             <p>Gérer mon profil</p>
           </div>
         </div>

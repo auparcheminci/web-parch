@@ -23,6 +23,15 @@ body {
   font-family: $font-primary;
   .sidebar-company {
     background-color: map.get($grey-scale, "200");
+    .sidebar-company-name {
+      h1{
+        font-weight: 800;
+      }
+      p {
+        font-weight: 100;
+        font-size: 13px;
+      }
+    }
   }
 }
 
