@@ -21,10 +21,11 @@ body {
 
 .sidebar {
   font-family: $font-primary;
+  color: map.get($grey-scale, "1300");
   .sidebar-company {
     background-color: map.get($grey-scale, "200");
     .sidebar-company-name {
-      h1{
+      h1 {
         font-weight: 800;
       }
       p {
@@ -37,7 +38,6 @@ body {
 
 .sidebar-button {
   a {
-    color: map.get($grey-scale, "1300");
     font-weight: 800;
   }
 
@@ -79,16 +79,22 @@ body {
 .sidebar-menu-nav-market {
   font-size: 15px;
   h1 {
-    color: map.get($grey-scale, "1500");
     font-weight: 800;
   }
   a {
-    color: map.get($grey-scale, "1400");
     font-weight: 500;
   }
 
   p {
     color: map.get($grey-scale, "800");
     font-weight: 100;
+  }
+}
+
+.home-sign-container {
+  a,
+  button {
+    font-weight: 600;
+    font-size: 13px;
   }
 }

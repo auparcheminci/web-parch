@@ -233,12 +233,64 @@
         </div>
       </div>
 
-      <div class="littlebar-wrapper w-full shrink-0 flex gap-5 py-4">
-        <div class="sign-and-home flex-1 flex flex-col gap-2.5">
-          <a href="/dashboard">Accueil</a>
-          <button onclick={handleSignOut} class="whitespace-nowrap"
-            >Sign out</button
-          >
+      <div class="littlebar-wrapper w-full shrink-0 flex gap-5">
+        <div class="sign-and-home flex-1 flex flex-col justify-center">
+          <div class="home-sign-container flex flex-col py-3 pl-2.5 gap-1.5">
+            <div class="home-button-container flex items-center gap-1.5 ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="15.5"
+                height="15"
+                viewBox="0 0 12.712 12.3"
+              >
+                <g id="accueil" transform="translate(0.706 0.5)">
+                  <path
+                    id="Path_2502"
+                    data-name="Path 2502"
+                    d="M2,7.085,7.65,2,13.3,7.085"
+                    transform="translate(-2 -2)"
+                    fill="none"
+                    stroke="#333333"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                  />
+                  <path
+                    id="Path_2503"
+                    data-name="Path 2503"
+                    d="M4,11v6.215H7.107v-3.39H9.932v3.39H13.04V11"
+                    transform="translate(-2.87 -5.915)"
+                    fill="none"
+                    stroke="#333333"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                  />
+                </g>
+              </svg>
+              <a href="/dashboard">Accueil</a>
+            </div>
+            <div class="sign-out-button-container flex items-center gap-1.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14.5"
+                height="14.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#333333"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <path d="M16 17l5-5-5-5" />
+                <path d="M21 12H9" />
+              </svg>
+              <button onclick={handleSignOut} class="whitespace-nowrap"
+                >Sign out</button
+              >
+            </div>
+          </div>
         </div>
         <div class="profil-space flex-1 min-w-0">
           <div class="logo-icon flex items-center min-w-0">
