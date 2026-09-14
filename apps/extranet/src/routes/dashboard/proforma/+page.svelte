@@ -71,8 +71,6 @@
               </div>
               <a
                 href={`/dashboard/proforma/${article.slug ?? article.documentId ?? article.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
                 class="article-card-detail text-center w-full p-2.5"
               >
                 Voir le détail
