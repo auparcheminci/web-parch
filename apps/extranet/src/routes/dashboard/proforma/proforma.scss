@@ -1,3 +1,18 @@
 .proforma-header {
   background-color: map.get($grey-scale, "300");
 }
+
+.article-card {
+  background-color: map.get($grey-scale, "200");
+
+  .article-card-info {
+    background-color: map.get($grey-scale, "200");
+    font : $font-primary;
+    color : map.get($grey-scale, "1500");
+  }
+
+  .article-card-detail {
+  background-color: map.get($grey-scale, "300");
+}
+}
+

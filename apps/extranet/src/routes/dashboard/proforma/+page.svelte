@@ -22,10 +22,10 @@
   class="proforma-container flex flex-col justify-between items-start gap-2 w-full h-full"
 >
   <div
-    class="proforma-header flex-1 flex flex-col justify-start items-start w-full"
+    class="proforma-header flex-1 shrink-0 min-h-16 flex flex-col justify-start items-start w-full"
   ></div>
   <div
-    class="proforma-body flex-6 gap-1.5 flex flex-col justify-start items-start w-full"
+    class="proforma-body flex-6 min-h-0 overflow-y-auto gap-1.5 flex flex-col justify-start items-start w-full"
   >
     <div
       class="proforma-body-count flex flex-row justify-between items-start w-full"
@@ -43,19 +43,19 @@
       {:else if error}
         <p class="text-red-600">{error}</p>
       {:else}
-        <div class="flex flex-wrap gap-4 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
           {#each articles as article (article.id)}
             <div
-              class="article-card flex flex-col rounded-md overflow-hidden bg-white border border-gray-200"
+              class="article-card flex flex-col w-full  rounded-md"
             >
               <div
-                class="article-card-image aspect-square w-full flex items-center justify-center bg-white p-2"
+                class="article-card-image flex-1 w-full flex items-center justify-center overflow-hidden"
               >
                 {#if article.cover?.url}
                   <img
                     src={getMediaUrl(article.cover.url)}
                     alt={article.cover.alternativeText ?? ""}
-                    class="max-w-full max-h-full object-contain"
+                    class="w-full h-full object-cover"
                   />
                 {/if}
               </div>
@@ -68,7 +68,7 @@
                 </p>
               </div>
               <button
-                class="article-card-detail bg-gray-200 font-bold text-sm py-2.5 w-full"
+                class="article-card-detail font-bold text-sm p-2.5"
               >
                 Voir le détail
               </button>
