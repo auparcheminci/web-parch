@@ -16,11 +16,21 @@ async function strapiFetch<T>(path: string): Promise<T> {
   return res.json();
 }
 
+export interface StrapiMedia {
+  id: number;
+  url: string;
+  alternativeText?: string;
+}
+
 export interface StrapiArticle {
   id: number;
   documentId?: string;
   title?: string;
   content?: string;
+  designation?: string;
+  reference?: string;
+  codebarre?: string;
+  cover?: StrapiMedia | null;
   [key: string]: unknown;
 }
 
@@ -29,9 +39,13 @@ interface StrapiListResponse<T> {
   meta: unknown;
 }
 
+export function getMediaUrl(url: string): string {
+  return url.startsWith("http") ? url : `${baseUrl}${url}`;
+}
+
 export async function getArticles(): Promise<StrapiArticle[]> {
   const { data } = await strapiFetch<StrapiListResponse<StrapiArticle>>(
-    "/api/articles",
+    "/api/articles?populate=cover",
   );
   return data;
 }
