@@ -1,0 +1,12 @@
+.article-page {
+  background-color: $font-color-white;
+}
+
+.article-detail-back {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.article-detail-image {
+  background-color: map.get($grey-scale, "200");
+}

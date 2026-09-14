@@ -1,8 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { page } from "$app/state";
-  import NotificationBar from "$lib/components/NotificationBar.svelte";
-  import Sidebar from "$lib/components/Sidebar.svelte";
+  import "./article-detail.scss";
   import {
     getArticleBySlugOrId,
     getMediaUrl,
@@ -31,43 +30,35 @@
   });
 </script>
 
-<NotificationBar />
-<main
-  class="main-content-space flex flex-col md:flex-row flex-1 min-h-0 gap-5 p-10 overflow-y-auto"
->
-  <Sidebar />
-  <div class="page-content flex-none md:flex-1 w-full min-w-0">
-    <div class="article-detail flex flex-col gap-4 w-full h-full p-4">
-      <a href="/proforma" class="article-detail-back">&larr; Retour</a>
+<div class="article-page flex flex-col w-full h-full">
+  <a href="/proforma" class="article-detail-back">&larr; Retour</a>
 
-      {#if loading}
-        <p>Chargement de l'article…</p>
-      {:else if error}
-        <p class="text-red-600">{error}</p>
-      {:else if article}
-        <div class="flex flex-col md:flex-row gap-6">
-          <div
-            class="article-detail-image flex-1 md:max-w-md aspect-square flex items-center justify-center overflow-hidden rounded-md"
-          >
-            {#if article.cover?.url}
-              <img
-                src={getMediaUrl(article.cover.url)}
-                alt={article.cover.alternativeText ?? ""}
-                class="w-full h-full object-cover"
-              />
-            {/if}
-          </div>
-          <div class="article-detail-info flex flex-col gap-2">
-            <h1>{article.designation ?? article.reference ?? article.id}</h1>
-            <p class="text-gray-500">
-              {article.reference ?? article.codebarre ?? ""}
-            </p>
-            {#if article.content}
-              <p>{article.content}</p>
-            {/if}
-          </div>
-        </div>
-      {/if}
+  {#if loading}
+    <p>Chargement de l'article…</p>
+  {:else if error}
+    <p class="text-red-600">{error}</p>
+  {:else if article}
+    <div class="flex flex-col md:flex-row gap-6">
+      <div
+        class="article-detail-image flex-1 md:max-w-md aspect-square flex items-center justify-center overflow-hidden rounded-md"
+      >
+        {#if article.cover?.url}
+          <img
+            src={getMediaUrl(article.cover.url)}
+            alt={article.cover.alternativeText ?? ""}
+            class="w-full h-full object-cover"
+          />
+        {/if}
+      </div>
+      <div class="article-detail-info flex flex-col gap-2">
+        <h1>{article.designation ?? article.reference ?? article.id}</h1>
+        <p class="text-gray-500">
+          {article.reference ?? article.codebarre ?? ""}
+        </p>
+        {#if article.content}
+          <p>{article.content}</p>
+        {/if}
+      </div>
     </div>
-  </div>
-</main>
+  {/if}
+</div>
