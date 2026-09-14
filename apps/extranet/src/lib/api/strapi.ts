@@ -30,6 +30,7 @@ export interface StrapiArticle {
   designation?: string;
   reference?: string;
   codebarre?: string;
+  slug?: string;
   cover?: StrapiMedia | null;
   [key: string]: unknown;
 }
@@ -48,4 +49,29 @@ export async function getArticles(): Promise<StrapiArticle[]> {
     "/api/articles?populate=cover",
   );
   return data;
+}
+
+export async function getArticleBySlug(slug: string): Promise<StrapiArticle> {
+  const { data } = await strapiFetch<StrapiListResponse<StrapiArticle>>(
+    `/api/articles?filters[slug][$eq]=${encodeURIComponent(slug)}&populate=cover`,
+  );
+  if (!data[0]) {
+    throw new Error(`No article found for slug: ${slug}`);
+  }
+  return data[0];
+}
+
+// Articles without a slug fall back to linking by documentId/id, so this
+// resolver tries the slug lookup first and falls back to fetching directly
+// by document id when no article matches that slug.
+export async function getArticleBySlugOrId(
+  slugOrId: string,
+): Promise<StrapiArticle> {
+  try {
+    return await getArticleBySlug(slugOrId);
+  } catch {
+    return strapiFetch<{ data: StrapiArticle }>(
+      `/api/articles/${encodeURIComponent(slugOrId)}?populate=cover`,
+    ).then((res) => res.data);
+  }
 }

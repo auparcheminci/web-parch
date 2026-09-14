@@ -1,7 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import "./proforma.scss";
-  import { getArticles, getMediaUrl, type StrapiArticle } from "$lib/api/strapi";
+  import {
+    getArticles,
+    getMediaUrl,
+    type StrapiArticle,
+  } from "$lib/api/strapi";
 
   let articles = $state<StrapiArticle[]>([]);
   let loading = $state(true);
@@ -45,9 +49,7 @@
       {:else}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
           {#each articles as article (article.id)}
-            <div
-              class="article-card flex flex-col w-full  rounded-md"
-            >
+            <div class="article-card flex flex-col w-full rounded-md">
               <div
                 class="article-card-image flex-1 w-full flex items-center justify-center overflow-hidden"
               >
@@ -60,18 +62,21 @@
                 {/if}
               </div>
               <div class="article-card-info flex flex-col gap-1 p-3">
-                <p class="font-bold text-sm">
+                <h3>
                   {article.designation ?? article.reference ?? article.id}
-                </p>
-                <p class="text-xs text-gray-500">
+                </h3>
+                <p>
                   {article.reference ?? article.codebarre ?? ""}
                 </p>
               </div>
-              <button
-                class="article-card-detail font-bold text-sm p-2.5"
+              <a
+                href={`/dashboard/proforma/${article.slug ?? article.documentId ?? article.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="article-card-detail text-center w-full p-2.5"
               >
                 Voir le détail
-              </button>
+              </a>
             </div>
           {/each}
         </div>
