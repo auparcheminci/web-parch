@@ -149,7 +149,7 @@
         <div
           class="sidebar-menu-nav-apro-cata flex flex-col gap-0.5 w-47.5 self-center"
         >
-          <a href="/proforma">Catalogues</a>
+          <a href="/catalogue">Catalogues</a>
           <p>
             Consultez les catalogues de nos différentes marques et
             fournisseurs
