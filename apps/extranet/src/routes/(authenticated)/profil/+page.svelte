@@ -23,7 +23,6 @@
         <li>Email : {attributes.email}</li>
         <li>Nom : {attributes["custom:Nom"]}</li>
         <li>Prénom : {attributes["custom:Prénom"]}</li>
-        <li>Société : {attributes["custom:Société"]}</li>
         <li>Poste : {attributes["custom:Poste"]}</li>
       </ul>
     </main>

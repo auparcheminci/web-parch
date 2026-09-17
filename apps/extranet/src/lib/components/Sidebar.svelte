@@ -23,7 +23,7 @@
       />
       <div class="sidebar-company-name flex flex-col">
         <h1 class="whitespace-nowrap">Nom de la société</h1>
-        <p>Gérer mon profil</p>
+        <p>Gérer ma société</p>
       </div>
     </div>
   </div>
