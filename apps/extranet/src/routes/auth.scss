@@ -1,17 +1,11 @@
-#auth-back-btn {
+.auth-back-btn {
   background-color: map.get($grey-scale, "600");
   color: white;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  overflow: hidden;
-  white-space: nowrap;
-  max-width: 40px; // icon (20px) + padding (2 × 10px)
-  transition: background-color 0.15s ease, max-width 0.3s ease;
+  display: inline-flex;
+
 
   &:hover {
     background-color: map.get($grey-scale, "800");
-    max-width: 180px;
   }
 
   svg {
@@ -19,14 +13,20 @@
   }
 
   .auth-back-label {
+    display: inline-block;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
     font-size: 0.875rem;
     font-weight: 500;
     opacity: 0;
-    transition: opacity 0.15s ease;
+    transition: max-width 0.3s ease, opacity 0.15s ease, margin-left 0.3s ease;
   }
 
   &:hover .auth-back-label {
+    max-width: 140px;
     opacity: 1;
+    margin-left: 0.5rem;
   }
 }
 
@@ -39,6 +39,15 @@
   }
 }
 
+#home-container {
+  #home-col-right {
+    background-color: map.get($grey-scale, "200");
+    #auth-container {
+      border-radius: 1rem;
+    }
+  }
+}
+
 // Amplify Authenticator overrides
 [data-amplify-authenticator] [data-amplify-form] {
   padding: 0;
@@ -47,7 +56,6 @@
   max-width: 100%;
   box-sizing: border-box;
 }
-
 
 [data-amplify-authenticator][data-variation] [data-amplify-container] {
   width: 100%;
@@ -89,4 +97,69 @@
 
 [data-amplify-authenticator] [data-amplify-router-content] {
   order: 0;
+}
+
+// Two-column layout for the sign-up fields
+#signUp-panel [data-amplify-fieldset] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1rem;
+}
+
+// Wider form wrapper for sign-up only
+#auth-form-wrapper:has(#signUp-panel) {
+  max-width: 42rem;
+}
+
+// Newsletter / Whatsapp on-off toggles
+.toggle-field {
+  justify-content: center;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    inset: 0;
+    background-color: map.get($grey-scale, "400");
+    border-radius: 999px;
+    transition: background-color 0.2s ease;
+
+    &::before {
+      content: "";
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+    }
+  }
+
+  input:checked + .toggle-slider {
+    background-color: map.get($blue-vivid-scale, "1500");
+  }
+
+  input:checked + .toggle-slider::before {
+    transform: translateX(20px);
+  }
+
+  input:focus-visible + .toggle-slider {
+    outline: 2px solid map.get($blue-vivid-scale, "1500");
+    outline-offset: 2px;
+  }
 }

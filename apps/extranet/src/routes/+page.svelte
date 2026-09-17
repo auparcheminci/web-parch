@@ -1,28 +1,23 @@
 <script lang="ts">
-  import { Authenticator } from "@aws-amplify/ui-svelte";
+  import { Authenticator, FormFields } from "@aws-amplify/ui-svelte";
   import type { AuthUser } from "@aws-amplify/auth";
   import type { AuthMachineState } from "@aws-amplify/ui";
   import AuthRedirect from "$lib/components/AuthRedirect.svelte";
   import "./auth.scss";
 </script>
 
-<div id="home-container" class="flex flex-1 overflow-hidden">
-  <div id="home-col-left" class="flex-1 py-5 pl-5 pr-2.5 overflow-hidden">
+<div id="home-container" class="flex w-full h-screen gap-5 p-5">
+  <div id="home-col-left" class="hidden flex-1 lg:block">
     <img
       src="https://strapi-z4iu.onrender.com/uploads/1000x1000_100_5cbae1b054.jpg"
       alt="placeholder"
       class="object-cover w-full h-full rounded-2xl"
     />
   </div>
-  <div id="home-col-right" class="flex-1 py-5 pl-2.5 pr-5 overflow-hidden">
-    <div
-      id="auth-container"
-      class="relative w-full h-full flex items-center justify-center"
-    >
-      <a
-        id="auth-back-btn"
+  <div id="home-col-right" class="relative flex-1">
+   <a
+        class="auth-back-btn absolute top-0 left-0 items-center justify-center p-2.5 rounded-tl-lg"
         href="https://www.auparchemin.ci/"
-        class="absolute top-0 left-0 p-2.5 rounded-br-xl"
         aria-label="Retour au site"
       >
         <svg
@@ -41,6 +36,11 @@
         </svg>
         <span class="auth-back-label">Retour au site</span>
       </a>
+    <div
+      id="auth-container"
+      class="relative w-full h-full flex items-center justify-center"
+    >
+     
       <div
         id="auth-form-wrapper"
         class="flex flex-col w-full max-w-md max-h-full overflow-y-auto"
@@ -197,6 +197,39 @@
             compte”.
           </p>
         </div>
+        {#snippet signUpFormFields()}
+          <FormFields route="signUp" />
+          <div class="amplify-flex amplify-field toggle-field">
+            <label class="amplify-label" for="newsletter-toggle"
+              >Notre newsletter</label
+            >
+            <label class="toggle-switch">
+              <input type="hidden" name="custom:Newsletter" value="false" />
+              <input
+                type="checkbox"
+                id="newsletter-toggle"
+                name="custom:Newsletter"
+                value="true"
+              />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <div class="amplify-flex amplify-field toggle-field">
+            <label class="amplify-label" for="whatsapp-toggle"
+              >Notre feed Whatsapp</label
+            >
+            <label class="toggle-switch">
+              <input type="hidden" name="custom:Whatsapp" value="false" />
+              <input
+                type="checkbox"
+                id="whatsapp-toggle"
+                name="custom:Whatsapp"
+                value="true"
+              />
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        {/snippet}
         <Authenticator
           formFields={{
             signIn: {
@@ -234,16 +267,11 @@
                 order: 4,
                 isRequired: false,
               },
-              "custom:Newsletter": {
-                label: "Notre newsletter",
-                order: 5,
-                isRequired: false,
-              },
-              "custom:Whatsapp": {
-                label: "Notre feed Whatsapp",
-                order: 6,
-                isRequired: false,
-              },
+            },
+          }}
+          components={{
+            SignUp: {
+              FormFields: signUpFormFields,
             },
           }}
         >
