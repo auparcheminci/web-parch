@@ -41,7 +41,10 @@
         </svg>
         <span class="auth-back-label">Retour au site</span>
       </a>
-      <div id="auth-form-wrapper" class="flex flex-col w-full max-w-md">
+      <div
+        id="auth-form-wrapper"
+        class="flex flex-col w-full max-w-md max-h-full overflow-y-auto"
+      >
         <div id="auth-header" class="flex flex-col items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -198,38 +201,48 @@
           formFields={{
             signIn: {
               username: {
-                label: "",
+                label: "Votre Email",
                 placeholder: "Email",
               },
               password: {
-                label: "",
+                label: "Votre Mot de passe",
                 placeholder: "Mot de passe",
               },
             },
             signUp: {
-              "custom:Nom": {
-                label: "Nom",
-                placeholder: "Votre nom",
-                order: 1,
-                isRequired: true,
-              },
               "custom:Prénom": {
                 label: "Prénom",
                 placeholder: "Votre prénom",
+                order: 1,
+                isRequired: true,
+              },
+              "custom:Nom": {
+                label: "Nom",
+                placeholder: "Votre nom",
                 order: 2,
                 isRequired: true,
               },
-              "custom:Société": {
-                label: "Société",
-                placeholder: "Votre société",
+              "custom:PhoneNumber": {
+                label: "Numéro de téléphone",
+                placeholder: "Votre numéro de téléphone",
                 order: 3,
-                isRequired: true,
+                isRequired: false,
               },
               "custom:Poste": {
                 label: "Poste",
                 placeholder: "Votre poste",
                 order: 4,
-                //isRequired: true,
+                isRequired: false,
+              },
+              "custom:Newsletter": {
+                label: "Notre newsletter",
+                order: 5,
+                isRequired: false,
+              },
+              "custom:Whatsapp": {
+                label: "Notre feed Whatsapp",
+                order: 6,
+                isRequired: false,
               },
             },
           }}

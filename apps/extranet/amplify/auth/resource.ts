@@ -9,20 +9,28 @@ export const auth = defineAuth({
     email: true,
   },
   userAttributes: {
-    "custom:Nom": {
-      dataType: "String",
-      mutable: true,
-    },
     "custom:Prénom": {
       dataType: "String",
       mutable: true,
     },
-    "custom:Société": {
+    "custom:Nom": {
       dataType: "String",
+      mutable: true,
+    },
+    "custom:PhoneNumber": {
+      dataType: "Number",
       mutable: true,
     },
     "custom:Poste": {
       dataType: "String",
+      mutable: true,
+    },
+    "custom:Newsletter": {
+      dataType: "Boolean",
+      mutable: true,
+    },
+    "custom:Whatsapp": {
+      dataType: "Boolean",
       mutable: true,
     },
   },
