@@ -111,6 +111,22 @@
   max-width: 42rem;
 }
 
+// Remember me checkbox on sign-in
+.remember-me-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+
+  input {
+    width: 16px;
+    height: 16px;
+    accent-color: map.get($blue-vivid-scale, "1500");
+    cursor: pointer;
+  }
+}
+
 // Newsletter / Whatsapp on-off toggles
 .toggle-field {
   justify-content: center;

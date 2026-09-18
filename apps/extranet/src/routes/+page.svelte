@@ -2,8 +2,18 @@
   import { Authenticator, FormFields } from "@aws-amplify/ui-svelte";
   import type { AuthUser } from "@aws-amplify/auth";
   import type { AuthMachineState } from "@aws-amplify/ui";
+  import { cognitoUserPoolsTokenProvider } from "aws-amplify/auth/cognito";
+  import { defaultStorage, sessionStorage } from "aws-amplify/utils";
   import AuthRedirect from "$lib/components/AuthRedirect.svelte";
   import "./auth.scss";
+
+  let rememberMe = $state(false);
+
+  $effect(() => {
+    cognitoUserPoolsTokenProvider.setKeyValueStorage(
+      rememberMe ? defaultStorage : sessionStorage,
+    );
+  });
 </script>
 
 <div id="home-container" class="flex w-full h-screen gap-5 p-5">
@@ -197,6 +207,15 @@
             compte”.
           </p>
         </div>
+        {#snippet signInFormFields()}
+          <FormFields route="signIn" />
+          <div class="amplify-flex amplify-field remember-me-field">
+            <label class="remember-me-label">
+              <input type="checkbox" bind:checked={rememberMe} />
+              <span>Se souvenir de moi</span>
+            </label>
+          </div>
+        {/snippet}
         {#snippet signUpFormFields()}
           <FormFields route="signUp" />
           <div class="amplify-flex amplify-field toggle-field">
@@ -270,6 +289,9 @@
             },
           }}
           components={{
+            SignIn: {
+              FormFields: signInFormFields,
+            },
             SignUp: {
               FormFields: signUpFormFields,
             },
