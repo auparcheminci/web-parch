@@ -2,17 +2,14 @@
   import { Authenticator, FormFields } from "@aws-amplify/ui-svelte";
   import type { AuthUser } from "@aws-amplify/auth";
   import type { AuthMachineState } from "@aws-amplify/ui";
-  import { cognitoUserPoolsTokenProvider } from "aws-amplify/auth/cognito";
-  import { defaultStorage, sessionStorage } from "aws-amplify/utils";
   import AuthRedirect from "$lib/components/AuthRedirect.svelte";
+  import { getRememberMe, setRememberMe } from "$lib/authStorage";
   import "./auth.scss";
 
-  let rememberMe = $state(false);
+  let rememberMe = $state(getRememberMe());
 
   $effect(() => {
-    cognitoUserPoolsTokenProvider.setKeyValueStorage(
-      rememberMe ? defaultStorage : sessionStorage,
-    );
+    setRememberMe(rememberMe);
   });
 </script>
 

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { signOut } from "aws-amplify/auth";
+  import { companyState, resetCompany } from "$lib/company.svelte";
 
   async function handleSignOut() {
     try {
@@ -8,6 +9,7 @@
     } catch (err) {
       console.error("Sign out failed", err);
     }
+    resetCompany();
     goto("/");
   }
 </script>
@@ -18,12 +20,17 @@
   >
     <div class="sidebar-company-content flex items-center gap-2.5">
       <img
+        src={companyState.logoUrl}
         alt="Votre logo"
         class="profil-picture size-15 shrink-0 rounded-full object-cover bg-gray-300"
       />
       <div class="sidebar-company-name flex flex-col">
-        <h1 class="whitespace-nowrap">Nom de la société</h1>
-        <p>Gérer ma société</p>
+        <h1 class="whitespace-nowrap">
+          {companyState.company?.name ?? "Nom de la société"}
+        </h1>
+        <a href="/societe">
+          {companyState.company ? "Gérer ma société" : "Créer ma société"}
+        </a>
       </div>
     </div>
   </div>

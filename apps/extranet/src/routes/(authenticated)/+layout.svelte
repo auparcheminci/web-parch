@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import { getCurrentUser } from "aws-amplify/auth";
+  import { loadCompany } from "$lib/company.svelte";
 
   let { children } = $props();
   let checkingAuth = $state(true);
@@ -14,6 +15,7 @@
       return;
     }
     checkingAuth = false;
+    loadCompany();
   });
 </script>
 

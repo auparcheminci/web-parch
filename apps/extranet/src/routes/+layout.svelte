@@ -2,6 +2,7 @@
 	import { Amplify } from 'aws-amplify';
 	import { I18n } from 'aws-amplify/utils';
 	import { useAuthenticator } from '@aws-amplify/ui-svelte';
+	import { applyTokenStorage } from '$lib/authStorage';
 	import outputs from '../../amplify_outputs.json';
 	import '../app.css';
 	import './layout.scss';
@@ -9,6 +10,9 @@
 	import '@aws-amplify/ui-svelte/styles.css';
 
 	Amplify.configure(outputs, { ssr: true });
+
+	// Doit précéder toute lecture de la session (useAuthenticator, getCurrentUser)
+	applyTokenStorage();
 
 	// Amplify UI's auth store is a module-level singleton that only sets up
 	// its Hub listener the first time it's used, and tears that listener
