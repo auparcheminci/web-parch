@@ -12,6 +12,7 @@
   let articles = $state<StrapiArticle[]>([]);
   let loading = $state(true);
   let error = $state<string | null>(null);
+  let searchTerm = $state("");
 
   onMount(async () => {
     try {
@@ -21,6 +22,16 @@
     } finally {
       loading = false;
     }
+  });
+
+  let filteredArticles = $derived.by(() => {
+    const term = searchTerm.trim().toLowerCase();
+    if (!term) return articles;
+    return articles.filter((article) =>
+      [article.designation, article.reference, article.codebarre]
+        .filter(Boolean)
+        .some((field) => String(field).toLowerCase().includes(term)),
+    );
   });
 </script>
 
@@ -34,15 +45,22 @@
       class="proforma-container flex flex-col justify-between items-start gap-2 w-full h-full"
     >
       <div
-        class="proforma-header flex-1 shrink-0 min-h-16 flex flex-col justify-start items-start w-full"
-      ></div>
+        class="proforma-header flex-1 shrink-0 min-h-16 flex flex-col justify-center items-start w-full px-4"
+      >
+        <input
+          type="search"
+          bind:value={searchTerm}
+          placeholder="Rechercher un article (désignation, référence, code-barres)"
+          class="proforma-search w-full max-w-md"
+        />
+      </div>
       <div
         class="proforma-body flex-6 min-h-0 overflow-y-auto gap-1.5 flex flex-col justify-start items-start w-full"
       >
         <div
           class="proforma-body-count flex flex-row justify-between items-start w-full"
         >
-          <p>Résultats</p>
+          <p>Résultats ({filteredArticles.length})</p>
           <div class="proforma-order">
             <p>Ordre</p>
           </div>
@@ -54,9 +72,11 @@
             <p>Chargement des articles…</p>
           {:else if error}
             <p class="text-red-600">{error}</p>
+          {:else if filteredArticles.length === 0}
+            <p>Aucun article ne correspond à votre recherche.</p>
           {:else}
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
-              {#each articles as article (article.id)}
+              {#each filteredArticles as article (article.id)}
                 <div class="article-card flex flex-col w-full rounded-md">
                   <div
                     class="article-card-image flex-1 w-full flex items-center justify-center overflow-hidden"
