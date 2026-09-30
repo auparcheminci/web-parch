@@ -8,11 +8,15 @@
     getMediaUrl,
     type StrapiArticle,
   } from "$lib/api/strapi";
+  import CartStepper from "$lib/components/CartStepper.svelte";
+  import { companyState } from "$lib/company.svelte";
 
   let articles = $state<StrapiArticle[]>([]);
   let loading = $state(true);
   let error = $state<string | null>(null);
   let searchTerm = $state("");
+
+  let cartError = $state<string | null>(null);
 
   onMount(async () => {
     try {
@@ -61,6 +65,14 @@
           class="proforma-body-count flex flex-row justify-between items-start w-full"
         >
           <p>Résultats ({filteredArticles.length})</p>
+          {#if companyState.loaded && !companyState.company}
+            <p>
+              <a href="/societe" class="font-bold underline">Créez votre société</a>
+              pour utiliser le panier.
+            </p>
+          {:else if cartError}
+            <p class="text-red-600">{cartError}</p>
+          {/if}
           <div class="proforma-order">
             <p>Ordre</p>
           </div>
@@ -97,12 +109,20 @@
                       {article.reference ?? article.codebarre ?? ""}
                     </p>
                   </div>
-                  <a
-                    href={`/proforma/${article.slug ?? article.documentId ?? article.id}`}
-                    class="article-card-detail text-center w-full p-2.5"
-                  >
-                    Voir le détail
-                  </a>
+                  <div class="flex w-full">
+                    <a
+                      href={`/proforma/${article.slug ?? article.documentId ?? article.id}`}
+                      class="article-card-detail text-center flex-1 p-2.5"
+                    >
+                      Voir le détail
+                    </a>
+                    <div class="article-card-cart flex-1 p-1">
+                      <CartStepper
+                        {article}
+                        onerror={(message) => (cartError = message)}
+                      />
+                    </div>
+                  </div>
                 </div>
               {/each}
             </div>
