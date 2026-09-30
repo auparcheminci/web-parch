@@ -1,0 +1,44 @@
+.cart-page {
+  background-color: $font-color-white;
+  font-family: $font-primary;
+  color: $font-color-black;
+
+  h1 {
+    font-weight: 800;
+    font-size: map.get($font-scale, "base");
+  }
+}
+
+.cart-link,
+.cart-clear,
+.cart-item-remove {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.cart-item {
+  background-color: map.get($grey-scale, "200");
+
+  .cart-item-image {
+    background-color: map.get($grey-scale, "300");
+  }
+
+  .cart-item-info {
+    h3 {
+      font-size: map.get($font-scale, "base");
+      font-weight: 700;
+    }
+
+    p {
+      font-size: map.get($font-scale, "xs");
+      text-transform: uppercase;
+    }
+  }
+}
+
+.cart-item-quantity {
+  background-color: $font-color-white;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+}

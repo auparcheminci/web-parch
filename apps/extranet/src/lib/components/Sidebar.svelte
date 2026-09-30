@@ -2,6 +2,7 @@
   import { goto } from "$app/navigation";
   import { signOut } from "aws-amplify/auth";
   import { companyState, resetCompany } from "$lib/company.svelte";
+  import { cartCount, clearCart } from "$lib/cart.svelte";
 
   async function handleSignOut() {
     try {
@@ -10,6 +11,7 @@
       console.error("Sign out failed", err);
     }
     resetCompany();
+    clearCart();
     goto("/");
   }
 </script>
@@ -96,7 +98,11 @@
           </g>
         </svg>
 
-        <a href="/dashboard/cart">Panier</a>
+        <a href="/panier">
+          Panier{#if cartCount() > 0}
+            <span class="pocket-count rounded-full ml-1 px-1.5">{cartCount()}</span>
+          {/if}
+        </a>
       </div>
     </div>
     <div

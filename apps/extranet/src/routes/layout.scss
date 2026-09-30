@@ -45,6 +45,12 @@ body {
   .pocket-button {
     background-color: map.get($grey-scale, "400");
   }
+  .pocket-count {
+    background-color: map.get($blue-vivid-scale, "1500");
+    color: $font-color-white;
+    font-size: 12px;
+    font-weight: 700;
+  }
   .notification-button {
     background-color: map.get($grey-scale, "400");
   }

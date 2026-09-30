@@ -7,10 +7,27 @@
     getMediaUrl,
     type StrapiArticle,
   } from "$lib/api/strapi";
+  import { addToCart } from "$lib/cart.svelte";
 
   let article = $state<StrapiArticle | null>(null);
   let loading = $state(true);
   let error = $state<string | null>(null);
+  let quantity = $state(1);
+  let added = $state(false);
+  let addedTimeout: ReturnType<typeof setTimeout>;
+
+  function handleAddToCart() {
+    if (!article || quantity < 1) return;
+    addToCart(
+      article,
+      article.cover?.url ? getMediaUrl(article.cover.url) : null,
+      quantity,
+    );
+    quantity = 1;
+    added = true;
+    clearTimeout(addedTimeout);
+    addedTimeout = setTimeout(() => (added = false), 2500);
+  }
 
   onMount(async () => {
     const slug = page.params.slug;
@@ -57,6 +74,29 @@
         </p>
         {#if article.content}
           <p>{article.content}</p>
+        {/if}
+        <div class="article-detail-cart flex items-center gap-2.5 mt-4">
+          <label class="flex items-center gap-1.5">
+            Quantité
+            <input
+              type="number"
+              min="1"
+              bind:value={quantity}
+              class="article-detail-quantity w-20"
+            />
+          </label>
+          <button
+            onclick={handleAddToCart}
+            disabled={quantity < 1}
+            class="article-detail-add rounded-md px-4 py-2"
+          >
+            Ajouter au panier
+          </button>
+        </div>
+        {#if added}
+          <p class="article-detail-added">
+            Article ajouté au panier. <a href="/panier">Voir le panier</a>
+          </p>
         {/if}
       </div>
     </div>

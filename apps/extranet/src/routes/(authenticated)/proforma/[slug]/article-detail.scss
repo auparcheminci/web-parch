@@ -10,3 +10,25 @@
 .article-detail-image {
   background-color: map.get($grey-scale, "200");
 }
+
+.article-detail-quantity {
+  background-color: map.get($grey-scale, "200");
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.article-detail-add {
+  background-color: map.get($blue-vivid-scale, "1500");
+  color: $font-color-white;
+  font-weight: 700;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.article-detail-added a {
+  font-weight: 700;
+  text-decoration: underline;
+}
