@@ -9,6 +9,35 @@
     createCompany,
     updateCompany,
   } from "$lib/company.svelte";
+  import {
+    getCartRequestUrl,
+    listCartRequests,
+    type CartRequest,
+  } from "$lib/cartRequests";
+
+  let requests = $state<CartRequest[]>([]);
+  let requestsError = $state("");
+
+  // Recharge les demandes quand la société est chargée ou change
+  $effect(() => {
+    if (!companyState.company?.id) return;
+    requestsError = "";
+    listCartRequests()
+      .then((list) => (requests = list))
+      .catch((err) => {
+        console.error("Requests load failed", err);
+        requestsError = "Impossible de charger les demandes";
+      });
+  });
+
+  async function downloadRequest(request: CartRequest) {
+    try {
+      window.location.href = await getCartRequestUrl(request);
+    } catch (err) {
+      console.error("Request download failed", err);
+      requestsError = "Impossible de télécharger la demande";
+    }
+  }
 
   let editing = $state(false);
   let name = $state("");
@@ -184,6 +213,36 @@
               <li>{email}</li>
             {/each}
           </ul>
+        </section>
+
+        <section class="flex flex-col gap-2.5">
+          <h2>Demandes</h2>
+          {#if requestsError}
+            <p class="text-red-600">{requestsError}</p>
+          {:else if requests.length === 0}
+            <p>Aucune demande pour le moment.</p>
+          {:else}
+            <ul class="flex flex-col gap-1.5">
+              {#each requests as request (request.id)}
+                <li class="flex items-center gap-2.5">
+                  <span>
+                    {new Date(request.createdAt).toLocaleString("fr-FR", {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    })} — {request.itemCount} article{request.itemCount > 1
+                      ? "s"
+                      : ""}
+                  </span>
+                  <button
+                    class="rounded-md border px-3 py-1"
+                    onclick={() => downloadRequest(request)}
+                  >
+                    Télécharger le PDF
+                  </button>
+                </li>
+              {/each}
+            </ul>
+          {/if}
         </section>
 
         {#if companyState.isOwner}

@@ -47,6 +47,20 @@ const schema = a
       .secondaryIndexes((index) => [index('companyId')])
       .authorization((allow) => [allow.ownersDefinedIn('members')]),
 
+    // Demande envoyée depuis le panier : PDF rattaché à la société
+    CartRequest: a
+      .model({
+        companyId: a.id().required(),
+        // Créateur et membres de la société, comme pour CartItem
+        members: a.string().array(),
+        // Chemin du PDF dans le stockage S3 (company-requests/...)
+        pdfPath: a.string().required(),
+        fileName: a.string().required(),
+        itemCount: a.integer().required(),
+      })
+      .secondaryIndexes((index) => [index('companyId')])
+      .authorization((allow) => [allow.ownersDefinedIn('members')]),
+
     addCompanyMember: a
       .mutation()
       .arguments({

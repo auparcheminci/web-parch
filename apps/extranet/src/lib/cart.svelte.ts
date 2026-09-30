@@ -29,7 +29,7 @@ function requireCompany() {
 }
 
 // Créateur et membres de la société : tous ont accès au panier
-function cartMembers(company: Company) {
+export function cartMembers(company: Company) {
   return [company.owner, ...(company.members ?? [])].filter((m): m is string => !!m);
 }
 

@@ -12,21 +12,26 @@
     setQuantity,
   } from "$lib/cart.svelte";
   import { companyState } from "$lib/company.svelte";
-  import { downloadCartPdf } from "$lib/cartPdf";
+  import { submitCartRequest } from "$lib/cartRequests";
 
   let error = $state<string | null>(null);
-  let generating = $state(false);
+  let sending = $state(false);
+  let sent = $state(false);
 
   async function handleRequest() {
-    generating = true;
+    sending = true;
+    sent = false;
     error = null;
     try {
-      await downloadCartPdf(cartState.items, companyState.company);
+      await submitCartRequest();
+      sent = true;
     } catch (err) {
-      console.error("PDF generation failed", err);
-      error = "Impossible de générer le PDF";
+      console.error("Cart request failed", err);
+      error = err instanceof Error ? err.message : "Impossible d'envoyer la demande";
+      // Réaffiche l'état réel du panier si l'échec a eu lieu en le vidant
+      loadCart();
     } finally {
-      generating = false;
+      sending = false;
     }
   }
 
@@ -68,6 +73,12 @@
 
       {#if error}
         <p class="text-red-600">{error}</p>
+      {/if}
+      {#if sent}
+        <p>
+          Demande envoyée. Retrouvez-la sur la page
+          <a href="/societe" class="cart-link">de votre société</a>.
+        </p>
       {/if}
 
       {#if companyState.loaded && !companyState.company}
@@ -130,10 +141,10 @@
         </ul>
         <button
           onclick={handleRequest}
-          disabled={generating}
+          disabled={sending}
           class="cart-request self-end rounded-md px-6 py-2.5"
         >
-          {generating ? "Génération…" : "Demander"}
+          {sending ? "Envoi…" : "Demander"}
         </button>
       {/if}
     </div>

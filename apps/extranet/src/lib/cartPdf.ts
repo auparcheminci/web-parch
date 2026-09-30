@@ -1,22 +1,21 @@
 import type { CartItem } from '$lib/cart.svelte';
 import type { Company } from '$lib/company.svelte';
 
-// Génère et télécharge le PDF de demande à partir du contenu du panier
-export async function downloadCartPdf(items: CartItem[], company: Company | null) {
+// Génère le PDF de demande à partir du contenu du panier
+export async function buildCartPdf(items: CartItem[], company: Company, date: Date) {
   // Chargé à la demande : évite d'alourdir toutes les pages
   const [{ jsPDF }, { autoTable }] = await Promise.all([
     import('jspdf'),
     import('jspdf-autotable'),
   ]);
 
-  const now = new Date();
   const doc = new jsPDF();
 
   doc.setFontSize(18);
   doc.text('Demande', 14, 20);
   doc.setFontSize(11);
-  if (company) doc.text(company.name, 14, 30);
-  doc.text(`Date : ${now.toLocaleDateString('fr-FR')}`, 14, 36);
+  doc.text(company.name, 14, 30);
+  doc.text(`Date : ${date.toLocaleDateString('fr-FR')}`, 14, 36);
 
   autoTable(doc, {
     startY: 44,
@@ -33,5 +32,5 @@ export async function downloadCartPdf(items: CartItem[], company: Company | null
     },
   });
 
-  doc.save(`demande-${now.toISOString().slice(0, 10)}.pdf`);
+  return doc.output('blob');
 }

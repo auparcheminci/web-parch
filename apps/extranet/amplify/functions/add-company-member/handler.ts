@@ -67,23 +67,36 @@ export const handler: Schema['addCompanyMember']['functionHandler'] = async (eve
   });
   if (errors?.length) throw new Error(errors[0].message);
 
-  // Donne au nouveau membre l'accès au panier existant de la société
-  let nextToken: string | null | undefined;
-  do {
-    const page = await client.models.CartItem.listCartItemByCompanyId(
-      { companyId: company.id },
-      { nextToken },
-    );
-    await Promise.all(
-      page.data.map((item) =>
-        client.models.CartItem.update({
-          id: item.id,
-          members: [...(item.members ?? []).filter((m): m is string => !!m), memberId],
-        }),
-      ),
-    );
-    nextToken = page.nextToken;
-  } while (nextToken);
+  // Donne au nouveau membre l'accès au panier et aux demandes existants de la société
+  const companyId = company.id;
+  const withMember = (row: Row) => [
+    ...(row.members ?? []).filter((m): m is string => !!m),
+    memberId,
+  ];
+  await addMemberToRows(
+    (nextToken) => client.models.CartItem.listCartItemByCompanyId({ companyId }, { nextToken }),
+    (row) => client.models.CartItem.update({ id: row.id, members: withMember(row) }),
+  );
+  await addMemberToRows(
+    (nextToken) =>
+      client.models.CartRequest.listCartRequestByCompanyId({ companyId }, { nextToken }),
+    (row) => client.models.CartRequest.update({ id: row.id, members: withMember(row) }),
+  );
 
   return data;
 };
+
+type Row = { id: string; members?: (string | null)[] | null };
+
+// Parcourt toutes les pages de lignes d'une société et met à jour chacune
+async function addMemberToRows(
+  list: (nextToken?: string | null) => Promise<{ data: Row[]; nextToken?: string | null }>,
+  update: (row: Row) => Promise<unknown>,
+) {
+  let nextToken: string | null | undefined;
+  do {
+    const page = await list(nextToken);
+    await Promise.all(page.data.map(update));
+    nextToken = page.nextToken;
+  } while (nextToken);
+}
