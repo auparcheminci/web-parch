@@ -3,6 +3,7 @@
   import { signOut } from "aws-amplify/auth";
   import { companyState, resetCompany } from "$lib/company.svelte";
   import { cartCount, resetCart } from "$lib/cart.svelte";
+  import { resetFavorites } from "$lib/favorites.svelte";
 
   async function handleSignOut() {
     try {
@@ -12,6 +13,7 @@
     }
     resetCompany();
     resetCart();
+    resetFavorites();
     goto("/");
   }
 </script>

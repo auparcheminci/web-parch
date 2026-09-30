@@ -4,6 +4,7 @@
   import { getCurrentUser } from "aws-amplify/auth";
   import { loadCompany } from "$lib/company.svelte";
   import { loadCart } from "$lib/cart.svelte";
+  import { loadFavorites } from "$lib/favorites.svelte";
 
   let { children } = $props();
   let checkingAuth = $state(true);
@@ -18,6 +19,7 @@
     checkingAuth = false;
     // Le panier dépend de la société de l'utilisateur
     loadCompany().then(loadCart);
+    loadFavorites();
   });
 </script>
 

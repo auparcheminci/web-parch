@@ -10,6 +10,7 @@
   } from "$lib/api/strapi";
   import CartStepper from "$lib/components/CartStepper.svelte";
   import SearchHeader from "$lib/components/SearchHeader.svelte";
+  import FavoriteStar from "$lib/components/FavoriteStar.svelte";
   import { companyState } from "$lib/company.svelte";
 
   let articles = $state<StrapiArticle[]>([]);
@@ -17,7 +18,7 @@
   let error = $state<string | null>(null);
   let searchTerm = $state("");
 
-  let cartError = $state<string | null>(null);
+  let actionError = $state<string | null>(null);
 
   onMount(async () => {
     try {
@@ -83,8 +84,8 @@
               <a href="/societe" class="font-bold underline">Créez votre société</a>
               pour utiliser le panier.
             </p>
-          {:else if cartError}
-            <p class="text-red-600">{cartError}</p>
+          {:else if actionError}
+            <p class="text-red-600">{actionError}</p>
           {/if}
           <label class="proforma-order flex items-center gap-1.5">
             Ordre
@@ -109,7 +110,7 @@
               {#each filteredArticles as article (article.id)}
                 <div class="article-card flex flex-col w-full rounded-md">
                   <div
-                    class="article-card-image flex-1 w-full flex items-center justify-center overflow-hidden"
+                    class="article-card-image relative flex-1 w-full flex items-center justify-center overflow-hidden"
                   >
                     {#if article.cover?.url}
                       <img
@@ -118,6 +119,12 @@
                         class="w-full h-full object-cover"
                       />
                     {/if}
+                    <div class="absolute top-2 right-2">
+                      <FavoriteStar
+                        {article}
+                        onerror={(message) => (actionError = message)}
+                      />
+                    </div>
                   </div>
                   <div class="article-card-info flex flex-col gap-1 p-3">
                     <h3>
@@ -137,7 +144,7 @@
                     <div class="article-card-cart flex-1 p-1">
                       <CartStepper
                         {article}
-                        onerror={(message) => (cartError = message)}
+                        onerror={(message) => (actionError = message)}
                       />
                     </div>
                   </div>

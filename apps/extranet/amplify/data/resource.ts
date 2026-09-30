@@ -34,8 +34,12 @@ const schema = a
       .model({
         companyId: a.id().required(),
         // Créateur et membres de la société ("sub::username"), pour les droits d'accès.
-        // Tenu à jour par addCompanyMember quand un membre est ajouté
-        members: a.string().array(),
+        // Tenu à jour par addCompanyMember quand un membre est ajouté. Rempli à la
+        // création, puis en lecture seule : un membre ne peut pas modifier les accès
+        members: a
+          .string()
+          .array()
+          .authorization((allow) => [allow.ownersDefinedIn('members').to(['create', 'read'])]),
         // Identifiant de l'article dans Strapi (slug, sinon documentId/id)
         articleKey: a.string().required(),
         // Copie des infos de l'article au moment de l'ajout, pour l'affichage
@@ -52,7 +56,10 @@ const schema = a
       .model({
         companyId: a.id().required(),
         // Créateur et membres de la société, comme pour CartItem
-        members: a.string().array(),
+        members: a
+          .string()
+          .array()
+          .authorization((allow) => [allow.ownersDefinedIn('members').to(['create', 'read'])]),
         // Chemin du PDF dans le stockage S3 (company-requests/...)
         pdfPath: a.string().required(),
         fileName: a.string().required(),
@@ -60,6 +67,20 @@ const schema = a
       })
       .secondaryIndexes((index) => [index('companyId')])
       .authorization((allow) => [allow.ownersDefinedIn('members')]),
+
+    // Article mis en favori, propre à chaque utilisateur (pas à la société)
+    FavoriteArticle: a
+      .model({
+        // Identifiant de l'article dans Strapi (slug, sinon documentId/id)
+        articleKey: a.string().required(),
+        // Copie des infos de l'article au moment de l'ajout, pour l'affichage
+        designation: a.string().required(),
+        reference: a.string(),
+        coverUrl: a.string(),
+        // Rempli automatiquement avec l'utilisateur ; ne peut pas être réattribué
+        owner: a.string().authorization((allow) => [allow.owner().to(['read', 'delete'])]),
+      })
+      .authorization((allow) => [allow.owner()]),
 
     addCompanyMember: a
       .mutation()
