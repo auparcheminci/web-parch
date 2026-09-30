@@ -36,6 +36,16 @@
   }
 }
 
+.cart-request {
+  background-color: map.get($blue-vivid-scale, "1500");
+  color: $font-color-white;
+  font-weight: 700;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
 .cart-item-quantity {
   background-color: $font-color-white;
   border: none;

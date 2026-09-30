@@ -36,6 +36,8 @@
     "@acme/styles": "workspace:^",
     "@aws-amplify/ui-svelte": "^1.1.3",
     "aws-amplify": "^6.16.4",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.8",
     "sass": "^1.x.x"
   }
 }

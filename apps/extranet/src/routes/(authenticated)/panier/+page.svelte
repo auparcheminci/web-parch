@@ -12,8 +12,23 @@
     setQuantity,
   } from "$lib/cart.svelte";
   import { companyState } from "$lib/company.svelte";
+  import { downloadCartPdf } from "$lib/cartPdf";
 
   let error = $state<string | null>(null);
+  let generating = $state(false);
+
+  async function handleRequest() {
+    generating = true;
+    error = null;
+    try {
+      await downloadCartPdf(cartState.items, companyState.company);
+    } catch (err) {
+      console.error("PDF generation failed", err);
+      error = "Impossible de générer le PDF";
+    } finally {
+      generating = false;
+    }
+  }
 
   // Récupère les ajouts des collègues ; au premier chargement, le layout s'en occupe
   onMount(() => {
@@ -113,6 +128,13 @@
             </li>
           {/each}
         </ul>
+        <button
+          onclick={handleRequest}
+          disabled={generating}
+          class="cart-request self-end rounded-md px-6 py-2.5"
+        >
+          {generating ? "Génération…" : "Demander"}
+        </button>
       {/if}
     </div>
   </div>
