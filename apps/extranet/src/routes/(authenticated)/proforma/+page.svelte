@@ -28,13 +28,31 @@
     }
   });
 
+  let sortOrder = $state<"default" | "asc" | "desc">("default");
+
+  // Nom affiché sur la carte, utilisé pour le tri
+  const articleName = (article: StrapiArticle) =>
+    String(article.designation ?? article.reference ?? article.id);
+
+  // Insensible aux accents et majuscules, "Produit 2" avant "Produit 10"
+  const collator = new Intl.Collator("fr", {
+    sensitivity: "base",
+    numeric: true,
+  });
+
   let filteredArticles = $derived.by(() => {
     const term = searchTerm.trim().toLowerCase();
-    if (!term) return articles;
-    return articles.filter((article) =>
-      [article.designation, article.reference, article.codebarre]
-        .filter(Boolean)
-        .some((field) => String(field).toLowerCase().includes(term)),
+    const filtered = !term
+      ? articles
+      : articles.filter((article) =>
+          [article.designation, article.reference, article.codebarre]
+            .filter(Boolean)
+            .some((field) => String(field).toLowerCase().includes(term)),
+        );
+    if (sortOrder === "default") return filtered;
+    const direction = sortOrder === "asc" ? 1 : -1;
+    return [...filtered].sort(
+      (a, b) => direction * collator.compare(articleName(a), articleName(b)),
     );
   });
 </script>
@@ -73,9 +91,14 @@
           {:else if cartError}
             <p class="text-red-600">{cartError}</p>
           {/if}
-          <div class="proforma-order">
-            <p>Ordre</p>
-          </div>
+          <label class="proforma-order flex items-center gap-1.5">
+            Ordre
+            <select bind:value={sortOrder} class="proforma-order-select">
+              <option value="default">Par défaut</option>
+              <option value="asc">A → Z</option>
+              <option value="desc">Z → A</option>
+            </select>
+          </label>
         </div>
         <div
           class="proforma-body-table flex-1 flex flex-col justify-start items-start w-full"
