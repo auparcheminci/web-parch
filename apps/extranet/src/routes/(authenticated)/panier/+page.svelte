@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import "./panier.scss";
   import NotificationBar from "$lib/components/NotificationBar.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
@@ -6,9 +7,29 @@
     cartCount,
     cartState,
     clearCart,
+    loadCart,
     removeFromCart,
     setQuantity,
   } from "$lib/cart.svelte";
+  import { companyState } from "$lib/company.svelte";
+
+  let error = $state<string | null>(null);
+
+  // Récupère les ajouts des collègues ; au premier chargement, le layout s'en occupe
+  onMount(() => {
+    if (companyState.loaded) loadCart();
+  });
+
+  async function run(action: () => Promise<void>) {
+    error = null;
+    try {
+      await action();
+    } catch (err) {
+      error = err instanceof Error ? err.message : String(err);
+      // Réaffiche l'état réel du panier après un échec
+      loadCart();
+    }
+  }
 </script>
 
 <NotificationBar />
@@ -21,11 +42,29 @@
       <div class="flex justify-between items-center">
         <h1>Mon panier ({cartCount()})</h1>
         {#if cartState.items.length > 0}
-          <button onclick={clearCart} class="cart-clear">Vider le panier</button>
+          <button
+            onclick={() => {
+              if (confirm("Vider le panier de toute la société ?")) run(clearCart);
+            }}
+            class="cart-clear">Vider le panier</button
+          >
         {/if}
       </div>
 
-      {#if cartState.items.length === 0}
+      {#if error}
+        <p class="text-red-600">{error}</p>
+      {/if}
+
+      {#if companyState.loaded && !companyState.company}
+        <p>
+          <a href="/societe" class="cart-link">Créez votre société</a> pour utiliser
+          le panier.
+        </p>
+      {:else if !cartState.loaded}
+        <p>Chargement du panier…</p>
+      {:else if cartState.loadError}
+        <p class="text-red-600">{cartState.loadError}</p>
+      {:else if cartState.items.length === 0}
         <p>
           Votre panier est vide. <a href="/proforma" class="cart-link"
             >Parcourir les produits</a
@@ -33,10 +72,10 @@
         </p>
       {:else}
         <ul class="flex flex-col gap-2.5">
-          {#each cartState.items as item (item.key)}
+          {#each cartState.items as item (item.id)}
             <li class="cart-item flex items-center gap-4 p-2.5 rounded-md">
               <a
-                href={`/proforma/${item.key}`}
+                href={`/proforma/${item.articleKey}`}
                 class="cart-item-image size-16 shrink-0 overflow-hidden rounded-md"
               >
                 {#if item.coverUrl}
@@ -48,7 +87,7 @@
                 {/if}
               </a>
               <a
-                href={`/proforma/${item.key}`}
+                href={`/proforma/${item.articleKey}`}
                 class="cart-item-info flex flex-col flex-1 min-w-0"
               >
                 <h3>{item.designation}</h3>
@@ -58,13 +97,15 @@
                 type="number"
                 min="1"
                 value={item.quantity}
-                onchange={(e) =>
-                  setQuantity(item.key, e.currentTarget.valueAsNumber || 0)}
+                onchange={(e) => {
+                  const quantity = e.currentTarget.valueAsNumber || 0;
+                  run(() => setQuantity(item.id, quantity));
+                }}
                 aria-label="Quantité"
                 class="cart-item-quantity w-20"
               />
               <button
-                onclick={() => removeFromCart(item.key)}
+                onclick={() => run(() => removeFromCart(item.id))}
                 class="cart-item-remove"
               >
                 Retirer

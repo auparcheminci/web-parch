@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation";
   import { signOut } from "aws-amplify/auth";
   import { companyState, resetCompany } from "$lib/company.svelte";
-  import { cartCount, clearCart } from "$lib/cart.svelte";
+  import { cartCount, resetCart } from "$lib/cart.svelte";
 
   async function handleSignOut() {
     try {
@@ -11,7 +11,7 @@
       console.error("Sign out failed", err);
     }
     resetCompany();
-    clearCart();
+    resetCart();
     goto("/");
   }
 </script>

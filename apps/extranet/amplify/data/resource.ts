@@ -29,6 +29,24 @@ const schema = a
         allow.ownersDefinedIn('members').to(['read']),
       ]),
 
+    // Une ligne par article dans le panier d'une société, partagée entre ses membres
+    CartItem: a
+      .model({
+        companyId: a.id().required(),
+        // Créateur et membres de la société ("sub::username"), pour les droits d'accès.
+        // Tenu à jour par addCompanyMember quand un membre est ajouté
+        members: a.string().array(),
+        // Identifiant de l'article dans Strapi (slug, sinon documentId/id)
+        articleKey: a.string().required(),
+        // Copie des infos de l'article au moment de l'ajout, pour l'affichage
+        designation: a.string().required(),
+        reference: a.string(),
+        coverUrl: a.string(),
+        quantity: a.integer().required(),
+      })
+      .secondaryIndexes((index) => [index('companyId')])
+      .authorization((allow) => [allow.ownersDefinedIn('members')]),
+
     addCompanyMember: a
       .mutation()
       .arguments({
@@ -39,7 +57,7 @@ const schema = a
       .authorization((allow) => [allow.authenticated()])
       .handler(a.handler.function(addCompanyMember)),
   })
-  // Permet à la fonction de lire et modifier les sociétés
+  // Permet à la fonction de lire et modifier les sociétés et leurs paniers
   .authorization((allow) => [allow.resource(addCompanyMember)]);
 
 export type Schema = ClientSchema<typeof schema>;

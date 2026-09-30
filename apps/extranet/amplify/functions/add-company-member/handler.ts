@@ -66,5 +66,24 @@ export const handler: Schema['addCompanyMember']['functionHandler'] = async (eve
     memberEmails: [...memberEmails, email],
   });
   if (errors?.length) throw new Error(errors[0].message);
+
+  // Donne au nouveau membre l'accès au panier existant de la société
+  let nextToken: string | null | undefined;
+  do {
+    const page = await client.models.CartItem.listCartItemByCompanyId(
+      { companyId: company.id },
+      { nextToken },
+    );
+    await Promise.all(
+      page.data.map((item) =>
+        client.models.CartItem.update({
+          id: item.id,
+          members: [...(item.members ?? []).filter((m): m is string => !!m), memberId],
+        }),
+      ),
+    );
+    nextToken = page.nextToken;
+  } while (nextToken);
+
   return data;
 };

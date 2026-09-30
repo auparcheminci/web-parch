@@ -1,7 +1,7 @@
-import { generateClient } from 'aws-amplify/data';
 import { fetchUserAttributes, getCurrentUser } from 'aws-amplify/auth';
 import { getUrl, remove, uploadData } from 'aws-amplify/storage';
 import type { Schema } from '../../amplify/data/resource';
+import { client } from '$lib/dataClient';
 
 export type Company = Schema['Company']['type'];
 
@@ -11,10 +11,6 @@ export type CompanyFields = {
   ownerName: string;
   logoFile?: File | null;
 };
-
-// Créé au premier appel : l'import de ce module peut précéder Amplify.configure
-let dataClient: ReturnType<typeof generateClient<Schema>> | undefined;
-const client = () => (dataClient ??= generateClient<Schema>());
 
 // Société de l'utilisateur connecté, partagée entre la sidebar et la page société
 export const companyState = $state<{
