@@ -9,6 +9,7 @@
     type StrapiArticle,
   } from "$lib/api/strapi";
   import CartStepper from "$lib/components/CartStepper.svelte";
+  import SearchHeader from "$lib/components/SearchHeader.svelte";
   import { companyState } from "$lib/company.svelte";
 
   let articles = $state<StrapiArticle[]>([]);
@@ -66,16 +67,10 @@
     <div
       class="proforma-container flex flex-col justify-between items-start gap-2 w-full h-full"
     >
-      <div
-        class="proforma-header flex-1 shrink-0 min-h-16 flex flex-col justify-center items-start w-full px-4"
-      >
-        <input
-          type="search"
-          bind:value={searchTerm}
-          placeholder="Rechercher un article (désignation, référence, code-barres)"
-          class="proforma-search w-full max-w-md"
-        />
-      </div>
+      <SearchHeader
+        bind:value={searchTerm}
+        placeholder="Rechercher un article (désignation, référence, code-barres)"
+      />
       <div
         class="proforma-body flex-6 min-h-0 overflow-y-auto gap-1.5 flex flex-col justify-start items-start w-full"
       >
