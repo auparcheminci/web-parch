@@ -4,6 +4,7 @@ import { generateClient } from 'aws-amplify/data';
 import { getAmplifyDataClientConfig } from '@aws-amplify/backend/function/runtime';
 import { env } from '$amplify/env/answer-join-request';
 import { addMemberToCompany } from '../shared/companyMembers';
+import { isSameUser } from '../shared/identity';
 
 const { resourceConfig, libraryOptions } = await getAmplifyDataClientConfig(env);
 Amplify.configure(resourceConfig, libraryOptions);
@@ -12,8 +13,8 @@ const client = generateClient<Schema>();
 
 // Accepte (ajoute le demandeur aux membres) ou refuse une demande d'adhésion
 export const handler: Schema['answerJoinRequest']['functionHandler'] = async (event) => {
-  const callerSub = (event.identity as { sub?: string } | null)?.sub;
-  if (!callerSub) throw new Error('Non authentifié');
+  const caller = (event.identity ?? {}) as { sub?: string; username?: string };
+  if (!caller.sub) throw new Error('Non authentifié');
 
   const { data: request } = await client.models.CompanyJoinRequest.get({
     id: event.arguments.requestId,
@@ -23,7 +24,7 @@ export const handler: Schema['answerJoinRequest']['functionHandler'] = async (ev
   const { data: company } = await client.models.Company.get({ id: request.companyId });
   if (!company) throw new Error('Société introuvable');
   // Seul le créateur de la société peut répondre aux demandes
-  if (!company.owner?.startsWith(`${callerSub}::`)) throw new Error('Non autorisé');
+  if (!isSameUser(company.owner, caller)) throw new Error('Non autorisé');
 
   const result =
     event.arguments.accept && request.requester

@@ -34,29 +34,29 @@
       });
   });
 
-  // Demandes d'adhésion : reçues par la société (créateur) ou envoyées par
-  // l'utilisateur quand il n'a pas encore de société
+  // Demandes d'adhésion reçues par la société (visibles par son créateur)
   let joinRequests = $state<CompanyJoinRequest[]>([]);
+  let joinRequestsError = $state("");
   let incomingRequests = $derived(
     joinRequests.filter((r) => r.companyId === companyState.company?.id),
   );
-  let pendingRequest = $derived(
-    companyState.company ? undefined : joinRequests[0],
-  );
 
   async function refreshJoinRequests() {
+    joinRequestsError = "";
     try {
       joinRequests = await listJoinRequests();
     } catch (err) {
       console.error("Join requests load failed", err);
+      joinRequestsError = `Impossible de charger les demandes d'adhésion : ${
+        err instanceof Error ? err.message : String(err)
+      }`;
     }
   }
 
-  // Recharge quand la société est chargée ou change
+  // Recharge quand la société est chargée ou change. Le serveur ne renvoie que les
+  // demandes adressées au créateur : pas besoin de vérifier isOwner ici
   $effect(() => {
-    const loaded = companyState.loaded;
-    void companyState.company?.id;
-    if (loaded) refreshJoinRequests();
+    if (companyState.company?.id) refreshJoinRequests();
   });
 
   function handleAnswer(request: CompanyJoinRequest, accept: boolean) {
@@ -67,10 +67,7 @@
   }
 
   function handleCancelRequest(request: CompanyJoinRequest) {
-    run(async () => {
-      await cancelJoinRequest(request.id);
-      await refreshJoinRequests();
-    }, "Demande annulée");
+    run(() => cancelJoinRequest(request.id), "Demande annulée");
   }
 
   async function downloadRequest(request: CartRequest) {
@@ -169,23 +166,25 @@
         <p>Chargement…</p>
       {:else if companyState.loadError}
         <p class="text-red-600">{companyState.loadError}</p>
+      {:else if !companyState.company && companyState.pendingRequest}
+        {@const pendingRequest = companyState.pendingRequest}
+        <h1>Votre demande est en cours</h1>
+        <div class="flex flex-col gap-2.5 rounded-md bg-gray-100 p-4 max-w-md">
+          <p>
+            Votre demande pour rejoindre
+            <strong>{pendingRequest.companyName}</strong> est en attente de
+            validation par son responsable. Vous aurez accès à la société dès
+            qu'elle sera acceptée.
+          </p>
+          <button
+            class="rounded-md border px-3 py-2 self-start"
+            disabled={busy}
+            onclick={() => handleCancelRequest(pendingRequest)}
+          >
+            Annuler la demande
+          </button>
+        </div>
       {:else if !companyState.company || editing}
-        {#if pendingRequest}
-          <div class="flex flex-col gap-2.5 rounded-md bg-gray-100 p-4 max-w-md">
-            <p>
-              Votre demande pour rejoindre
-              <strong>{pendingRequest.companyName}</strong> est en attente de
-              validation par son responsable.
-            </p>
-            <button
-              class="rounded-md border px-3 py-2 self-start"
-              disabled={busy}
-              onclick={() => handleCancelRequest(pendingRequest)}
-            >
-              Annuler la demande
-            </button>
-          </div>
-        {/if}
         <h1>{companyState.company ? "Modifier ma société" : "Créer ma société"}</h1>
         <form class="flex flex-col gap-2.5 max-w-md" onsubmit={handleSave}>
           <label for="company-name">Nom</label>
@@ -265,7 +264,10 @@
           </button>
         {/if}
 
-        {#if companyState.isOwner && incomingRequests.length > 0}
+        {#if joinRequestsError}
+          <p class="text-red-600">{joinRequestsError}</p>
+        {/if}
+        {#if incomingRequests.length > 0}
           <section class="flex flex-col gap-2.5">
             <h2>Demandes d'adhésion ({incomingRequests.length})</h2>
             <ul class="flex flex-col gap-1.5">

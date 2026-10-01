@@ -2,6 +2,7 @@ import { fetchUserAttributes, getCurrentUser } from 'aws-amplify/auth';
 import { getUrl, remove, uploadData } from 'aws-amplify/storage';
 import type { Schema } from '../../amplify/data/resource';
 import { client } from '$lib/dataClient';
+import { isSameUser } from '../../amplify/functions/shared/identity';
 
 export type Company = Schema['Company']['type'];
 
@@ -17,9 +18,18 @@ export const companyState = $state<{
   company: Company | null;
   logoUrl: string | null;
   isOwner: boolean;
+  // Demande d'adhésion envoyée à l'inscription, tant que l'utilisateur n'a pas de société
+  pendingRequest: CompanyJoinRequest | null;
   loaded: boolean;
   loadError: string | null;
-}>({ company: null, logoUrl: null, isOwner: false, loaded: false, loadError: null });
+}>({
+  company: null,
+  logoUrl: null,
+  isOwner: false,
+  pendingRequest: null,
+  loaded: false,
+  loadError: null,
+});
 
 async function setCompany(company: Company | null) {
   companyState.company = company;
@@ -33,7 +43,7 @@ export async function loadCompany() {
   try {
     // Absent si le backend déployé ne contient pas encore le modèle Company
     if (!client().models.Company) throw new Error('Le modèle Company n\'est pas déployé');
-    const [{ userId }, { data, errors }] = await Promise.all([
+    const [{ userId, username }, { data, errors }] = await Promise.all([
       getCurrentUser(),
       // Ne renvoie que les sociétés dont l'utilisateur est créateur ou membre
       client().models.Company.list(),
@@ -41,7 +51,9 @@ export async function loadCompany() {
     if (errors?.length) throw new Error(errors[0].message);
     const company = data[0] ?? null;
     await setCompany(company);
-    companyState.isOwner = !!company?.owner?.startsWith(`${userId}::`);
+    const me = { sub: userId, username };
+    companyState.isOwner = isSameUser(company?.owner, me);
+    companyState.pendingRequest = company ? null : await loadPendingRequest(me);
   } catch (err) {
     console.error('Company load failed', err);
     companyState.loadError = 'Impossible de charger votre société';
@@ -49,10 +61,22 @@ export async function loadCompany() {
   companyState.loaded = true;
 }
 
+// Demande envoyée par l'utilisateur lui-même (pas celles reçues par sa société)
+async function loadPendingRequest(me: { sub: string; username: string }) {
+  try {
+    const requests = await listJoinRequests();
+    return requests.find((r) => isSameUser(r.requester, me)) ?? null;
+  } catch (err) {
+    console.error('Pending join request load failed', err);
+    return null;
+  }
+}
+
 export function resetCompany() {
   companyState.company = null;
   companyState.logoUrl = null;
   companyState.isOwner = false;
+  companyState.pendingRequest = null;
   companyState.loaded = false;
   companyState.loadError = null;
 }
@@ -144,4 +168,5 @@ export async function answerJoinRequest(requestId: string, accept: boolean) {
 export async function cancelJoinRequest(requestId: string) {
   const { errors } = await client().models.CompanyJoinRequest.delete({ id: requestId });
   if (errors?.length) throw new Error(errors[0].message);
+  companyState.pendingRequest = null;
 }

@@ -10,6 +10,7 @@ import {
   type UserType,
 } from '@aws-sdk/client-cognito-identity-provider';
 import { addMemberToCompany } from '../shared/companyMembers';
+import { isSameUser } from '../shared/identity';
 
 const { resourceConfig, libraryOptions } = await getAmplifyDataClientConfig(env);
 Amplify.configure(resourceConfig, libraryOptions);
@@ -21,13 +22,13 @@ const userPoolId = process.env.USER_POOL_ID;
 
 export const handler: Schema['addCompanyMember']['functionHandler'] = async (event) => {
   const email = event.arguments.email.trim().toLowerCase();
-  const callerSub = (event.identity as { sub?: string } | null)?.sub;
-  if (!callerSub) throw new Error('Non authentifié');
+  const caller = (event.identity ?? {}) as { sub?: string; username?: string };
+  if (!caller.sub) throw new Error('Non authentifié');
 
   const { data: company } = await client.models.Company.get({ id: event.arguments.companyId });
   if (!company) throw new Error('Société introuvable');
   // Seul le créateur de la société peut ajouter des membres
-  if (!company.owner?.startsWith(`${callerSub}::`)) throw new Error('Non autorisé');
+  if (!isSameUser(company.owner, caller)) throw new Error('Non autorisé');
 
   // Cherche l'utilisateur par email, ou le crée (Cognito lui envoie un email d'invitation)
   const found = await cognito.send(

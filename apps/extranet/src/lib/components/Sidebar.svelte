@@ -36,7 +36,11 @@
           {companyState.company?.name ?? "Nom de la société"}
         </h1>
         <a href="/societe">
-          {companyState.company ? "Gérer ma société" : "Créer ma société"}
+          {companyState.company
+            ? "Gérer ma société"
+            : companyState.pendingRequest
+              ? "Demande en cours"
+              : "Créer ma société"}
         </a>
       </div>
     </div>
