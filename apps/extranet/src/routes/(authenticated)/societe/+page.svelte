@@ -3,6 +3,7 @@
   import { fetchUserAttributes } from "aws-amplify/auth";
   import NotificationBar from "$lib/components/NotificationBar.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
+  import SalesPointsSection from "$lib/components/SalesPointsSection.svelte";
   import {
     addMember,
     answerJoinRequest,
@@ -12,6 +13,7 @@
     listJoinRequests,
     updateCompany,
     type CompanyJoinRequest,
+    type SalesPointFields,
   } from "$lib/company.svelte";
   import {
     getCartRequestUrl,
@@ -131,6 +133,12 @@
     busy = false;
   }
 
+  // Points de vente saisis à la création de la société ; ensuite, ils se gèrent
+  // dans la section « Points de vente »
+  let newSalesPoints = $state<SalesPointFields[]>([
+    { name: "", address: "", manager: "" },
+  ]);
+
   function handleSave(event: SubmitEvent) {
     event.preventDefault();
     const fields = {
@@ -140,8 +148,13 @@
       logoFile,
     };
     const isNew = !companyState.company;
+    const points = newSalesPoints.map((point) => ({
+      name: point.name.trim(),
+      address: point.address.trim(),
+      manager: point.manager.trim(),
+    }));
     run(async () => {
-      await (isNew ? createCompany(fields) : updateCompany(fields));
+      await (isNew ? createCompany(fields, points) : updateCompany(fields));
       editing = false;
     }, isNew ? "Société créée" : "Société mise à jour");
   }
@@ -226,6 +239,53 @@
             onchange={handleLogoChange}
           />
 
+          {#if !companyState.company}
+            <fieldset class="flex flex-col gap-2.5 mt-2.5">
+              <legend class="font-bold">Points de vente</legend>
+              {#each newSalesPoints as point, index}
+                <div class="flex flex-col gap-1.5 rounded-md border p-2.5">
+                  <label for="new-point-name-{index}">Nom</label>
+                  <input
+                    id="new-point-name-{index}"
+                    class="rounded-md border px-3 py-2"
+                    bind:value={point.name}
+                    required
+                  />
+                  <label for="new-point-address-{index}">Adresse</label>
+                  <textarea
+                    id="new-point-address-{index}"
+                    class="rounded-md border px-3 py-2"
+                    rows="2"
+                    bind:value={point.address}
+                    required
+                  ></textarea>
+                  <label for="new-point-manager-{index}">Responsable</label>
+                  <input
+                    id="new-point-manager-{index}"
+                    class="rounded-md border px-3 py-2"
+                    bind:value={point.manager}
+                    required
+                  />
+                  <button
+                    type="button"
+                    class="self-start underline"
+                    onclick={() => newSalesPoints.splice(index, 1)}
+                  >
+                    Retirer ce point de vente
+                  </button>
+                </div>
+              {/each}
+              <button
+                type="button"
+                class="rounded-md border px-3 py-2 self-start"
+                onclick={() =>
+                  newSalesPoints.push({ name: "", address: "", manager: "" })}
+              >
+                Ajouter un point de vente
+              </button>
+            </fieldset>
+          {/if}
+
           <div class="flex gap-2.5">
             <button class="rounded-md border px-3 py-2" disabled={busy}>
               {companyState.company ? "Enregistrer" : "Créer"}
@@ -268,6 +328,8 @@
             membres.
           </p>
         {/if}
+
+        <SalesPointsSection />
 
         <!-- Demandes d'adhésion : section réservée à l'administrateur, invisible pour les membres -->
         {#if companyState.isOwner}
@@ -334,6 +396,8 @@
                       timeStyle: "short",
                     })} — {request.itemCount} article{request.itemCount > 1
                       ? "s"
+                      : ""}{request.salesPoint
+                      ? ` — ${request.salesPoint.name}`
                       : ""}
                   </span>
                   <button

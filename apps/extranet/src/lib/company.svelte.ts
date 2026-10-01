@@ -90,13 +90,18 @@ async function uploadLogo(file: File) {
   return path;
 }
 
-export async function createCompany({ logoFile, ...fields }: CompanyFields) {
+// Points de vente saisis dans le formulaire de création, enregistrés avec la société
+export async function createCompany(
+  { logoFile, ...fields }: CompanyFields,
+  initialSalesPoints: SalesPointFields[] = [],
+) {
   const { email } = await fetchUserAttributes();
   const logo = logoFile ? await uploadLogo(logoFile) : null;
   const { data, errors } = await client().models.Company.create({
     ...fields,
     logo,
     memberEmails: email ? [email] : [],
+    salesPoints: initialSalesPoints.map((point) => ({ id: crypto.randomUUID(), ...point })),
   });
   if (errors?.length) throw new Error(errors[0].message);
   await setCompany(data);
@@ -169,4 +174,39 @@ export async function cancelJoinRequest(requestId: string) {
   const { errors } = await client().models.CompanyJoinRequest.delete({ id: requestId });
   if (errors?.length) throw new Error(errors[0].message);
   companyState.pendingRequest = null;
+}
+
+export type SalesPoint = Schema['SalesPoint']['type'];
+export type SalesPointFields = Omit<SalesPoint, 'id'>;
+
+// Points de vente de la société chargée (liste vide si aucun)
+export function salesPoints(company: Company | null = companyState.company): SalesPoint[] {
+  return (company?.salesPoints ?? []).filter((point): point is SalesPoint => !!point);
+}
+
+// Remplace la liste des points de vente (réservé au créateur par les règles d'accès)
+async function saveSalesPoints(points: SalesPoint[]) {
+  const current = companyState.company;
+  if (!current) return;
+  const { data, errors } = await client().models.Company.update({
+    id: current.id,
+    // Uniquement les champs du type : un champ en trop ferait refuser la requête
+    salesPoints: points.map(({ id, name, address, manager }) => ({ id, name, address, manager })),
+  });
+  if (errors?.length) throw new Error(errors[0].message);
+  await setCompany(data);
+}
+
+export function addSalesPoint(fields: SalesPointFields) {
+  return saveSalesPoints([...salesPoints(), { id: crypto.randomUUID(), ...fields }]);
+}
+
+export function updateSalesPoint(id: string, fields: SalesPointFields) {
+  return saveSalesPoints(
+    salesPoints().map((point) => (point.id === id ? { id, ...fields } : point)),
+  );
+}
+
+export function removeSalesPoint(id: string) {
+  return saveSalesPoints(salesPoints().filter((point) => point.id !== id));
 }

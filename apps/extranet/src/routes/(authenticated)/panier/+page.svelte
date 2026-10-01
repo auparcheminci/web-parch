@@ -11,19 +11,28 @@
     removeFromCart,
     setQuantity,
   } from "$lib/cart.svelte";
-  import { companyState } from "$lib/company.svelte";
+  import { companyState, salesPoints } from "$lib/company.svelte";
   import { submitCartRequest } from "$lib/cartRequests";
 
   let error = $state<string | null>(null);
   let sending = $state(false);
   let sent = $state(false);
 
+  // Point de vente de la proforma : choisi automatiquement s'il n'y en a qu'un
+  let points = $derived(salesPoints(companyState.company));
+  let chosenPointId = $state("");
+  let salesPoint = $derived(
+    points.length === 1
+      ? points[0]
+      : points.find((point) => point.id === chosenPointId),
+  );
+
   async function handleRequest() {
     sending = true;
     sent = false;
     error = null;
     try {
-      await submitCartRequest();
+      await submitCartRequest(salesPoint);
       sent = true;
     } catch (err) {
       console.error("Cart request failed", err);
@@ -139,13 +148,39 @@
             </li>
           {/each}
         </ul>
-        <button
-          onclick={handleRequest}
-          disabled={sending}
-          class="cart-request self-end rounded-md px-6 py-2.5"
-        >
-          {sending ? "Envoi…" : "Demander"}
-        </button>
+
+        <div class="cart-sales-point flex flex-col gap-1.5 self-end items-end">
+          {#if points.length === 0}
+            <p>
+              Aucun point de vente n'est enregistré pour votre société.
+              {#if companyState.isOwner}
+                <a href="/societe" class="cart-link">Ajoutez-en un</a> pour
+                demander une proforma.
+              {:else}
+                Demandez à l'administrateur de votre société d'en ajouter un.
+              {/if}
+            </p>
+          {:else if points.length === 1}
+            <p>Point de vente : <strong>{points[0].name}</strong></p>
+          {:else}
+            <label class="flex items-center gap-2.5">
+              Point de vente
+              <select bind:value={chosenPointId} class="cart-sales-point-select">
+                <option value="" disabled>Choisissez un point de vente</option>
+                {#each points as point (point.id)}
+                  <option value={point.id}>{point.name}</option>
+                {/each}
+              </select>
+            </label>
+          {/if}
+          <button
+            onclick={handleRequest}
+            disabled={sending || !salesPoint}
+            class="cart-request rounded-md px-6 py-2.5"
+          >
+            {sending ? "Envoi…" : "Demander"}
+          </button>
+        </div>
       {/if}
     </div>
   </div>

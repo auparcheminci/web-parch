@@ -25,6 +25,8 @@ const schema = a
         members: a.string().array(),
         // Emails des membres, pour l'affichage uniquement
         memberEmails: a.string().array(),
+        // Points de vente : modifiables par le créateur seul, comme le reste de la société
+        salesPoints: a.ref('SalesPoint').array(),
       })
       .authorization((allow) => [
         // Le créateur a tous les droits sur sa société
@@ -32,6 +34,14 @@ const schema = a
         // Les membres peuvent seulement la consulter
         allow.ownersDefinedIn('members').to(['read']),
       ]),
+
+    SalesPoint: a.customType({
+      // Généré à la création, pour choisir le point de vente d'une proforma
+      id: a.id().required(),
+      name: a.string().required(),
+      address: a.string().required(),
+      manager: a.string().required(),
+    }),
 
     // Une ligne par article dans le panier d'une société, partagée entre ses membres
     CartItem: a
@@ -68,6 +78,8 @@ const schema = a
         pdfPath: a.string().required(),
         fileName: a.string().required(),
         itemCount: a.integer().required(),
+        // Copie du point de vente choisi : la proforma reste juste s'il change ensuite
+        salesPoint: a.ref('SalesPoint'),
       })
       .secondaryIndexes((index) => [index('companyId')])
       .authorization((allow) => [allow.ownersDefinedIn('members')]),

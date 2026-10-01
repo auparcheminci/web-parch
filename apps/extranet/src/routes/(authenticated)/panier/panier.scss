@@ -46,6 +46,13 @@
   }
 }
 
+.cart-sales-point-select {
+  background-color: map.get($grey-scale, "200");
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+}
+
 .cart-item-quantity {
   background-color: $font-color-white;
   border: none;

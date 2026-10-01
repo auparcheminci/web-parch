@@ -2,20 +2,24 @@ import { getUrl, uploadData } from 'aws-amplify/storage';
 import type { Schema } from '../../amplify/data/resource';
 import { cartCount, cartMembers, cartState, clearCart } from '$lib/cart.svelte';
 import { buildCartPdf } from '$lib/cartPdf';
-import { companyState } from '$lib/company.svelte';
+import { companyState, type SalesPoint } from '$lib/company.svelte';
 import { client } from '$lib/dataClient';
 
 export type CartRequest = Schema['CartRequest']['type'];
 
-// Envoie le panier à la société sous forme de PDF, puis le vide
-export async function submitCartRequest() {
+// Envoie le panier à la société sous forme de PDF, pour le point de vente choisi, puis le vide
+export async function submitCartRequest(salesPoint: SalesPoint | undefined) {
   const company = companyState.company;
   if (!company) throw new Error('Créez votre société pour utiliser le panier');
   if (!client().models.CartRequest) throw new Error('Les proformas ne sont pas encore disponibles');
   if (cartState.items.length === 0) throw new Error('Le panier est vide');
+  if (!salesPoint) throw new Error('Choisissez un point de vente');
+  // Copie des seuls champs du point de vente, figée dans la proforma
+  const { id, name, address, manager } = salesPoint;
+  const point = { id, name, address, manager };
 
   const date = new Date();
-  const pdf = await buildCartPdf(cartState.items, company, date);
+  const pdf = await buildCartPdf(cartState.items, company, point, date);
   const fileName = `proforma-${date.toISOString().slice(0, 10)}.pdf`;
 
   // Nom aléatoire : seul l'enregistrement CartRequest permet de retrouver le fichier
@@ -31,6 +35,7 @@ export async function submitCartRequest() {
     pdfPath: path,
     fileName,
     itemCount: cartCount(),
+    salesPoint: point,
   });
   if (errors?.length) throw new Error(errors[0].message);
 
