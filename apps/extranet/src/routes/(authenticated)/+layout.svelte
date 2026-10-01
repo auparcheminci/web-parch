@@ -5,6 +5,7 @@
   import { loadCompany } from "$lib/company.svelte";
   import { loadCart } from "$lib/cart.svelte";
   import { loadFavorites } from "$lib/favorites.svelte";
+  import { loadUser } from "$lib/user.svelte";
 
   let { children } = $props();
   let checkingAuth = $state(true);
@@ -20,6 +21,7 @@
     // Le panier dépend de la société de l'utilisateur
     loadCompany().then(loadCart);
     loadFavorites();
+    loadUser();
   });
 </script>
 

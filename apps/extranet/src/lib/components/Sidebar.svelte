@@ -3,6 +3,7 @@
   import { companyState, resetCompany } from "$lib/company.svelte";
   import { cartCount, resetCart } from "$lib/cart.svelte";
   import { resetFavorites } from "$lib/favorites.svelte";
+  import { userState } from "$lib/user.svelte";
 
   async function handleSignOut() {
     try {
@@ -310,10 +311,7 @@
               />
             </g>
           </svg>
-          <p>
-            Inès Zarka
-            <!-- {user?.signInDetails?.loginId} -->
-          </p>
+          <p class="truncate">{userState.name}</p>
         </div>
         <a href="/profil" class="ml-5">
           Gérer mon profil
