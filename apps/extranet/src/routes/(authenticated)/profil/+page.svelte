@@ -72,10 +72,8 @@
           <span class="toggle-slider"></span>
         </label>
       </div>
-      <!-- Désactiver ne retire pas de Brevo : un contact existant n'y est jamais modifié -->
       <p class="text-sm">
-        Pour vous désinscrire de la newsletter, utilisez le lien de
-        désinscription présent en bas de nos emails.
+        Désactivé, vous ne recevrez plus aucun de nos emails marketing.
       </p>
       {#if newsletterError}
         <p class="text-red-600">{newsletterError}</p>

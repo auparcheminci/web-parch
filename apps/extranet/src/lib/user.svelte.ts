@@ -15,7 +15,7 @@ export async function loadUser() {
   }
 }
 
-// Interrupteur newsletter : Cognito, et ajout à la liste Brevo si l'email y est inconnu
+// Interrupteur newsletter : ON abonne, OFF désabonne (Brevo + Cognito)
 export async function setNewsletter(subscribed: boolean) {
   if (!client().mutations.setNewsletter) throw new Error("La newsletter n'est pas encore disponible");
   const { errors } = await client().mutations.setNewsletter({ subscribed });
