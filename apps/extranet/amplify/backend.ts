@@ -6,6 +6,7 @@ import { storage } from './storage/resource';
 import { addCompanyMember } from './functions/add-company-member/resource';
 import { answerJoinRequest } from './functions/answer-join-request/resource';
 import { postConfirmation } from './functions/post-confirmation/resource';
+import { resendCartRequest } from './functions/resend-cart-request/resource';
 import { searchCompanies } from './functions/search-companies/resource';
 import { updateNewsletter } from './functions/update-newsletter/resource';
 
@@ -19,6 +20,7 @@ const backend = defineBackend({
   addCompanyMember,
   answerJoinRequest,
   postConfirmation,
+  resendCartRequest,
   searchCompanies,
   updateNewsletter,
 });

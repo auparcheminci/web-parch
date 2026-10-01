@@ -2,6 +2,7 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { addCompanyMember } from '../functions/add-company-member/resource';
 import { answerJoinRequest } from '../functions/answer-join-request/resource';
 import { postConfirmation } from '../functions/post-confirmation/resource';
+import { resendCartRequest } from '../functions/resend-cart-request/resource';
 import { searchCompanies } from '../functions/search-companies/resource';
 import { updateNewsletter } from '../functions/update-newsletter/resource';
 
@@ -85,6 +86,9 @@ const schema = a
         itemCount: a.integer().required(),
         // Copie du point de vente choisi : la proforma reste juste s'il change ensuite
         salesPoint: a.ref('SalesPoint'),
+        // Bouton « Redemander » : nombre total de demandes (1 à la création) et dernière
+        requestCount: a.integer(),
+        lastRequestedAt: a.datetime(),
       })
       .secondaryIndexes((index) => [index('companyId')])
       .authorization((allow) => [allow.ownersDefinedIn('members')]),
@@ -144,6 +148,14 @@ const schema = a
       .authorization((allow) => [allow.authenticated()])
       .handler(a.handler.function(answerJoinRequest)),
 
+    // Bouton « Redemander » d'une proforma : la renvoie à son destinataire final
+    resendCartRequest: a
+      .mutation()
+      .arguments({ requestId: a.id().required() })
+      .returns(a.ref('CartRequest'))
+      .authorization((allow) => [allow.authenticated()])
+      .handler(a.handler.function(resendCartRequest)),
+
     // Inscription / désinscription à la newsletter Brevo depuis le profil
     setNewsletter: a
       .mutation()
@@ -170,6 +182,7 @@ const schema = a
     allow.resource(addCompanyMember),
     allow.resource(answerJoinRequest),
     allow.resource(postConfirmation),
+    allow.resource(resendCartRequest),
     allow.resource(searchCompanies).to(['query']),
   ]);
 

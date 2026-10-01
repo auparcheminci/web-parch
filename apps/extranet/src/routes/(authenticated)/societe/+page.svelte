@@ -18,6 +18,7 @@
   import {
     getCartRequestUrl,
     listCartRequests,
+    resendCartRequest,
     type CartRequest,
   } from "$lib/cartRequests";
 
@@ -72,14 +73,40 @@
     run(() => cancelJoinRequest(request.id), "Demande annulée");
   }
 
+  // Erreur d'une action sur une proforma : affichée au-dessus de la liste, sans la masquer
+  let proformaActionError = $state("");
+  let proformaMessage = $state("");
+  // Id de la proforma en cours de « Redemander »
+  let resendingId = $state<string | null>(null);
+
   async function downloadRequest(request: CartRequest) {
+    proformaActionError = "";
     try {
       window.location.href = await getCartRequestUrl(request);
     } catch (err) {
       console.error("Request download failed", err);
-      requestsError = "Impossible de télécharger la proforma";
+      proformaActionError = "Impossible de télécharger la proforma";
     }
   }
+
+  async function resendRequest(request: CartRequest) {
+    resendingId = request.id;
+    proformaActionError = "";
+    proformaMessage = "";
+    try {
+      const updated = await resendCartRequest(request.id);
+      if (updated) requests = requests.map((r) => (r.id === updated.id ? updated : r));
+      proformaMessage = "Proforma redemandée.";
+    } catch (err) {
+      console.error("Request resend failed", err);
+      proformaActionError = err instanceof Error ? err.message : "Impossible de redemander la proforma";
+    } finally {
+      resendingId = null;
+    }
+  }
+
+  const formatDate = (iso: string) =>
+    new Date(iso).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" });
 
   let editing = $state(false);
   let name = $state("");
@@ -382,6 +409,11 @@
         <!-- Proformas : visibles et téléchargeables par tous les membres -->
         <section class="flex flex-col gap-2.5">
           <h2>Proformas</h2>
+          {#if proformaActionError}
+            <p class="text-red-600">{proformaActionError}</p>
+          {:else if proformaMessage}
+            <p>{proformaMessage}</p>
+          {/if}
           {#if requestsError}
             <p class="text-red-600">{requestsError}</p>
           {:else if requests.length === 0}
@@ -389,12 +421,9 @@
           {:else}
             <ul class="flex flex-col gap-1.5">
               {#each requests as request (request.id)}
-                <li class="flex items-center gap-2.5">
+                <li class="flex flex-wrap items-center gap-2.5">
                   <span>
-                    {new Date(request.createdAt).toLocaleString("fr-FR", {
-                      dateStyle: "short",
-                      timeStyle: "short",
-                    })} — {request.itemCount} article{request.itemCount > 1
+                    {formatDate(request.createdAt)} — {request.itemCount} article{request.itemCount > 1
                       ? "s"
                       : ""}{request.salesPoint
                       ? ` — ${request.salesPoint.name}`
@@ -406,6 +435,19 @@
                   >
                     Télécharger le PDF
                   </button>
+                  <button
+                    class="rounded-md border px-3 py-1"
+                    disabled={resendingId !== null}
+                    onclick={() => resendRequest(request)}
+                  >
+                    {resendingId === request.id ? "Envoi…" : "Redemander"}
+                  </button>
+                  <!-- Plus d'une demande : la proforma a déjà été redemandée -->
+                  {#if (request.requestCount ?? 1) > 1 && request.lastRequestedAt}
+                    <span class="text-sm">
+                      Redemandée le {formatDate(request.lastRequestedAt)}
+                    </span>
+                  {/if}
                 </li>
               {/each}
             </ul>

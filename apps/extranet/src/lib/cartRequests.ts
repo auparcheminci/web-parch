@@ -36,6 +36,8 @@ export async function submitCartRequest(salesPoint: SalesPoint | undefined) {
     fileName,
     itemCount: cartCount(),
     salesPoint: point,
+    requestCount: 1,
+    lastRequestedAt: date.toISOString(),
   });
   if (errors?.length) throw new Error(errors[0].message);
 
@@ -67,4 +69,12 @@ export async function getCartRequestUrl(request: CartRequest) {
     options: { contentDisposition: `attachment; filename="${request.fileName}"` },
   });
   return url.toString();
+}
+
+// Bouton « Redemander » : renvoie la même proforma à son destinataire final
+export async function resendCartRequest(requestId: string) {
+  if (!client().mutations.resendCartRequest) throw new Error("« Redemander » n'est pas encore disponible");
+  const { data, errors } = await client().mutations.resendCartRequest({ requestId });
+  if (errors?.length) throw new Error(errors[0].message);
+  return data;
 }
