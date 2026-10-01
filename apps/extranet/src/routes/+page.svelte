@@ -3,6 +3,7 @@
   import type { AuthUser } from "@aws-amplify/auth";
   import type { AuthMachineState } from "@aws-amplify/ui";
   import AuthRedirect from "$lib/components/AuthRedirect.svelte";
+  import CompanyPicker from "$lib/components/CompanyPicker.svelte";
   import { getRememberMe, setRememberMe } from "$lib/authStorage";
   import "./auth.scss";
 
@@ -215,6 +216,7 @@
         {/snippet}
         {#snippet signUpFormFields()}
           <FormFields route="signUp" />
+          <CompanyPicker />
           <div class="amplify-flex amplify-field toggle-field">
             <label class="amplify-label" for="newsletter-toggle"
               >Notre newsletter</label

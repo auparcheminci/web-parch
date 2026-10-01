@@ -4,6 +4,9 @@ import { auth } from './auth/resource';
 import { data } from './data/resource';
 import { storage } from './storage/resource';
 import { addCompanyMember } from './functions/add-company-member/resource';
+import { answerJoinRequest } from './functions/answer-join-request/resource';
+import { postConfirmation } from './functions/post-confirmation/resource';
+import { searchCompanies } from './functions/search-companies/resource';
 
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
@@ -13,6 +16,9 @@ const backend = defineBackend({
   data,
   storage,
   addCompanyMember,
+  answerJoinRequest,
+  postConfirmation,
+  searchCompanies,
 });
 
 // Droits Cognito de la fonction d'ajout de membre (retrouver / inviter un utilisateur).

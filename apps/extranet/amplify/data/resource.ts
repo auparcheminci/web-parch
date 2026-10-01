@@ -1,5 +1,8 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
 import { addCompanyMember } from '../functions/add-company-member/resource';
+import { answerJoinRequest } from '../functions/answer-join-request/resource';
+import { postConfirmation } from '../functions/post-confirmation/resource';
+import { searchCompanies } from '../functions/search-companies/resource';
 
 const schema = a
   .schema({
@@ -91,9 +94,58 @@ const schema = a
       .returns(a.ref('Company'))
       .authorization((allow) => [allow.authenticated()])
       .handler(a.handler.function(addCompanyMember)),
+
+    // Demande d'adhésion créée à l'inscription (post-confirmation), en attente de
+    // la réponse du créateur de la société. Aucun client ne peut en créer directement
+    CompanyJoinRequest: a
+      .model({
+        companyId: a.id().required(),
+        // Copie du nom : le demandeur, pas encore membre, ne peut pas lire la société
+        companyName: a.string().required(),
+        // Créateur de la société ("sub::username") : c'est lui qui accepte ou refuse
+        companyOwner: a.string(),
+        // Demandeur ("sub::username"), ajouté aux membres si la demande est acceptée
+        requester: a.string(),
+        email: a.email().required(),
+        name: a.string(),
+      })
+      .secondaryIndexes((index) => [index('companyId')])
+      .authorization((allow) => [
+        allow.ownerDefinedIn('companyOwner').to(['read']),
+        // Le demandeur voit sa demande en attente et peut l'annuler
+        allow.ownerDefinedIn('requester').to(['read', 'delete']),
+      ]),
+
+    answerJoinRequest: a
+      .mutation()
+      .arguments({
+        requestId: a.id().required(),
+        accept: a.boolean().required(),
+      })
+      .returns(a.ref('Company'))
+      .authorization((allow) => [allow.authenticated()])
+      .handler(a.handler.function(answerJoinRequest)),
+
+    CompanySummary: a.customType({
+      id: a.id().required(),
+      name: a.string().required(),
+    }),
+
+    // Recherche de société depuis le formulaire d'inscription, avant toute connexion
+    searchCompanies: a
+      .query()
+      .arguments({ term: a.string().required() })
+      .returns(a.ref('CompanySummary').array())
+      .authorization((allow) => [allow.guest(), allow.authenticated()])
+      .handler(a.handler.function(searchCompanies)),
   })
-  // Permet à la fonction de lire et modifier les sociétés et leurs paniers
-  .authorization((allow) => [allow.resource(addCompanyMember)]);
+  // Accès des fonctions aux données (sociétés, paniers, demandes)
+  .authorization((allow) => [
+    allow.resource(addCompanyMember),
+    allow.resource(answerJoinRequest),
+    allow.resource(postConfirmation),
+    allow.resource(searchCompanies).to(['query']),
+  ]);
 
 export type Schema = ClientSchema<typeof schema>;
 

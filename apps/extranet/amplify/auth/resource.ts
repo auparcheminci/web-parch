@@ -1,4 +1,5 @@
 import { defineAuth } from '@aws-amplify/backend';
+import { postConfirmation } from '../functions/post-confirmation/resource';
 
 /**
  * Define and configure your auth resource
@@ -33,5 +34,13 @@ export const auth = defineAuth({
       dataType: "Boolean",
       mutable: true,
     },
+    // Id de la société choisie à l'inscription ; lu par le déclencheur post-confirmation
+    "custom:RequestedCompany": {
+      dataType: "String",
+      mutable: true,
+    },
+  },
+  triggers: {
+    postConfirmation,
   },
 });

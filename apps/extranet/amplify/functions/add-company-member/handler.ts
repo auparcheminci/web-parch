@@ -9,6 +9,7 @@ import {
   ListUsersCommand,
   type UserType,
 } from '@aws-sdk/client-cognito-identity-provider';
+import { addMemberToCompany } from '../shared/companyMembers';
 
 const { resourceConfig, libraryOptions } = await getAmplifyDataClientConfig(env);
 Amplify.configure(resourceConfig, libraryOptions);
@@ -55,48 +56,5 @@ export const handler: Schema['addCompanyMember']['functionHandler'] = async (eve
   const sub = user?.Attributes?.find((attr) => attr.Name === 'sub')?.Value;
   if (!sub || !user?.Username) throw new Error("Impossible d'ajouter cet utilisateur");
 
-  const memberId = `${sub}::${user.Username}`;
-  const members = (company.members ?? []).filter((m): m is string => !!m);
-  const memberEmails = (company.memberEmails ?? []).filter((m): m is string => !!m);
-  if (members.includes(memberId)) return company;
-
-  const { data, errors } = await client.models.Company.update({
-    id: company.id,
-    members: [...members, memberId],
-    memberEmails: [...memberEmails, email],
-  });
-  if (errors?.length) throw new Error(errors[0].message);
-
-  // Donne au nouveau membre l'accès au panier et aux demandes existants de la société
-  const companyId = company.id;
-  const withMember = (row: Row) => [
-    ...(row.members ?? []).filter((m): m is string => !!m),
-    memberId,
-  ];
-  await addMemberToRows(
-    (nextToken) => client.models.CartItem.listCartItemByCompanyId({ companyId }, { nextToken }),
-    (row) => client.models.CartItem.update({ id: row.id, members: withMember(row) }),
-  );
-  await addMemberToRows(
-    (nextToken) =>
-      client.models.CartRequest.listCartRequestByCompanyId({ companyId }, { nextToken }),
-    (row) => client.models.CartRequest.update({ id: row.id, members: withMember(row) }),
-  );
-
-  return data;
+  return addMemberToCompany(client, company, `${sub}::${user.Username}`, email);
 };
-
-type Row = { id: string; members?: (string | null)[] | null };
-
-// Parcourt toutes les pages de lignes d'une société et met à jour chacune
-async function addMemberToRows(
-  list: (nextToken?: string | null) => Promise<{ data: Row[]; nextToken?: string | null }>,
-  update: (row: Row) => Promise<unknown>,
-) {
-  let nextToken: string | null | undefined;
-  do {
-    const page = await list(nextToken);
-    await Promise.all(page.data.map(update));
-    nextToken = page.nextToken;
-  } while (nextToken);
-}

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { goto } from "$app/navigation";
   import { signOut } from "aws-amplify/auth";
   import { companyState, resetCompany } from "$lib/company.svelte";
   import { cartCount, resetCart } from "$lib/cart.svelte";
@@ -14,7 +13,11 @@
     resetCompany();
     resetCart();
     resetFavorites();
-    goto("/");
+    // Rechargement complet plutôt que goto : l'Authenticator d'Amplify ne reçoit sa
+    // configuration (formFields) qu'à son démarrage. Si la session a été ouverte sans
+    // passer par la page de connexion, ce démarrage s'est fait sans elle et
+    // l'inscription n'afficherait plus Prénom, Nom, Téléphone et Poste
+    window.location.assign("/");
   }
 </script>
 

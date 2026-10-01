@@ -5,9 +5,13 @@
   import Sidebar from "$lib/components/Sidebar.svelte";
   import {
     addMember,
+    answerJoinRequest,
+    cancelJoinRequest,
     companyState,
     createCompany,
+    listJoinRequests,
     updateCompany,
+    type CompanyJoinRequest,
   } from "$lib/company.svelte";
   import {
     getCartRequestUrl,
@@ -29,6 +33,45 @@
         requestsError = "Impossible de charger les demandes";
       });
   });
+
+  // Demandes d'adhésion : reçues par la société (créateur) ou envoyées par
+  // l'utilisateur quand il n'a pas encore de société
+  let joinRequests = $state<CompanyJoinRequest[]>([]);
+  let incomingRequests = $derived(
+    joinRequests.filter((r) => r.companyId === companyState.company?.id),
+  );
+  let pendingRequest = $derived(
+    companyState.company ? undefined : joinRequests[0],
+  );
+
+  async function refreshJoinRequests() {
+    try {
+      joinRequests = await listJoinRequests();
+    } catch (err) {
+      console.error("Join requests load failed", err);
+    }
+  }
+
+  // Recharge quand la société est chargée ou change
+  $effect(() => {
+    const loaded = companyState.loaded;
+    void companyState.company?.id;
+    if (loaded) refreshJoinRequests();
+  });
+
+  function handleAnswer(request: CompanyJoinRequest, accept: boolean) {
+    run(async () => {
+      await answerJoinRequest(request.id, accept);
+      await refreshJoinRequests();
+    }, accept ? `${request.email} a rejoint la société` : "Demande refusée");
+  }
+
+  function handleCancelRequest(request: CompanyJoinRequest) {
+    run(async () => {
+      await cancelJoinRequest(request.id);
+      await refreshJoinRequests();
+    }, "Demande annulée");
+  }
 
   async function downloadRequest(request: CartRequest) {
     try {
@@ -127,6 +170,22 @@
       {:else if companyState.loadError}
         <p class="text-red-600">{companyState.loadError}</p>
       {:else if !companyState.company || editing}
+        {#if pendingRequest}
+          <div class="flex flex-col gap-2.5 rounded-md bg-gray-100 p-4 max-w-md">
+            <p>
+              Votre demande pour rejoindre
+              <strong>{pendingRequest.companyName}</strong> est en attente de
+              validation par son responsable.
+            </p>
+            <button
+              class="rounded-md border px-3 py-2 self-start"
+              disabled={busy}
+              onclick={() => handleCancelRequest(pendingRequest)}
+            >
+              Annuler la demande
+            </button>
+          </div>
+        {/if}
         <h1>{companyState.company ? "Modifier ma société" : "Créer ma société"}</h1>
         <form class="flex flex-col gap-2.5 max-w-md" onsubmit={handleSave}>
           <label for="company-name">Nom</label>
@@ -204,6 +263,35 @@
           <button class="rounded-md border px-3 py-2 self-start" onclick={startEditing}>
             Modifier
           </button>
+        {/if}
+
+        {#if companyState.isOwner && incomingRequests.length > 0}
+          <section class="flex flex-col gap-2.5">
+            <h2>Demandes d'adhésion ({incomingRequests.length})</h2>
+            <ul class="flex flex-col gap-1.5">
+              {#each incomingRequests as request (request.id)}
+                <li class="flex flex-wrap items-center gap-2.5">
+                  <span>
+                    {request.name ? `${request.name} — ` : ""}{request.email}
+                  </span>
+                  <button
+                    class="rounded-md border px-3 py-1"
+                    disabled={busy}
+                    onclick={() => handleAnswer(request, true)}
+                  >
+                    Accepter
+                  </button>
+                  <button
+                    class="rounded-md border px-3 py-1"
+                    disabled={busy}
+                    onclick={() => handleAnswer(request, false)}
+                  >
+                    Refuser
+                  </button>
+                </li>
+              {/each}
+            </ul>
+          </section>
         {/if}
 
         <section class="flex flex-col gap-2.5">

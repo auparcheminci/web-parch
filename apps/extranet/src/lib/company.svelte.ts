@@ -105,3 +105,43 @@ export async function addMember(email: string) {
   if (errors?.length) throw new Error(errors[0].message);
   if (data) await setCompany(data as Company);
 }
+
+export type CompanySummary = { id: string; name: string };
+export type CompanyJoinRequest = Schema['CompanyJoinRequest']['type'];
+
+// Recherche de société depuis l'inscription : l'utilisateur n'est pas encore connecté
+export async function searchCompanies(term: string): Promise<CompanySummary[]> {
+  if (!client().queries.searchCompanies) return [];
+  const { data, errors } = await client().queries.searchCompanies(
+    { term },
+    { authMode: 'identityPool' },
+  );
+  if (errors?.length) throw new Error(errors[0].message);
+  return (data ?? []).filter((company): company is CompanySummary => !!company);
+}
+
+// Demandes visibles par l'utilisateur : celles reçues par sa société (s'il en est
+// le créateur) et la sienne, s'il a demandé à rejoindre une société
+export async function listJoinRequests() {
+  if (!client().models.CompanyJoinRequest) return [];
+  const requests: CompanyJoinRequest[] = [];
+  let nextToken: string | null | undefined;
+  do {
+    const page = await client().models.CompanyJoinRequest.list({ nextToken });
+    if (page.errors?.length) throw new Error(page.errors[0].message);
+    requests.push(...page.data);
+    nextToken = page.nextToken;
+  } while (nextToken);
+  return requests;
+}
+
+export async function answerJoinRequest(requestId: string, accept: boolean) {
+  const { data, errors } = await client().mutations.answerJoinRequest({ requestId, accept });
+  if (errors?.length) throw new Error(errors[0].message);
+  if (data) await setCompany(data as Company);
+}
+
+export async function cancelJoinRequest(requestId: string) {
+  const { errors } = await client().models.CompanyJoinRequest.delete({ id: requestId });
+  if (errors?.length) throw new Error(errors[0].message);
+}
