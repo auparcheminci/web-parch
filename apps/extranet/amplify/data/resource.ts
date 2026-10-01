@@ -49,11 +49,14 @@ const schema = a
         companyId: a.id().required(),
         // Créateur et membres de la société ("sub::username"), pour les droits d'accès.
         // Tenu à jour par addCompanyMember quand un membre est ajouté. Rempli à la
-        // création, puis en lecture seule : un membre ne peut pas modifier les accès
+        // création, jamais modifié par un membre (pas de droit 'update'). 'delete' est
+        // requis par Amplify pour pouvoir supprimer la ligne (Retirer, vider le panier)
         members: a
           .string()
           .array()
-          .authorization((allow) => [allow.ownersDefinedIn('members').to(['create', 'read'])]),
+          .authorization((allow) => [
+            allow.ownersDefinedIn('members').to(['create', 'read', 'delete']),
+          ]),
         // Identifiant de l'article dans Strapi (slug, sinon documentId/id)
         articleKey: a.string().required(),
         // Copie des infos de l'article au moment de l'ajout, pour l'affichage
@@ -69,11 +72,13 @@ const schema = a
     CartRequest: a
       .model({
         companyId: a.id().required(),
-        // Créateur et membres de la société, comme pour CartItem
+        // Créateur et membres de la société, mêmes règles que pour CartItem
         members: a
           .string()
           .array()
-          .authorization((allow) => [allow.ownersDefinedIn('members').to(['create', 'read'])]),
+          .authorization((allow) => [
+            allow.ownersDefinedIn('members').to(['create', 'read', 'delete']),
+          ]),
         // Chemin du PDF dans le stockage S3 (company-requests/...)
         pdfPath: a.string().required(),
         fileName: a.string().required(),
