@@ -127,8 +127,29 @@
   }
 }
 
-// Newsletter / Whatsapp on-off toggles
-.toggle-field {
-  justify-content: center;
+// Newsletter / Whatsapp : choix Oui / Non obligatoire
+.yes-no-field {
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  legend {
+    float: left;
+    margin-right: 0.5rem;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+  }
+
+  input {
+    accent-color: map.get($blue-vivid-scale, "1500");
+  }
 }
 

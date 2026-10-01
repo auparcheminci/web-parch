@@ -217,36 +217,22 @@
         {#snippet signUpFormFields()}
           <FormFields route="signUp" />
           <CompanyPicker />
-          <div class="amplify-flex amplify-field toggle-field">
-            <label class="amplify-label" for="newsletter-toggle"
-              >Notre newsletter</label
-            >
-            <label class="toggle-switch">
-              <input type="hidden" name="custom:Newsletter" value="false" />
-              <input
-                type="checkbox"
-                id="newsletter-toggle"
-                name="custom:Newsletter"
-                value="true"
-              />
-              <span class="toggle-slider"></span>
+          {@render yesNoField("custom:Newsletter", "Notre newsletter")}
+          {@render yesNoField("custom:Whatsapp", "Notre feed Whatsapp")}
+        {/snippet}
+        <!-- Choix obligatoire, sans réponse cochée d'avance : la personne doit répondre -->
+        {#snippet yesNoField(name: string, label: string)}
+          <fieldset class="amplify-flex amplify-field yes-no-field">
+            <legend class="amplify-label">{label} *</legend>
+            <label>
+              <input type="radio" {name} value="true" required />
+              Oui
             </label>
-          </div>
-          <div class="amplify-flex amplify-field toggle-field">
-            <label class="amplify-label" for="whatsapp-toggle"
-              >Notre feed Whatsapp</label
-            >
-            <label class="toggle-switch">
-              <input type="hidden" name="custom:Whatsapp" value="false" />
-              <input
-                type="checkbox"
-                id="whatsapp-toggle"
-                name="custom:Whatsapp"
-                value="true"
-              />
-              <span class="toggle-slider"></span>
+            <label>
+              <input type="radio" {name} value="false" />
+              Non
             </label>
-          </div>
+          </fieldset>
         {/snippet}
         <Authenticator
           formFields={{
@@ -271,13 +257,13 @@
                 label: "Nom",
                 placeholder: "Votre nom",
                 order: 2,
-                isRequired: true,
+                isRequired: false,
               },
               "custom:PhoneNumber": {
                 label: "Numéro de téléphone",
                 placeholder: "Votre numéro de téléphone",
                 order: 3,
-                isRequired: false,
+                isRequired: true,
               },
               "custom:Poste": {
                 label: "Poste",
