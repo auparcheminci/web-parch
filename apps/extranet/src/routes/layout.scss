@@ -117,3 +117,52 @@ body {
     font-size: 13px;
   }
 }
+
+// Interrupteur on/off (newsletter à l'inscription et dans le profil)
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    inset: 0;
+    background-color: map.get($grey-scale, "400");
+    border-radius: 999px;
+    transition: background-color 0.2s ease;
+
+    &::before {
+      content: "";
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+    }
+  }
+
+  input:checked + .toggle-slider {
+    background-color: map.get($blue-vivid-scale, "1500");
+  }
+
+  input:checked + .toggle-slider::before {
+    transform: translateX(20px);
+  }
+
+  input:focus-visible + .toggle-slider {
+    outline: 2px solid map.get($blue-vivid-scale, "1500");
+    outline-offset: 2px;
+  }
+}

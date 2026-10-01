@@ -4,9 +4,31 @@
   import NotificationBar from "$lib/components/NotificationBar.svelte";
   import Sidebar from "$lib/components/Sidebar.svelte";
   import { favoritesState, removeFavorite } from "$lib/favorites.svelte";
+  import { setNewsletter } from "$lib/user.svelte";
 
   let attributes = $state<Partial<Record<string, string>>>({});
   let favoritesError = $state("");
+
+  let newsletter = $derived(attributes["custom:Newsletter"] === "true");
+  let newsletterBusy = $state(false);
+  let newsletterError = $state("");
+
+  async function handleNewsletterChange(event: Event) {
+    const input = event.currentTarget as HTMLInputElement;
+    const subscribed = input.checked;
+    newsletterBusy = true;
+    newsletterError = "";
+    try {
+      await setNewsletter(subscribed);
+      attributes["custom:Newsletter"] = String(subscribed);
+    } catch (err) {
+      // Remet l'interrupteur dans son état réel
+      input.checked = newsletter;
+      newsletterError = err instanceof Error ? err.message : String(err);
+    } finally {
+      newsletterBusy = false;
+    }
+  }
 
   async function handleRemove(id: string) {
     favoritesError = "";
@@ -36,6 +58,28 @@
         <li>Prénom : {attributes["custom:Prénom"]}</li>
         <li>Poste : {attributes["custom:Poste"]}</li>
       </ul>
+
+      <div class="flex items-center gap-2.5 mt-5">
+        <label for="newsletter-toggle">Recevoir notre newsletter</label>
+        <label class="toggle-switch">
+          <input
+            type="checkbox"
+            id="newsletter-toggle"
+            checked={newsletter}
+            disabled={newsletterBusy}
+            onchange={handleNewsletterChange}
+          />
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <!-- Désactiver ne retire pas de Brevo : un contact existant n'y est jamais modifié -->
+      <p class="text-sm">
+        Pour vous désinscrire de la newsletter, utilisez le lien de
+        désinscription présent en bas de nos emails.
+      </p>
+      {#if newsletterError}
+        <p class="text-red-600">{newsletterError}</p>
+      {/if}
 
       <section class="flex flex-col gap-2.5 mt-5">
         <h2>Mes favoris ({favoritesState.items.length})</h2>

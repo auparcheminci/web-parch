@@ -3,6 +3,7 @@ import { addCompanyMember } from '../functions/add-company-member/resource';
 import { answerJoinRequest } from '../functions/answer-join-request/resource';
 import { postConfirmation } from '../functions/post-confirmation/resource';
 import { searchCompanies } from '../functions/search-companies/resource';
+import { updateNewsletter } from '../functions/update-newsletter/resource';
 
 const schema = a
   .schema({
@@ -125,6 +126,14 @@ const schema = a
       .returns(a.ref('Company'))
       .authorization((allow) => [allow.authenticated()])
       .handler(a.handler.function(answerJoinRequest)),
+
+    // Inscription / désinscription à la newsletter Brevo depuis le profil
+    setNewsletter: a
+      .mutation()
+      .arguments({ subscribed: a.boolean().required() })
+      .returns(a.boolean())
+      .authorization((allow) => [allow.authenticated()])
+      .handler(a.handler.function(updateNewsletter)),
 
     CompanySummary: a.customType({
       id: a.id().required(),

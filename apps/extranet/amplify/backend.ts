@@ -7,6 +7,7 @@ import { addCompanyMember } from './functions/add-company-member/resource';
 import { answerJoinRequest } from './functions/answer-join-request/resource';
 import { postConfirmation } from './functions/post-confirmation/resource';
 import { searchCompanies } from './functions/search-companies/resource';
+import { updateNewsletter } from './functions/update-newsletter/resource';
 
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
@@ -19,6 +20,7 @@ const backend = defineBackend({
   answerJoinRequest,
   postConfirmation,
   searchCompanies,
+  updateNewsletter,
 });
 
 // Droits Cognito de la fonction d'ajout de membre (retrouver / inviter un utilisateur).
@@ -32,3 +34,12 @@ backend.addCompanyMember.resources.lambda.addToRolePolicy(
   }),
 );
 backend.addCompanyMember.addEnvironment('USER_POOL_ID', userPool.userPoolId);
+
+// Droits Cognito de la fonction newsletter (lire l'email, mettre à jour custom:Newsletter)
+backend.updateNewsletter.resources.lambda.addToRolePolicy(
+  new PolicyStatement({
+    actions: ['cognito-idp:AdminGetUser', 'cognito-idp:AdminUpdateUserAttributes'],
+    resources: [userPool.userPoolArn],
+  }),
+);
+backend.updateNewsletter.addEnvironment('USER_POOL_ID', userPool.userPoolId);
