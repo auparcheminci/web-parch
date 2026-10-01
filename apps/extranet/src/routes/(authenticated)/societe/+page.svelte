@@ -262,6 +262,11 @@
           <button class="rounded-md border px-3 py-2 self-start" onclick={startEditing}>
             Modifier
           </button>
+        {:else}
+          <p class="text-sm">
+            Seul l'administrateur de la société peut la modifier et gérer ses
+            membres.
+          </p>
         {/if}
 
         {#if joinRequestsError}
@@ -299,8 +304,12 @@
         <section class="flex flex-col gap-2.5">
           <h2>Membres</h2>
           <ul>
-            {#each companyState.company.memberEmails ?? [] as email}
-              <li>{email}</li>
+            <!-- Le premier email est celui du créateur, ajouté à la création -->
+            {#each companyState.company.memberEmails ?? [] as email, index}
+              <li>
+                {email}{#if index === 0}
+                  <strong> (administrateur)</strong>{/if}
+              </li>
             {/each}
           </ul>
         </section>

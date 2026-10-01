@@ -26,18 +26,26 @@
     class="sidebar-company rounded-md shrink-0 w-full flex items-center justify-center px-7.5 py-4"
   >
     <div class="sidebar-company-content flex items-center gap-2.5">
-      <img
-        src={companyState.logoUrl}
-        alt="Votre logo"
-        class="profil-picture size-15 shrink-0 rounded-full object-cover bg-gray-300"
-      />
+      {#if companyState.logoUrl}
+        <img
+          src={companyState.logoUrl}
+          alt="Logo de la société"
+          class="profil-picture size-15 shrink-0 rounded-full object-cover bg-gray-300"
+        />
+      {:else}
+        <!-- Pas de logo : cercle vide plutôt qu'une image cassée -->
+        <div class="profil-picture size-15 shrink-0 rounded-full bg-gray-300"></div>
+      {/if}
       <div class="sidebar-company-name flex flex-col">
         <h1 class="whitespace-nowrap">
           {companyState.company?.name ?? "Nom de la société"}
         </h1>
         <a href="/societe">
           {companyState.company
-            ? "Gérer ma société"
+            ? // Seul l'administrateur (créateur) gère la société ; les membres la consultent
+              companyState.isOwner
+              ? "Gérer ma société"
+              : "Voir ma société"
             : companyState.pendingRequest
               ? "Demande en cours"
               : "Créer ma société"}
