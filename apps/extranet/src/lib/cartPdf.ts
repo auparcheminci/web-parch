@@ -1,7 +1,7 @@
 import type { CartItem } from '$lib/cart.svelte';
 import type { Company } from '$lib/company.svelte';
 
-// Génère le PDF de demande à partir du contenu du panier
+// Génère le PDF de la proforma à partir du contenu du panier
 export async function buildCartPdf(items: CartItem[], company: Company, date: Date) {
   // Chargé à la demande : évite d'alourdir toutes les pages
   const [{ jsPDF }, { autoTable }] = await Promise.all([
@@ -12,7 +12,7 @@ export async function buildCartPdf(items: CartItem[], company: Company, date: Da
   const doc = new jsPDF();
 
   doc.setFontSize(18);
-  doc.text('Demande', 14, 20);
+  doc.text('Proforma', 14, 20);
   doc.setFontSize(11);
   doc.text(company.name, 14, 30);
   doc.text(`Date : ${date.toLocaleDateString('fr-FR')}`, 14, 36);

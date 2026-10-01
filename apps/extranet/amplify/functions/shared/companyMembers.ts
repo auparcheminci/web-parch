@@ -44,12 +44,15 @@ export async function addMemberToCompany(
 // Parcourt toutes les pages de lignes d'une société et met à jour chacune
 async function updateAllRows(
   list: (nextToken?: string | null) => Promise<{ data: Row[]; nextToken?: string | null }>,
-  update: (row: Row) => Promise<unknown>,
+  update: (row: Row) => Promise<{ errors?: { message: string }[] }>,
 ) {
   let nextToken: string | null | undefined;
   do {
     const page = await list(nextToken);
-    await Promise.all(page.data.map(update));
+    const results = await Promise.all(page.data.map(update));
+    // Une erreur ignorée priverait le membre de l'accès sans que personne ne le sache
+    const error = results.flatMap((result) => result.errors ?? [])[0];
+    if (error) throw new Error(`Accès au panier ou aux demandes non accordé : ${error.message}`);
     nextToken = page.nextToken;
   } while (nextToken);
 }

@@ -22,19 +22,20 @@
   let requests = $state<CartRequest[]>([]);
   let requestsError = $state("");
 
-  // Recharge les demandes quand la société est chargée ou change
+  // Proformas de la société (visibles par tous ses membres), rechargées quand la
+  // société est chargée ou change
   $effect(() => {
     if (!companyState.company?.id) return;
     requestsError = "";
     listCartRequests()
       .then((list) => (requests = list))
       .catch((err) => {
-        console.error("Requests load failed", err);
-        requestsError = "Impossible de charger les demandes";
+        console.error("Proformas load failed", err);
+        requestsError = "Impossible de charger les proformas";
       });
   });
 
-  // Demandes d'adhésion reçues par la société (visibles par son créateur)
+  // Demandes d'adhésion reçues par la société : réservées à l'administrateur
   let joinRequests = $state<CompanyJoinRequest[]>([]);
   let joinRequestsError = $state("");
   let incomingRequests = $derived(
@@ -53,10 +54,9 @@
     }
   }
 
-  // Recharge quand la société est chargée ou change. Le serveur ne renvoie que les
-  // demandes adressées au créateur : pas besoin de vérifier isOwner ici
+  // Recharge quand la société est chargée ou change ; rien n'est chargé pour un membre
   $effect(() => {
-    if (companyState.company?.id) refreshJoinRequests();
+    if (companyState.isOwner && companyState.company?.id) refreshJoinRequests();
   });
 
   function handleAnswer(request: CompanyJoinRequest, accept: boolean) {
@@ -75,7 +75,7 @@
       window.location.href = await getCartRequestUrl(request);
     } catch (err) {
       console.error("Request download failed", err);
-      requestsError = "Impossible de télécharger la demande";
+      requestsError = "Impossible de télécharger la proforma";
     }
   }
 
@@ -269,12 +269,15 @@
           </p>
         {/if}
 
-        {#if joinRequestsError}
-          <p class="text-red-600">{joinRequestsError}</p>
-        {/if}
-        {#if incomingRequests.length > 0}
+        <!-- Demandes d'adhésion : section réservée à l'administrateur, invisible pour les membres -->
+        {#if companyState.isOwner}
           <section class="flex flex-col gap-2.5">
             <h2>Demandes d'adhésion ({incomingRequests.length})</h2>
+            {#if joinRequestsError}
+              <p class="text-red-600">{joinRequestsError}</p>
+            {:else if incomingRequests.length === 0}
+              <p>Aucune demande d'adhésion pour le moment.</p>
+            {/if}
             <ul class="flex flex-col gap-1.5">
               {#each incomingRequests as request (request.id)}
                 <li class="flex flex-wrap items-center gap-2.5">
@@ -314,12 +317,13 @@
           </ul>
         </section>
 
+        <!-- Proformas : visibles et téléchargeables par tous les membres -->
         <section class="flex flex-col gap-2.5">
-          <h2>Demandes</h2>
+          <h2>Proformas</h2>
           {#if requestsError}
             <p class="text-red-600">{requestsError}</p>
           {:else if requests.length === 0}
-            <p>Aucune demande pour le moment.</p>
+            <p>Aucune proforma pour le moment.</p>
           {:else}
             <ul class="flex flex-col gap-1.5">
               {#each requests as request (request.id)}

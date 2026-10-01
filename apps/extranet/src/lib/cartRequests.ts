@@ -11,12 +11,12 @@ export type CartRequest = Schema['CartRequest']['type'];
 export async function submitCartRequest() {
   const company = companyState.company;
   if (!company) throw new Error('Créez votre société pour utiliser le panier');
-  if (!client().models.CartRequest) throw new Error('Les demandes ne sont pas encore disponibles');
+  if (!client().models.CartRequest) throw new Error('Les proformas ne sont pas encore disponibles');
   if (cartState.items.length === 0) throw new Error('Le panier est vide');
 
   const date = new Date();
   const pdf = await buildCartPdf(cartState.items, company, date);
-  const fileName = `demande-${date.toISOString().slice(0, 10)}.pdf`;
+  const fileName = `proforma-${date.toISOString().slice(0, 10)}.pdf`;
 
   // Nom aléatoire : seul l'enregistrement CartRequest permet de retrouver le fichier
   const { path } = await uploadData({
@@ -55,7 +55,7 @@ export async function listCartRequests() {
   return requests.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
-// Lien de téléchargement temporaire du PDF d'une demande
+// Lien de téléchargement temporaire du PDF d'une proforma
 export async function getCartRequestUrl(request: CartRequest) {
   const { url } = await getUrl({
     path: request.pdfPath,

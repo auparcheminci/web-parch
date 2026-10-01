@@ -27,7 +27,7 @@
       sent = true;
     } catch (err) {
       console.error("Cart request failed", err);
-      error = err instanceof Error ? err.message : "Impossible d'envoyer la demande";
+      error = err instanceof Error ? err.message : "Impossible d'envoyer la proforma";
       // Réaffiche l'état réel du panier si l'échec a eu lieu en le vidant
       loadCart();
     } finally {
@@ -76,7 +76,7 @@
       {/if}
       {#if sent}
         <p>
-          Demande envoyée. Retrouvez-la sur la page
+          Proforma envoyée. Retrouvez-la sur la page
           <a href="/societe" class="cart-link">de votre société</a>.
         </p>
       {/if}
