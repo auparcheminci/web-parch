@@ -280,7 +280,7 @@
     </button>
     <a
       href="/profil"
-      class="littlebar-tab flex-1 min-w-0 rounded-md py-2.5 px-1 flex flex-row items-center justify-center gap-1.5"
+      class="littlebar-tab shrink-0 rounded-md py-2.5 px-6 flex flex-row items-center justify-center gap-1.5"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -316,7 +316,7 @@
           />
         </g>
       </svg>
-      <span class="truncate max-w-full" title={userState.name}>
+      <span class="whitespace-nowrap">
         {userState.name}
       </span>
     </a>
