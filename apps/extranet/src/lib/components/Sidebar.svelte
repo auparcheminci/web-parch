@@ -5,6 +5,11 @@
   import { resetFavorites } from "$lib/favorites.svelte";
   import { userState } from "$lib/user.svelte";
 
+  // Sections repliables : une section réduite n'affiche plus que son titre,
+  // l'autre prend la place restante
+  let aproOpen = $state(true);
+  let marketOpen = $state(true);
+
   async function handleSignOut() {
     try {
       await signOut();
@@ -172,48 +177,136 @@
     <p>Crée une proforma</p>
   </button>
   <div
-    class="sidebar-menu-nav-apro rounded-md flex-1 flex flex-col gap-2.5"
+    class="sidebar-menu-nav-apro rounded-md flex flex-col gap-2.5 {aproOpen
+      ? 'flex-1'
+      : 'shrink-0'}"
   >
-    <div class="apro-big-container flex flex-col gap-3 mt-3 pb-5">
-      <h1 class="text-center">S'approvisionnez</h1>
-      <div class="menu-apro-container flex flex-col gap-2.5">
-        <div
-          class="sidebar-menu-nav-apro-cata flex flex-col gap-0.5 w-47.5 self-center"
+    <div
+      class="apro-big-container flex flex-col gap-3 mt-3 {aproOpen
+        ? 'pb-5'
+        : 'pb-3'}"
+    >
+      <div class="flex items-center justify-center gap-2.5">
+        <h1>S'approvisionnez</h1>
+        <button
+          type="button"
+          onclick={() => (aproOpen = !aproOpen)}
+          aria-expanded={aproOpen}
+          aria-label={aproOpen ? "Réduire la section S'approvisionnez" : "Ouvrir la section S'approvisionnez"}
+          class="shrink-0 flex cursor-pointer"
         >
-          <a href="/catalogue">Catalogues</a>
-          <p>
-            Consultez les catalogues de nos différentes marques et
-            fournisseurs
-          </p>
-        </div>
-        <div
-          class="sidebar-menu-nav-apro-pro flex flex-col gap-0.5 w-47.5 self-center"
-        >
-          <a href="/proforma">Produits</a>
-          <p>Consultez notre base de donnée produits</p>
-        </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16.985"
+            height="16.985"
+            viewBox="0 0 16.985 16.985"
+            class="overflow-visible"
+          >
+            <g transform="translate(0 0.618)">
+              <circle
+                cx="8.493"
+                cy="8.493"
+                r="8.493"
+                transform="translate(0 -0.618)"
+                fill="#121212"
+              />
+              <!-- Plus quand la section est ouverte, moins quand elle est réduite -->
+              <path
+                d={aproOpen ? "M17.468,14v6.935M14,17.468h6.935" : "M14,17.468h6.935"}
+                transform="translate(-9.145 -9.423)"
+                fill="#434343"
+                stroke="#fff"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+            </g>
+          </svg>
+        </button>
       </div>
+      {#if aproOpen}
+        <div class="menu-apro-container flex flex-col gap-2.5">
+          <div
+            class="sidebar-menu-nav-apro-cata flex flex-col gap-0.5 w-47.5 self-center"
+          >
+            <a href="/catalogue">Catalogues</a>
+            <p>
+              Consultez les catalogues de nos différentes marques et
+              fournisseurs
+            </p>
+          </div>
+          <div
+            class="sidebar-menu-nav-apro-pro flex flex-col gap-0.5 w-47.5 self-center"
+          >
+            <a href="/proforma">Produits</a>
+            <p>Consultez notre base de donnée produits</p>
+          </div>
+        </div>
+      {/if}
     </div>
   </div>
   <div
-    class="sidebar-menu-nav-market rounded-md flex-1 flex flex-col gap-2.5"
+    class="sidebar-menu-nav-market rounded-md flex flex-col gap-2.5 {marketOpen
+      ? 'flex-1'
+      : 'shrink-0'}"
   >
-    <div class="market-big-container flex flex-col gap-3 mt-3">
-      <h1 class="text-center">Communiquer</h1>
-      <div class="menu-market-container flex flex-col gap-2.5">
-        <div
-          class="sidebar-menu-nav-market-cata flex flex-col gap-0.5 w-47.5 self-center"
+    <div
+      class="market-big-container flex flex-col gap-3 mt-3 {marketOpen
+        ? ''
+        : 'pb-3'}"
+    >
+      <div class="flex items-center justify-center gap-2.5">
+        <h1>Communiquer</h1>
+        <button
+          type="button"
+          onclick={() => (marketOpen = !marketOpen)}
+          aria-expanded={marketOpen}
+          aria-label={marketOpen ? "Réduire la section Communiquer" : "Ouvrir la section Communiquer"}
+          class="shrink-0 flex cursor-pointer"
         >
-          <a href="/marketing">Menu 1</a>
-          <p>explication</p>
-        </div>
-        <div
-          class="sidebar-menu-nav-market-pro flex flex-col gap-0.5 w-47.5 self-center"
-        >
-          <a href="/marketing">Menu 2</a>
-          <p>Explication du menu 2</p>
-        </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16.985"
+            height="16.985"
+            viewBox="0 0 16.985 16.985"
+            class="overflow-visible"
+          >
+            <g transform="translate(0 0.618)">
+              <circle
+                cx="8.493"
+                cy="8.493"
+                r="8.493"
+                transform="translate(0 -0.618)"
+                fill="#121212"
+              />
+              <!-- Plus quand la section est ouverte, moins quand elle est réduite -->
+              <path
+                d={marketOpen ? "M17.468,14v6.935M14,17.468h6.935" : "M14,17.468h6.935"}
+                transform="translate(-9.145 -9.423)"
+                fill="#434343"
+                stroke="#fff"
+                stroke-linecap="round"
+                stroke-width="2"
+              />
+            </g>
+          </svg>
+        </button>
       </div>
+      {#if marketOpen}
+        <div class="menu-market-container flex flex-col gap-2.5">
+          <div
+            class="sidebar-menu-nav-market-cata flex flex-col gap-0.5 w-47.5 self-center"
+          >
+            <a href="/marketing">Menu 1</a>
+            <p>explication</p>
+          </div>
+          <div
+            class="sidebar-menu-nav-market-pro flex flex-col gap-0.5 w-47.5 self-center"
+          >
+            <a href="/marketing">Menu 2</a>
+            <p>Explication du menu 2</p>
+          </div>
+        </div>
+      {/if}
     </div>
   </div>
 
