@@ -74,24 +74,12 @@ body {
   background-color: map.get($grey-scale, "200");
 }
 
-.sign-and-home {
+// Onglets du bas de la sidebar (Accueil, Sign out, Profil) : même fond gris
+.littlebar-tab {
   background-color: map.get($grey-scale, "200");
-}
-
-.profil-space {
-  background-color: map.get($grey-scale, "200");
-  .profil-container {
-    .profil-name-row {
-      p {
-        font-size: 15px;
-        font-weight: 800;
-      }
-    }
-    a {
-      font-size: 10px;
-      font-weight: 100;
-    }
-  }
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
 }
 
 .sidebar-menu-nav-apro,
@@ -107,14 +95,6 @@ body {
   p {
     color: map.get($grey-scale, "800");
     font-weight: 100;
-  }
-}
-
-.home-sign-container {
-  a,
-  button {
-    font-weight: 600;
-    font-size: 13px;
   }
 }
 

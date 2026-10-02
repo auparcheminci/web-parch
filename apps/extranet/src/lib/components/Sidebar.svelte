@@ -217,106 +217,108 @@
     </div>
   </div>
 
-  <div class="littlebar-wrapper w-full shrink-0 flex gap-5">
-    <div class="sign-and-home flex-1 flex flex-col justify-center rounded-md">
-      <div class="home-sign-container flex flex-col py-3 pl-2.5 gap-1.5">
-        <div class="home-button-container flex items-center gap-1.5">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="15.5"
-            height="15"
-            viewBox="0 0 12.712 12.3"
-          >
-            <g id="accueil" transform="translate(0.706 0.5)">
-              <path
-                id="Path_2502"
-                data-name="Path 2502"
-                d="M2,7.085,7.65,2,13.3,7.085"
-                transform="translate(-2 -2)"
-                fill="none"
-                stroke="#333333"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1"
-              />
-              <path
-                id="Path_2503"
-                data-name="Path 2503"
-                d="M4,11v6.215H7.107v-3.39H9.932v3.39H13.04V11"
-                transform="translate(-2.87 -5.915)"
-                fill="none"
-                stroke="#333333"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1"
-              />
-            </g>
-          </svg>
-          <a href="/dashboard">Accueil</a>
-        </div>
-        <div class="sign-out-button-container flex items-center gap-1.5">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="14.5"
-            height="14.5"
-            viewBox="0 0 24 24"
+  <div class="littlebar-wrapper w-full shrink-0 flex gap-2.5">
+    <a
+      href="/dashboard"
+      aria-label="Accueil"
+      title="Accueil"
+      class="littlebar-tab flex-1 min-w-0 rounded-md py-2.5 flex flex-col items-center justify-center gap-1.5"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="15.5"
+        height="15"
+        viewBox="0 0 12.712 12.3"
+      >
+        <g id="accueil" transform="translate(0.706 0.5)">
+          <path
+            id="Path_2502"
+            data-name="Path 2502"
+            d="M2,7.085,7.65,2,13.3,7.085"
+            transform="translate(-2 -2)"
             fill="none"
             stroke="#333333"
-            stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-          >
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-            <path d="M16 17l5-5-5-5" />
-            <path d="M21 12H9" />
-          </svg>
-          <button onclick={handleSignOut} class="whitespace-nowrap"
-            >Sign out</button
-          >
-        </div>
-      </div>
-    </div>
-    <div
-      class="profil-space flex-1 min-w-0 rounded-md p-2 flex items-center justify-center"
+            stroke-width="1"
+          />
+          <path
+            id="Path_2503"
+            data-name="Path 2503"
+            d="M4,11v6.215H7.107v-3.39H9.932v3.39H13.04V11"
+            transform="translate(-2.87 -5.915)"
+            fill="none"
+            stroke="#333333"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1"
+          />
+        </g>
+      </svg>
+    </a>
+    <button
+      onclick={handleSignOut}
+      aria-label="Sign out"
+      title="Sign out"
+      class="littlebar-tab flex-1 min-w-0 rounded-md py-2.5 flex flex-col items-center justify-center gap-1.5"
     >
-      <div class="profil-container flex flex-col gap-0.5 min-w-0">
-        <div class="profil-name-row flex items-center gap-1.5 min-w-0">
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 14.968 14.968"
-            class="shrink-0"
-          >
-            <g id="utilisateur" transform="translate(0.5 0.5)">
-              <circle
-                id="Ellipse_101"
-                data-name="Ellipse 101"
-                cx="3.185"
-                cy="3.185"
-                r="3.185"
-                transform="translate(3.799)"
-                fill="none"
-                stroke="#000"
-                stroke-width="1"
-              />
-              <path
-                id="Path_2501"
-                data-name="Path 2501"
-                d="M2.9,19.31c0-3.264,3.127-5.91,6.984-5.91s6.984,2.646,6.984,5.91Z"
-                transform="translate(-2.9 -5.341)"
-                fill="none"
-                stroke="#000"
-                stroke-linejoin="round"
-                stroke-width="1"
-              />
-            </g>
-          </svg>
-          <p class="truncate">{userState.name}</p>
-        </div>
-        <a href="/profil" class="ml-5">
-          Gérer mon profil
-        </a>
-      </div>
-    </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="14.5"
+        height="14.5"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#333333"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        <path d="M16 17l5-5-5-5" />
+        <path d="M21 12H9" />
+      </svg>
+    </button>
+    <a
+      href="/profil"
+      class="littlebar-tab flex-1 min-w-0 rounded-md py-2.5 px-1 flex flex-row items-center justify-center gap-1.5"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16.17"
+        height="16.17"
+        viewBox="0 0 16.17 16.17"
+        class="shrink-0"
+      >
+        <g id="icone-parametres" transform="translate(-1.09 -1.09)">
+          <path
+            id="Path_2511"
+            data-name="Path 2511"
+            d="M7.783,3.368,8.155,1.59h2.04l.372,1.778,1.727.714,1.523-.991,1.443,1.443-.991,1.523.714,1.727,1.778.372v2.04l-1.778.372-.714,1.727.991,1.523-1.443,1.443-1.523-.991-1.727.714-.372,1.778H8.155l-.372-1.778-1.727-.714-1.523.991L3.091,13.816l.991-1.523-.714-1.727L1.59,10.195V8.155l1.778-.372.714-1.727L3.091,4.534,4.534,3.091l1.523.991Z"
+            transform="translate(0 0)"
+            fill="none"
+            stroke="#000"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1"
+          />
+          <circle
+            id="Ellipse_108"
+            data-name="Ellipse 108"
+            cx="2.332"
+            cy="2.332"
+            r="2.332"
+            transform="translate(6.843 6.843)"
+            fill="none"
+            stroke="#000"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1"
+          />
+        </g>
+      </svg>
+      <span class="truncate max-w-full" title={userState.name}>
+        {userState.name}
+      </span>
+    </a>
   </div>
 </div>
