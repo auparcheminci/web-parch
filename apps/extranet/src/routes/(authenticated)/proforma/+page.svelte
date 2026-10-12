@@ -110,7 +110,7 @@
               {#each filteredArticles as article (article.id)}
                 <div class="article-card flex flex-col w-full rounded-md">
                   <div
-                    class="article-card-image relative flex-1 w-full flex items-center justify-center overflow-hidden"
+                    class="article-card-image relative aspect-square shrink-0 w-full flex items-center justify-center overflow-hidden"
                   >
                     {#if article.cover?.url}
                       <img
@@ -119,25 +119,28 @@
                         class="w-full h-full object-cover"
                       />
                     {/if}
-                    <div class="absolute top-2 right-2">
+                  </div>
+                  <div class="article-card-info flex flex-col gap-1 p-3">
+                    <!-- Étoile centrée sur le nom, référence alignée sous le nom -->
+                    <div class="grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-1">
                       <FavoriteStar
                         {article}
                         onerror={(message) => (actionError = message)}
                       />
+                      <h3 class="min-w-0">
+                        {article.designation ?? article.reference ?? article.id}
+                      </h3>
+                      <p class="col-start-2">
+                        {article.reference ?? article.codebarre ?? ""}
+                      </p>
                     </div>
                   </div>
-                  <div class="article-card-info flex flex-col gap-1 p-3">
-                    <h3>
-                      {article.designation ?? article.reference ?? article.id}
-                    </h3>
-                    <p>
-                      {article.reference ?? article.codebarre ?? ""}
-                    </p>
-                  </div>
                   <div class="flex w-full">
+                    <!-- pl-13 = marge de la carte (p-3) + étoile (32px) + espace (gap-2) :
+                         aligné sur le nom et la référence -->
                     <a
                       href={`/proforma/${article.slug ?? article.documentId ?? article.id}`}
-                      class="article-card-detail text-center flex-1 p-2.5"
+                      class="article-card-detail flex-1 py-3 pr-3 pl-13"
                     >
                       Voir le détail
                     </a>

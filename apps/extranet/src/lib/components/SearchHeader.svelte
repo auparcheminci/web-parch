@@ -19,7 +19,7 @@
 
 <style lang="scss">
   .search-header {
-    background-color: map.get($grey-scale, "300");
+    background-color: map.get($blue-vivid-scale, "1500");
   }
 
   .search-header-input {

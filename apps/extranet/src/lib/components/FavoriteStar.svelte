@@ -38,8 +38,8 @@
     width="24"
     height="24"
     viewBox="0 0 24 24"
-    fill={active ? "#fff" : "none"}
-    stroke="#fff"
+    fill={active ? "currentColor" : "none"}
+    stroke="currentColor"
     stroke-width="1.5"
     stroke-linejoin="round"
   >
@@ -49,12 +49,12 @@
   </svg>
 </button>
 
-<style>
+<style lang="scss">
   .favorite-star {
     display: flex;
     padding: 0.25rem;
-    /* Reste visible sur les images claires */
-    filter: drop-shadow(0 0 2px rgb(0 0 0 / 0.6));
+    color: map.get($grey-scale, "1300");
+    cursor: pointer;
   }
 
   .favorite-star:disabled {
