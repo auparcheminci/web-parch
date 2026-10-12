@@ -12,6 +12,7 @@
   import SearchHeader from "$lib/components/SearchHeader.svelte";
   import FavoriteStar from "$lib/components/FavoriteStar.svelte";
   import { companyState } from "$lib/company.svelte";
+  import { articleKey, cartState } from "$lib/cart.svelte";
 
   let articles = $state<StrapiArticle[]>([]);
   let loading = $state(true);
@@ -29,6 +30,11 @@
       loading = false;
     }
   });
+
+  // Quantité d'un article dans le panier de la société (0 s'il n'y est pas)
+  const quantityInCart = (article: StrapiArticle) =>
+    cartState.items.find((item) => item.articleKey === articleKey(article))
+      ?.quantity ?? 0;
 
   let sortOrder = $state<"default" | "asc" | "desc">("default");
 
@@ -81,7 +87,9 @@
           <p>Résultats ({filteredArticles.length})</p>
           {#if companyState.loaded && !companyState.company}
             <p>
-              <a href="/societe" class="font-bold underline">Créez votre société</a>
+              <a href="/societe" class="font-bold underline"
+                >Créez votre société</a
+              >
               pour utiliser le panier.
             </p>
           {:else if actionError}
@@ -122,7 +130,9 @@
                   </div>
                   <div class="article-card-info flex flex-col gap-1 p-3">
                     <!-- Étoile centrée sur le nom, référence alignée sous le nom -->
-                    <div class="grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-1">
+                    <div
+                      class="grid grid-cols-[auto_1fr] items-center gap-x-2 gap-y-1"
+                    >
                       <FavoriteStar
                         {article}
                         onerror={(message) => (actionError = message)}
@@ -136,19 +146,32 @@
                     </div>
                   </div>
                   <div class="flex w-full">
-                    <!-- pl-13 = marge de la carte (p-3) + étoile (32px) + espace (gap-2) :
-                         aligné sur le nom et la référence -->
-                    <a
-                      href={`/proforma/${article.slug ?? article.documentId ?? article.id}`}
-                      class="article-card-detail flex-1 py-3 pr-3 pl-13"
+                    <div
+                      class="article-card-action flex-1 flex items-center justify-center"
                     >
-                      Voir le détail
-                    </a>
-                    <div class="article-card-cart flex-1 p-1">
+                      <a
+                        href={`/proforma/${article.slug ?? article.documentId ?? article.id}`}
+                        class="article-card-detail flex-1 p-3 text-center"
+                      >
+                        Voir le détail
+                      </a>
+                    </div>
+
+                    <div class="article-card-cart p-1">
                       <CartStepper
                         {article}
                         onerror={(message) => (actionError = message)}
                       />
+                    </div>
+                    <div
+                      class="article-card-action flex items-center justify-center"
+                    >
+                      <!-- Quantité de cet article dans le panier, s'il y est -->
+                      {#if quantityInCart(article) > 0}
+                        <span class="article-card-cart-count px-3">
+                          {quantityInCart(article)}
+                        </span>
+                      {/if}
                     </div>
                   </div>
                 </div>

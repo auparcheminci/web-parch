@@ -50,7 +50,26 @@
       class="cart-stepper-button size-8 rounded-md">−</button
     >
   {/if}
-  <span class="cart-stepper-quantity min-w-6 text-center">{quantity}</span>
+  <!-- Icône chariot à la place de la quantité -->
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="cart-stepper-icon shrink-0"
+    aria-hidden="true"
+  >
+    <path d="M2 4h2.5l2.4 11a1.5 1.5 0 0 0 1.5 1.2H19.5" />
+    <path d="M5.2 7H21l-1.6 6.5H6.6" />
+    <path d="M9.5 7v6.5M13.5 7v6.5M17.5 7v6.5M5.9 10.25h14.3" />
+    <circle cx="9" cy="19.5" r="1.5" />
+    <circle cx="17" cy="19.5" r="1.5" />
+  </svg>
   <button
     onclick={() => change(1)}
     disabled={busy || !companyState.company}
@@ -70,7 +89,7 @@
     }
   }
 
-  .cart-stepper-quantity {
-    font-weight: 700;
+  .cart-stepper-icon {
+    color: map.get($grey-scale, "1300");
   }
 </style>
