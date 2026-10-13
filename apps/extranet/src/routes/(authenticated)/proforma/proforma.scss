@@ -31,12 +31,16 @@
     font-weight: 700;
   }
 
-  .article-card-action {
-    background-color: map.get($grey-scale, "300");
+  .article-card-cart {
+    background-color: map.get($grey-scale, "500");
   }
 
-  .article-card-cart {
-    background-color: map.get($grey-scale, "300");
+  .article-card-action {
+    background-color: map.get($blue-vivid-scale, "500");
+  }
+
+  .article-card-cart-count {
+    color: map.get($grey-scale, "100");
   }
 }
 

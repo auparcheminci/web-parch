@@ -41,14 +41,24 @@
   }
 </script>
 
-<div class="cart-stepper flex items-center justify-center gap-2.5">
+<div class="cart-stepper flex items-center justify-center gap-2.5 px-3">
   {#if quantity > 0}
     <button
       onclick={() => change(-1)}
       disabled={busy}
       aria-label="Retirer un article"
-      class="cart-stepper-button size-8 rounded-md">−</button
+      class="cart-stepper-button size-5 shrink-0 rounded-full flex items-center justify-center"
     >
+      <!-- Signe dessiné en SVG : même taille pour le moins et le plus -->
+      <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+        <path
+          d="M1 5h8"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
   {/if}
   <!-- Icône chariot à la place de la quantité -->
   <svg
@@ -74,14 +84,24 @@
     onclick={() => change(1)}
     disabled={busy || !companyState.company}
     aria-label="Ajouter un article"
-    class="cart-stepper-button size-8 rounded-md">+</button
+    class="cart-stepper-button size-5 shrink-0 rounded-full flex items-center justify-center"
   >
+    <!-- Signe dessiné en SVG : même taille pour le moins et le plus -->
+    <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+      <path
+        d="M1 5h8M5 1v8"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+    </svg>
+  </button>
 </div>
 
 <style lang="scss">
   .cart-stepper-button {
-    background-color: map.get($blue-vivid-scale, "1500");
-    color: $font-color-white;
+    background-color: map.get($grey-scale, "100");
+    color: map.get($grey-scale, "1500");
     font-weight: 700;
 
     &:disabled {
@@ -89,7 +109,8 @@
     }
   }
 
+  /* Même couleur que le fond des ronds + et − */
   .cart-stepper-icon {
-    color: map.get($grey-scale, "1300");
+    color: map.get($grey-scale, "100");
   }
 </style>

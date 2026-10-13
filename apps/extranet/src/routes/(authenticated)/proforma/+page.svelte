@@ -157,7 +157,7 @@
                       </a>
                     </div>
 
-                    <div class="article-card-cart p-1">
+                    <div class="article-card-cart flex items-center justify-center">
                       <CartStepper
                         {article}
                         onerror={(message) => (actionError = message)}
