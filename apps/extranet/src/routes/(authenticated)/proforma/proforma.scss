@@ -1,3 +1,25 @@
+// Filtre "Favoris" à côté de la barre de recherche
+.proforma-favorites-filter {
+  background-color: map.get($grey-scale, "200");
+  color: map.get($grey-scale, "1500");
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  font-family: $font-primary;
+  font-weight: 700;
+  cursor: pointer;
+
+  // Filtre actif
+  &[aria-pressed="true"] {
+    background-color: $font-color-white;
+    color: map.get($blue-vivid-scale, "1500");
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
 .proforma-order-select {
   background-color: map.get($grey-scale, "200");
   border: none;

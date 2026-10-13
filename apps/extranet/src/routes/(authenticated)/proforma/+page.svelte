@@ -11,6 +11,7 @@
   import CartStepper from "$lib/components/CartStepper.svelte";
   import SearchHeader from "$lib/components/SearchHeader.svelte";
   import FavoriteStar from "$lib/components/FavoriteStar.svelte";
+  import { favoritesState, isFavorite } from "$lib/favorites.svelte";
   import { companyState } from "$lib/company.svelte";
   import { articleKey, cartState } from "$lib/cart.svelte";
 
@@ -18,6 +19,8 @@
   let loading = $state(true);
   let error = $state<string | null>(null);
   let searchTerm = $state("");
+  // N'afficher que les articles mis en favoris par l'utilisateur
+  let favoritesOnly = $state(false);
 
   let actionError = $state<string | null>(null);
 
@@ -50,9 +53,10 @@
 
   let filteredArticles = $derived.by(() => {
     const term = searchTerm.trim().toLowerCase();
+    const visible = favoritesOnly ? articles.filter(isFavorite) : articles;
     const filtered = !term
-      ? articles
-      : articles.filter((article) =>
+      ? visible
+      : visible.filter((article) =>
           [article.designation, article.reference, article.codebarre]
             .filter(Boolean)
             .some((field) => String(field).toLowerCase().includes(term)),
@@ -77,7 +81,31 @@
       <SearchHeader
         bind:value={searchTerm}
         placeholder="Rechercher un article (désignation, référence, code-barres)"
-      />
+      >
+        <button
+          type="button"
+          onclick={() => (favoritesOnly = !favoritesOnly)}
+          aria-pressed={favoritesOnly}
+          disabled={!favoritesState.loaded}
+          class="proforma-favorites-filter shrink-0 flex items-center gap-1.5"
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill={favoritesOnly ? "currentColor" : "none"}
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 2.5l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.52l-5.88 3.09 1.12-6.55L2.48 9.42l6.58-.96L12 2.5z"
+            />
+          </svg>
+          Favoris
+        </button>
+      </SearchHeader>
       <div
         class="proforma-body flex-6 min-h-0 overflow-y-auto gap-1.5 flex flex-col justify-start items-start w-full"
       >
@@ -111,8 +139,14 @@
             <p>Chargement des articles…</p>
           {:else if error}
             <p class="text-red-600">{error}</p>
+          {:else if favoritesOnly && favoritesState.loadError}
+            <p class="text-red-600">{favoritesState.loadError}</p>
           {:else if filteredArticles.length === 0}
-            <p>Aucun article ne correspond à votre recherche.</p>
+            <p>
+              {favoritesOnly && !searchTerm.trim()
+                ? "Vous n'avez encore aucun article en favori."
+                : "Aucun article ne correspond à votre recherche."}
+            </p>
           {:else}
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
               {#each filteredArticles as article (article.id)}

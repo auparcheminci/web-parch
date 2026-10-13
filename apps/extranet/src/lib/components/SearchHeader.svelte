@@ -1,13 +1,16 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
+
   // En-tête de recherche partagé entre les pages produits et catalogues
   let {
     value = $bindable(""),
     placeholder = "Rechercher",
-  }: { value?: string; placeholder?: string } = $props();
+    children,
+  }: { value?: string; placeholder?: string; children?: Snippet } = $props();
 </script>
 
 <div
-  class="search-header flex-1 shrink-0 min-h-16 flex flex-col justify-center items-start w-full px-4"
+  class="search-header flex-1 shrink-0 min-h-16 flex items-center gap-2.5 w-full px-4"
 >
   <input
     type="search"
@@ -15,6 +18,8 @@
     {placeholder}
     class="search-header-input w-full max-w-md"
   />
+  <!-- Contrôles propres à la page (filtres…), à côté de la recherche -->
+  {@render children?.()}
 </div>
 
 <style lang="scss">
